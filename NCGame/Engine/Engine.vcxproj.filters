@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{07468fc0-d18d-4c88-839c-3b60ca8b0ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{3fae265c-e869-4e05-87fc-4be9c770f815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{ca617c30-45ab-4c23-a85b-e6fb0efd8707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{6086ef3b-3689-4ff0-be66-b85d8588f592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{ac95023f-fb1b-4c93-8ef0-c50feca7a8f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{65c96fbf-599b-40e5-b4b6-72f658c2b8d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{60eeed1f-e7dc-459a-a414-9932c7f33447}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inputManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="audioSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix22.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix33.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vector3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="_math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="id.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="renderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="controllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="physicsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="kinematicComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="textureManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="textManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="fileSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="aabb.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="aabbComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="eventManager.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="textComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="eventReceiver.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="animationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="state.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="stateMachine.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="variant.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="waypoint.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="collisionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="debugDraw.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="transformControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="waypointControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="math.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix22.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix33.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="vector2D.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="vector3D.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="audioSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="inputManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="id.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="controllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="kinematicComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="textureManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="textManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="fileSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="aabb.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="aabbComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="eventManager.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="textComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="animationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="state.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="stateMachine.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="waypoint.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="debugDraw.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="transformControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="waypointControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

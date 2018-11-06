@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{7B01EC7D-3CA1-4FCD-BBDD-7C8AE6BDC72B}</ProjectGuid>
+    <RootNamespace>Engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\include;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\lib\x86;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;sdl2_ttf.lib;SDL2_image.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\include;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\lib\x64;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;sdl2_ttf.lib;SDL2_image.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\include;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;sdl2_ttf.lib;SDL2_image.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\lib\x86;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\include;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;sdl2_ttf.lib;SDL2_image.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Middleware\SDL2-2.0.8\lib\x64;$(ProjectDir)..\..\Middleware\fmod\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="aabb.h" />
+    <ClInclude Include="aabbComponent.h" />
+    <ClInclude Include="animationComponent.h" />
+    <ClInclude Include="audioSystem.h" />
+    <ClInclude Include="collisionComponent.h" />
+    <ClInclude Include="color.h" />
+    <ClInclude Include="component.h" />
+    <ClInclude Include="controllerComponent.h" />
+    <ClInclude Include="debugDraw.h" />
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="event.h" />
+    <ClInclude Include="eventManager.h" />
+    <ClInclude Include="eventReceiver.h" />
+    <ClInclude Include="fileSystem.h" />
+    <ClInclude Include="id.h" />
+    <ClInclude Include="inputManager.h" />
+    <ClInclude Include="kinematicComponent.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="physics.h" />
+    <ClInclude Include="physicsComponent.h" />
+    <ClInclude Include="renderComponent.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="spriteComponent.h" />
+    <ClInclude Include="state.h" />
+    <ClInclude Include="stateMachine.h" />
+    <ClInclude Include="textComponent.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="transform.h" />
+    <ClInclude Include="transformControllerComponent.h" />
+    <ClInclude Include="variant.h" />
+    <ClInclude Include="waypoint.h" />
+    <ClInclude Include="waypointControllerComponent.h" />
+    <ClInclude Include="_math.h" />
+    <ClInclude Include="matrix22.h" />
+    <ClInclude Include="matrix33.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="textManager.h" />
+    <ClInclude Include="textureManager.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="vector2D.h" />
+    <ClInclude Include="vector3D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aabb.cpp" />
+    <ClCompile Include="aabbComponent.cpp" />
+    <ClCompile Include="animationComponent.cpp" />
+    <ClCompile Include="audioSystem.cpp" />
+    <ClCompile Include="color.cpp" />
+    <ClCompile Include="component.cpp" />
+    <ClCompile Include="controllerComponent.cpp" />
+    <ClCompile Include="debugDraw.cpp" />
+    <ClCompile Include="engine.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="eventManager.cpp" />
+    <ClCompile Include="fileSystem.cpp" />
+    <ClCompile Include="id.cpp" />
+    <ClCompile Include="inputManager.cpp" />
+    <ClCompile Include="kinematicComponent.cpp" />
+    <ClCompile Include="math.cpp" />
+    <ClCompile Include="matrix22.cpp" />
+    <ClCompile Include="matrix33.cpp" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="physics.cpp" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="spriteComponent.cpp" />
+    <ClCompile Include="state.cpp" />
+    <ClCompile Include="stateMachine.cpp" />
+    <ClCompile Include="text.cpp" />
+    <ClCompile Include="textComponent.cpp" />
+    <ClCompile Include="textManager.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="transform.cpp" />
+    <ClCompile Include="transformControllerComponent.cpp" />
+    <ClCompile Include="vector2D.cpp" />
+    <ClCompile Include="vector3D.cpp" />
+    <ClCompile Include="waypoint.cpp" />
+    <ClCompile Include="waypointControllerComponent.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
