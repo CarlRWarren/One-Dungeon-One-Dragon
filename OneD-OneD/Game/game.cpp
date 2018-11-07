@@ -21,10 +21,6 @@
 #include "eventManager.h"
 #include "stateMachine.h"
 #include "states.h"
-Vector2D position(400.0f, 300.0f);
-float angle = 0;
-
-Text* text;
 
 Game::~Game()
 {
@@ -39,14 +35,13 @@ bool Game::Initialize()
 	m_scene = new Scene();
 	m_stateMachine = new StateMachine(m_scene);
 
+	//Flips through states in states.cpp
 	m_stateMachine->AddState("title", new TitleState(m_stateMachine));
 	m_stateMachine->AddState("enter_state", new EnterStageState(m_stateMachine));
 	m_stateMachine->AddState("game", new GameState(m_stateMachine));
 	m_stateMachine->AddState("game_over", new GameOverState(m_stateMachine));
 
 	m_stateMachine->SetState("title");
-
-	Vector2D size = Renderer::Instance()->GetSize();
 
 	m_running = success;
 
@@ -63,8 +58,6 @@ void Game::Update()
 	m_running = !m_engine->IsQuit();
 	m_engine->Update();
 
-	
-
 	m_stateMachine->Update();
 
 	Renderer::Instance()->SetColor(Color::black);
@@ -76,6 +69,7 @@ void Game::Update()
 	Renderer::Instance()->EndFrame();
 }
 
+//Events, takes event from object and updates score
 void Game::OnEvent(const Event & event)
 {
 	if (event.eventID == "add_score") {

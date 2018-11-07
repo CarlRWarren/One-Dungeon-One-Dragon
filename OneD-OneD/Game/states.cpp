@@ -10,8 +10,11 @@
 #include "timer.h"
 #include "textComponent.h"
 #include "ship.h"
+
+//Shows title
 void TitleState::Enter()
 {
+	//shows title, instructions, etc.
 	Entity* entity = m_owner->GetScene()->AddEntity<Entity>("title");
 	entity->GetTransform().position = Vector2D(400.0f, 300.0f);
 	SpriteComponent* spritecomponent = entity->AddComponent<SpriteComponent>();
@@ -47,6 +50,7 @@ void TitleState::Update()
 
 void TitleState::Exit()
 {
+	//Destroys title entities
 	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("title");
 	if (entity1) {
 		entity1->SetState(Entity::DESTROY);
@@ -61,8 +65,10 @@ void TitleState::Exit()
 	}
 }
 
+//Start stage
 void EnterStageState::Enter()
 {
+	//starts stage and creates galaga "formation
 	Timer::Instance()->Reset();
 	Formation* formation = dynamic_cast<Formation*>(m_owner->GetScene()->GetEntitiesWithID("formation"));
 	if (formation == nullptr) {
@@ -82,9 +88,10 @@ void EnterStageState::Exit()
 {
 }
 
-
+//COntinuation of game
 void GameState::Enter()
 {
+	//starts tracking score
 	Entity* textEntity = m_owner->GetScene()->AddEntity<Entity>("score");
 	textEntity->GetTransform().position = Vector2D(20.0f, 20.0f);
 	TextComponent* textComponent = textEntity->AddComponent<TextComponent>();
@@ -95,11 +102,12 @@ void GameState::Enter()
 }
 void GameState::Update()
 {
-
+	//stays in here while game is playing
 }
 
 void GameState::Exit()
 {
+	//destroys entities in game state
 	Formation* formation = dynamic_cast<Formation*>(m_owner->GetScene()->GetEntitiesWithID("formation"));
 	formation->SetState(Entity::DESTROY);
 	for (Entity* enemy : m_owner->GetScene()->GetEntitiesWithTag("enemy")) {
@@ -108,8 +116,10 @@ void GameState::Exit()
 
 }
 
+//game over screen
 void GameOverState::Enter()
 {
+	//Shows text for game over
 	Entity* textEntity = m_owner->GetScene()->AddEntity<Entity>("GameOver");
 	textEntity->GetTransform().position = Vector2D(300.0f, 200.0f);
 	TextComponent* textComponent = textEntity->AddComponent<TextComponent>();
@@ -131,6 +141,7 @@ void GameOverState::Enter()
 
 void GameOverState::Update()
 {
+	//moves on if they press space
 	if (InputManager::Instance()->GetActionButton("fire") == InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("title");
 	}
@@ -138,6 +149,7 @@ void GameOverState::Update()
 
 void GameOverState::Exit()
 {
+	//destroys gameover entities
 	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("GameOver");
 	if (entity1) {
 		entity1->SetState(Entity::DESTROY);
