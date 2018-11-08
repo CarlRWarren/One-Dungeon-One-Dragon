@@ -15,13 +15,23 @@ void TitleState::Enter()
 {
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
-	Entity* entity = m_owner->GetScene()->AddEntity<Entity>("title");
-	entity->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* spritecomponent = entity->AddComponent<SpriteComponent>();
-	spritecomponent->Create("Sprites\\MainRoomDesignNoDragon.png", Vector2D(0.5f, 0.5f));
-	entity->GetTransform().scale = Vector2D(5.0f, 5.0f);
-	spritecomponent->SetDepth(1);
-
+	//Entity* entity = m_owner->GetScene()->AddEntity<Entity>("title");
+	//entity->GetTransform().position = Vector2D(400.0f, 400.0f);
+	//SpriteComponent* spritecomponent = entity->AddComponent<SpriteComponent>();
+	//spritecomponent->Create("Sprites\\MainRoomDesignNoDragon.png", Vector2D(0.5f, 0.5f));
+	//entity->GetTransform().scale = Vector2D(5.0f, 5.0f);
+	//spritecomponent->SetDepth(1);
+	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
+	title->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* spritecomponentTitle = title->AddComponent<SpriteComponent>();
+	spritecomponentTitle->Create("Textures\\TitleScreen.png", Vector2D(0.5f, 0.5f));
+	title->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	spritecomponentTitle->SetDepth(120);
+	Entity* returnText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+	returnText->GetTransform().position = Vector2D(200.0f, 300.0f);
+	TextComponent* returntextComponent = returnText->AddComponent<TextComponent>();
+	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
+	returntextComponent->SetDepth(120);
 
 
 }

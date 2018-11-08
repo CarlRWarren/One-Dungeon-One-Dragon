@@ -148,11 +148,6 @@
     <ClCompile Include="states.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.vcxproj">
-      <Project>{7b01ec7d-3ca1-4fcd-bbdd-7c8ae6bdc72b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="formation.h" />
@@ -163,6 +158,11 @@
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipControllerComponent.h" />
     <ClInclude Include="states.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{7b01ec7d-3ca1-4fcd-bbdd-7c8ae6bdc72b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
