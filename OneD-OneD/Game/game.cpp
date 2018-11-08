@@ -29,7 +29,7 @@ Game::~Game()
 bool Game::Initialize()
 {
 	bool success = m_engine->Initialize();
-	FileSystem::Instance()->SetPathName("..\\content\\galaga\\");
+	FileSystem::Instance()->SetPathName("..\\content\\");
 	EventManager::Instance()->SetGameEventReceiver(this);
 
 	m_scene = new Scene();

@@ -17,7 +17,7 @@ void ShipControllerComponent::Create(float speed)
 	InputManager::Instance()->AddAction("down", SDL_SCANCODE_S, InputManager::eDevice::KEYBOARD);
 
 	InputManager::Instance()->AddAction("fire", SDL_SCANCODE_SPACE, InputManager::eDevice::KEYBOARD);
-	AudioSystem::Instance()->AddSound("fire", "laser.wav");
+	AudioSystem::Instance()->AddSound("fire", "galaga\\laser.wav");
 }
 
 void ShipControllerComponent::Destroy()

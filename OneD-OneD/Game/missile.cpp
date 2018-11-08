@@ -20,7 +20,7 @@ void Missile::Create(const ID& tag, const Vector2D & position, const Vector2D& d
 		kinematic->ApplyForce(direction * speed, KinematicComponent::FORCE);
 
 		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
-		spriteComponent->Create("missile01.png", Vector2D(0.5f, 0.5f));
+		spriteComponent->Create("galaga\\missile01.png", Vector2D(0.5f, 0.5f));
 	}
 	else if (tag == "enemyMissile") {
 		KinematicComponent* kinematic = AddComponent<KinematicComponent>();
@@ -29,7 +29,7 @@ void Missile::Create(const ID& tag, const Vector2D & position, const Vector2D& d
 
 
 		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
-		spriteComponent->Create("missile02.png", Vector2D(0.5f, 0.5f));
+		spriteComponent->Create("galaga\\missile02.png", Vector2D(0.5f, 0.5f));
 		m_transform.rotation += 180.0f;
 	}
 

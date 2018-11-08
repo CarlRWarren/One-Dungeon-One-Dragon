@@ -26,10 +26,10 @@ void Enemy::Create(const Info & info)
 	spriteComponent->Create("", Vector2D(0.5f, 0.5f));
 	AnimationComponent* animationComponent = AddComponent<AnimationComponent>();
 	std::vector<std::string> animations;
-	if (m_info.type == BEE) animations = { "enemy02A.png","enemy02B.png" };
-	if (m_info.type == BUG) animations = { "enemy03A.png","enemy03B.png" };
-	if (m_info.type == BOSS) animations = { "enemy01A.png","enemy01B.png" };
-	if (m_info.type == BOSS_GREEN) animations = { "enemy01C.png","enemy01D.png" };
+	if (m_info.type == BEE) animations = { "galaga\\enemy02A.png","galaga\\enemy02B.png" };
+	if (m_info.type == BUG) animations = { "galaga\\enemy03A.png","galaga\\enemy03B.png" };
+	if (m_info.type == BOSS) animations = { "galaga\\enemy01A.png","galaga\\enemy01B.png" };
+	if (m_info.type == BOSS_GREEN) animations = { "galaga\\enemy01C.png","galaga\\enemy01D.png" };
 
 	animationComponent->Create(animations, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 

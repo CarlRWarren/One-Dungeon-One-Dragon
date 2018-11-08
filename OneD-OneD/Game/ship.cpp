@@ -7,6 +7,7 @@
 #include "aabbComponent.h"
 #include "explosion.h"
 #include "eventManager.h"
+#include "animationComponent.h"
 
 void Ship::Create(const Vector2D & position)
 {
@@ -20,8 +21,8 @@ void Ship::Create(const Vector2D & position)
 	ShipControllerComponent* shipControllerComponent = AddComponent<ShipControllerComponent>();
 	shipControllerComponent->Create(150.0f);
 
-	SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
-	spriteComponent->Create("ship.png", Vector2D(0.5f, 0.5f));
+	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
+	spritecomponent01->Create("galaga\\ship.png", Vector2D(0.5f, 0.5f));
 
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
 	aabbComponent->Create();
