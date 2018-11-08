@@ -47,6 +47,18 @@ void TitleState::Update()
 void TitleState::Exit()
 {
 	//destroy entities made in title here
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("title");
+	if (entity1) {
+		entity1->SetState(Entity::DESTROY);
+	}
+	Entity* entity2 = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	if (entity2) {
+		entity2->SetState(Entity::DESTROY);
+	}
+	Entity* entity3 = m_owner->GetScene()->GetEntitiesWithID("TitleScreen");
+	if (entity3) {
+		entity3->SetState(Entity::DESTROY);
+	}
 }
 
 void GameState::Enter()
