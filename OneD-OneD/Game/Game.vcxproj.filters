@@ -50,11 +50,17 @@
     <ClCompile Include="ship.cpp">
       <Filter>Galaga\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GalagaGame.cpp">
+      <Filter>Galaga\Sources</Filter>
+    </ClCompile>
     <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GalagaStates.cpp">
       <Filter>Galaga\Sources</Filter>
     </ClCompile>
     <ClCompile Include="states.cpp">
-      <Filter>Galaga\Sources</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,11 +82,17 @@
     <ClInclude Include="ship.h">
       <Filter>Galaga\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="GalagaGame.h">
+      <Filter>Galaga\Sources</Filter>
+    </ClInclude>
     <ClInclude Include="game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GalagaStates.h">
       <Filter>Galaga\Sources</Filter>
     </ClInclude>
     <ClInclude Include="states.h">
-      <Filter>Galaga\Sources</Filter>
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,11 +9,8 @@
 #include <string>
 #include <iostream>
 #include "entity.h"
-#include "shipControllerComponent.h"
 #include "scene.h"
-#include "ship.h"
 #include "fileSystem.h"
-#include "enemy.h"
 #include "spriteComponent.h"
 #include "textComponent.h"
 #include "eventReceiver.h"
@@ -36,8 +33,8 @@ bool Game::Initialize()
 	m_stateMachine = new StateMachine(m_scene);
 
 	//Flips through states in states.cpp
+	//can add more later
 	m_stateMachine->AddState("title", new TitleState(m_stateMachine));
-	m_stateMachine->AddState("enter_state", new EnterStageState(m_stateMachine));
 	m_stateMachine->AddState("game", new GameState(m_stateMachine));
 	m_stateMachine->AddState("game_over", new GameOverState(m_stateMachine));
 
@@ -69,25 +66,9 @@ void Game::Update()
 	Renderer::Instance()->EndFrame();
 }
 
-//Events, takes event from object and updates score
 void Game::OnEvent(const Event & event)
 {
-	if (event.eventID == "add_score") {
-		m_score = m_score + event.variants[0].asInteger;
-
-		Entity* scoreEntity = m_scene->GetEntitiesWithID("score");
-		if (scoreEntity) {
-			TextComponent* textComponent = scoreEntity->GetComponent<TextComponent>();
-			std::string score = std::to_string(m_score);
-			while (score.length() < 5) {
-				score = "0" + score;
-			}
-			textComponent->SetText(score);
-		}
-	}
-	if (event.eventID == "player_death") {
-		m_stateMachine->SetState("game_over");
-	}
+	//Events, takes event from object if needed
 }
 
 //The End 
