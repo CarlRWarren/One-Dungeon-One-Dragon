@@ -15,6 +15,15 @@ void TitleState::Enter()
 {
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
+	Entity* entity = m_owner->GetScene()->AddEntity<Entity>("title");
+	entity->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* spritecomponent = entity->AddComponent<SpriteComponent>();
+	spritecomponent->Create("Sprites\\MainRoomDesignNoDragon.png", Vector2D(0.5f, 0.5f));
+	entity->GetTransform().scale = Vector2D(5.0f, 5.0f);
+	spritecomponent->SetDepth(1);
+
+
+
 }
 
 void TitleState::Update()

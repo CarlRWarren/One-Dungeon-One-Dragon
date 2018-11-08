@@ -16,10 +16,11 @@ void  GalagaTitleState::Enter()
 {
 	//shows title, instructions, etc.
 	Entity* entity = m_owner->GetScene()->AddEntity<Entity>("title");
-	entity->GetTransform().position = Vector2D(400.0f, 300.0f);
+	entity->GetTransform().position = Vector2D(400.0f, 400.0f);
 	SpriteComponent* spritecomponent = entity->AddComponent<SpriteComponent>();
-	spritecomponent->Create("galaga\\galaga.png", Vector2D(0.5f, 0.5f));
-	spritecomponent->SetDepth(100);
+	spritecomponent->Create("MainRoomDesignNoDragon.png", Vector2D(0.5f, 0.5f));
+	entity->GetTransform().scale = Vector2D(5.0f, 5.0f);
+	spritecomponent->SetDepth(1);
 
 	Entity* returnText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
 	returnText->GetTransform().position = Vector2D(200.0f, 500.0f);
