@@ -18,11 +18,8 @@ void Hero::Create(const Vector2D & position)
 	m_transform.scale = Vector2D(5.0f, 5.0f);
 
 	KinematicComponent* kinematic = AddComponent<KinematicComponent>();
-<<<<<<< HEAD
 	kinematic->Create(800.0f, 0.3f, false);
-=======
 	kinematic->Create(500.0f, 0.3f, false);
->>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
 	heroControllerComponent->Create(0.5f);
@@ -61,10 +58,7 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
-<<<<<<< HEAD
-=======
 		//make these vectors global
->>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
 		std::vector<std::string> textureNames = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
 		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 
@@ -81,8 +75,7 @@ void Hero::Update()
 void Hero::OnEvent(const Event & event)
 {
 	if (event.eventID == "collision") {
-<<<<<<< HEAD
-		if (event.sender->GetTag() == "dragon") 
+		if (event.sender->GetTag() == "dragon")
 		{
 			if (!m_hasItem)
 			{
@@ -90,14 +83,13 @@ void Hero::OnEvent(const Event & event)
 			}
 		}
 		else if (event.sender->GetTag() == "Item") {
-=======
-		if (event.sender->GetTag() == "dragon") {
-	//		std::cout << "Walked over dragon" << std::endl;
-		}
-		else if (event.sender->GetTag() == "Item") {
-	//		std::cout << "Pickup item" << std::endl;
->>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
+			if (event.sender->GetTag() == "dragon") {
+				//		std::cout << "Walked over dragon" << std::endl;
+			}
+			else if (event.sender->GetTag() == "Item") {
+				//		std::cout << "Pickup item" << std::endl;
 
+			}
 		}
 	}
 }
