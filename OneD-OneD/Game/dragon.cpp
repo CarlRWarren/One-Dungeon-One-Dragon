@@ -25,6 +25,10 @@ void Dragon::Create(const Vector2D & position)
 
 	AABBComponent* dragonAabbComponent = AddComponent<AABBComponent>();
 	dragonAabbComponent->Create(Vector2D(1.0, 1.0f));
+<<<<<<< HEAD
+=======
+
+>>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
 	m_transform.scale = Vector2D(5.0f, 5.0f);
 	dragonSpritecomponent->SetDepth(2);
 }
@@ -40,8 +44,13 @@ void Dragon::Update()
 void Dragon::OnEvent(const Event & event)
 {
 	if (event.eventID == "collision") {
+<<<<<<< HEAD
 		if (event.sender->GetTag() == "hero") 
 		{
+=======
+		if (event.sender->GetTag() == "hero") {
+			//std::cout << "Dragon Hit" << std::endl;
+>>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
 		}
 	}
 }

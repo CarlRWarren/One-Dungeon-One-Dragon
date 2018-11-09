@@ -13,6 +13,7 @@ public:
 	void Update();
 
 	void OnEvent(const Event & event);
+<<<<<<< HEAD
 	bool GetHugged() { return m_hugged; }
 
 protected:
@@ -20,4 +21,8 @@ protected:
 	bool m_hasItem = false;
 
 	bool m_hugged = false;
+=======
+protected:
+	bool m_isFlipped = false;
+>>>>>>> fae5f329ad87e9a833e3cfd4ad7c92730c4d115c
 };
