@@ -77,19 +77,12 @@ void Hero::OnEvent(const Event & event)
 	if (event.eventID == "collision") {
 		if (event.sender->GetTag() == "dragon")
 		{
-			if (!m_hasItem)
-			{
-				m_hugged = true;
+			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED) {
+					m_hugged = true;
 			}
 		}
 		else if (event.sender->GetTag() == "Item") {
-			if (event.sender->GetTag() == "dragon") {
-				//		std::cout << "Walked over dragon" << std::endl;
-			}
-			else if (event.sender->GetTag() == "Item") {
-				//		std::cout << "Pickup item" << std::endl;
-
-			}
+			
 		}
 	}
 }

@@ -36,6 +36,7 @@ void Item::Update()
 			InInventory = true;
 			m_transform.scale = Vector2D(5.0f, 5.0f);
 			m_transform.position = Vector2D(750.0, 750.0f);
+			(Hero*)hero;
 		}
 		else {	
 			InInventory = false;

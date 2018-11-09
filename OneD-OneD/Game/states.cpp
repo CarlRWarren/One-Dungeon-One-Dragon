@@ -14,6 +14,7 @@
 #include "hero.h"
 #include "dragon.h"
 #include <iostream>
+#include "item.h"
 
 void TitleState::Enter()
 {
@@ -80,6 +81,8 @@ void GameState::Enter()
 	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
 	
 	//set up game
+	Item* sword = m_owner->GetScene()->AddEntity<Item>("item");
+	sword->Create(Item::eType::SWORD,Vector2D(200.0f, 200.0f));
 }
 void GameState::Update()
 {
@@ -87,11 +90,13 @@ void GameState::Update()
 	if (eHero != nullptr)
 	{
 		Hero* hero = (Hero*)eHero;
-		if (hero->GetHugged())
-		{
-			std::cout << "hugged" << std::endl;
-			m_owner->SetState("game_over");
-		}
+	
+			if (hero->GetHugged())
+			{
+				std::cout << "hugged" << std::endl;
+				m_owner->SetState("game_over");
+			}
+	
 	}
 		//stays in here while game is playing
 }
