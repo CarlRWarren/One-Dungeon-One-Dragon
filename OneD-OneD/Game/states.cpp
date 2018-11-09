@@ -80,8 +80,14 @@ void GameState::Enter()
 	dragon->Create(Vector2D(400.0f, 400.0f));
 	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
 	
+	//Inventory placeholder
+	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
+	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
+	inventoryLabel->Create("No Items", "Textures\\emulogic.ttf", 18, Color::white);
+	inventoryLabel->SetDepth(120);
+
 	//set up game
-	Item* sword = m_owner->GetScene()->AddEntity<Item>("item");
+	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
 	sword->Create(Item::eType::SWORD,Vector2D(200.0f, 200.0f));
 }
 void GameState::Update()

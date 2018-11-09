@@ -15,9 +15,15 @@ public:
 	void OnEvent(const Event & event);
 	bool GetHugged() { return m_hugged; }
 
+	void SetItemHeld(ID itemHeld) { m_itemHeld = itemHeld; }
+	ID GetItemHeld() { return m_itemHeld; }
+
 protected:
 	bool m_isFlipped = false;
-	bool m_hasItem = false;
-
 	bool m_hugged = false;
+
+	std::vector<std::string> m_idleanimation = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
+	std::vector<std::string> m_runanimation  = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
+
+	ID m_itemHeld = "";
 };

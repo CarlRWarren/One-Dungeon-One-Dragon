@@ -10,7 +10,8 @@
 #include "animationComponent.h"
 #include "inputManager.h"
 #include <iostream>
-
+#include "textComponent.h"
+#include "item.h"
 void Hero::Create(const Vector2D & position)
 {
 	SetTag("hero");
@@ -29,8 +30,7 @@ void Hero::Create(const Vector2D & position)
 	spritecomponent01->SetDepth(100);
 
 	AnimationComponent* animationComponent = AddComponent<AnimationComponent>();
-	std::vector<std::string> textureNames = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
-	animationComponent->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	animationComponent->Create(m_idleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
 	aabbComponent->Create(Vector2D(1.0f, 1.0f));
@@ -58,18 +58,30 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
-		//make these vectors global
-		std::vector<std::string> textureNames = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
-
+		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	} else {
-		std::vector<std::string> textureNames = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
+		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();
 	m_transform.position.x = Math::Clamp(m_transform.position.x, 48.0f, size.x-48.0f);
 	m_transform.position.y = Math::Clamp(m_transform.position.y, 32.0f, size.y-86.0f);
+
+	//changes label for inventory
+	Entity* Inventory = m_scene->GetEntitiesWithID("InventoryLabel");
+	if (m_itemHeld != "") {
+		Inventory->GetComponent<TextComponent>()->SetText(m_itemHeld.GetIDString());
+	}
+	else {
+		Inventory->GetComponent<TextComponent>()->SetText("No Items");
+	}
+
+	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld.GetIDString() != "No Items") {
+	//	if (m_itemHeld.GetIDString() == "sword") {
+	//	Item* itemdroped = m_scene->AddEntity<Item>();
+	//	itemdroped->Create(Item::eType::SWORD, m_transform.position);
+//}
+	}
 }
 
 void Hero::OnEvent(const Event & event)
@@ -77,11 +89,13 @@ void Hero::OnEvent(const Event & event)
 	if (event.eventID == "collision") {
 		if (event.sender->GetTag() == "dragon")
 		{
-			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED) {
-					m_hugged = true;
+			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld == "") {
+					
+				m_hugged = true;
 			}
 		}
-		else if (event.sender->GetTag() == "Item") {
+		else if (event.sender->GetTag() == "item") {
+			//drops item being held
 			
 		}
 	}

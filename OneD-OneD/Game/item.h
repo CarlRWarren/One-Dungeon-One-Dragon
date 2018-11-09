@@ -20,5 +20,4 @@ public:
 
 	void OnEvent(const Event & event);
 protected:
-	bool InInventory = false;
 };

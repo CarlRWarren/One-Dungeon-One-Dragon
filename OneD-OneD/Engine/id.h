@@ -19,6 +19,7 @@ public:
 	static size_t ms_uniqueID;
 	static std::string GetUniqueID();
 	
+	std::string GetIDString() { return m_id; }
 protected:
 	std::string m_id;
 };
