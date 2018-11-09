@@ -49,8 +49,6 @@ void HeroControllerComponent::Update()
 		m_owner->GetTransform().position += Vector2D::right* m_speed;
 	}
 	
-	if ((InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED))	{
-		//Item pickup
-	}
+
 }
 

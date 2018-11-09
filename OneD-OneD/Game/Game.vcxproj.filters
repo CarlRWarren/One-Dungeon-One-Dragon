@@ -71,6 +71,9 @@
     <ClCompile Include="HeroControllerComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shipControllerComponent.h">
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="HeroControllerComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

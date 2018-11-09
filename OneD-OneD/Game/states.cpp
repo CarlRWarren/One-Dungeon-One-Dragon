@@ -13,6 +13,7 @@
 #include "textComponent.h"
 #include "hero.h"
 #include "dragon.h"
+#include "item.h"
 
 void TitleState::Enter()
 {
@@ -78,6 +79,9 @@ void GameState::Enter()
 	dragon->Create(Vector2D(400.0f, 400.0f));
 	
 	//set up game
+	Item* sword = m_owner->GetScene()->AddEntity<Item>("Item");
+	sword->Create(Item::eType::SWORD,Vector2D(600.0f, 600.0f));
+
 }
 void GameState::Update()
 {
