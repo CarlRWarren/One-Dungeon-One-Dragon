@@ -11,7 +11,7 @@
 #include "formation.h"
 #include "timer.h"
 #include "textComponent.h"
-#include "ship.h"
+#include "hero.h"
 #include "dragon.h"
 
 void TitleState::Enter()
@@ -30,6 +30,11 @@ void TitleState::Enter()
 	TextComponent* returntextComponent = returnText->AddComponent<TextComponent>();
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
 	returntextComponent->SetDepth(120);
+
+	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	float x = 400.0f;
+	float y = 400.0f;
+	hero->Create(Vector2D(x, y));
 
 }
 
@@ -64,7 +69,7 @@ void GameState::Enter()
 	Entity* Background = m_owner->GetScene()->AddEntity<Entity>("title");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
-	backgroundSpriteComponent->Create("Sprites\\MainRoomDesignNoDragon.png", Vector2D(0.5f, 0.5f));
+	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
 

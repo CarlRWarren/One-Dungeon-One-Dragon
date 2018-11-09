@@ -30,6 +30,6 @@ public:
 
 protected:
 	bool m_isQuit = false;
-	bool m_isDebug = true;
+	bool m_isDebug = false;
 	SDL_Window * m_window = nullptr;
 };

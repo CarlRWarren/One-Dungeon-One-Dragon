@@ -11,7 +11,6 @@
 #include "text.h"
 #include "physics.h"
 #include "fileSystem.h"
-#include <iostream>
 
 bool Engine::Initialize()
 {

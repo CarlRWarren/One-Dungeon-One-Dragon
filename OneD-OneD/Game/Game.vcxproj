@@ -142,16 +142,13 @@
     <ClCompile Include="GalagaGame.cpp" />
     <ClCompile Include="GalagaStates.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="HeroControllerComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="missile.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipControllerComponent.cpp" />
     <ClCompile Include="states.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.vcxproj">
-      <Project>{7b01ec7d-3ca1-4fcd-bbdd-7c8ae6bdc72b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dragon.h" />
@@ -161,10 +158,17 @@
     <ClInclude Include="GalagaGame.h" />
     <ClInclude Include="GalagaStates.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="hero.h" />
+    <ClInclude Include="HeroControllerComponent.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipControllerComponent.h" />
     <ClInclude Include="states.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{7b01ec7d-3ca1-4fcd-bbdd-7c8ae6bdc72b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

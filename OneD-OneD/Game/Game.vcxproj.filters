@@ -63,7 +63,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dragon.cpp">
-      <Filter>Galaga\Objects</Filter>
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="HeroControllerComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +104,13 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="dragon.h">
-      <Filter>Galaga\Objects</Filter>
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="hero.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroControllerComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
