@@ -22,7 +22,7 @@ void Hero::Create(const Vector2D & position)
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
 	heroControllerComponent->Create(0.5f);
-	
+
 	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
 	spritecomponent01->Create("", Vector2D(0.5f, 0.5f));
 	spritecomponent01->SetDepth(100);
