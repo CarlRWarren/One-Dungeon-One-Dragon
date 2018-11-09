@@ -29,23 +29,27 @@ void HeroControllerComponent::Update()
 	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD))
 	{
+		m_owner->GetTransform().position += Vector2D::left;
 		m_owner->GetTransform().position += Vector2D::left * m_speed;
 	}
 
 	if ((InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD))
 	{
+		m_owner->GetTransform().position += Vector2D::down;
 		m_owner->GetTransform().position += Vector2D::down* m_speed;
 	}
 	if ((InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD))
 	{
+		m_owner->GetTransform().position += Vector2D::up;
 		m_owner->GetTransform().position += Vector2D::up* m_speed;
 	}
 
 	if ((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
+		m_owner->GetTransform().position += Vector2D::right;
 		m_owner->GetTransform().position += Vector2D::right* m_speed;
 	}
 	

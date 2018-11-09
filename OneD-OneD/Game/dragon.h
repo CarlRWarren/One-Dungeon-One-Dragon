@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "entity.h"
 #include "vector2D.h"
 #include "id.h"
@@ -14,5 +13,4 @@ public:
 	void Update();
 
 	void OnEvent(const Event & event);
-
 };

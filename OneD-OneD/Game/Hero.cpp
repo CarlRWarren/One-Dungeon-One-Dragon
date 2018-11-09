@@ -18,11 +18,12 @@ void Hero::Create(const Vector2D & position)
 	m_transform.scale = Vector2D(5.0f, 5.0f);
 
 	KinematicComponent* kinematic = AddComponent<KinematicComponent>();
+	kinematic->Create(800.0f, 0.3f, false);
 	kinematic->Create(500.0f, 0.3f, false);
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
 	heroControllerComponent->Create(0.5f);
-	
+
 	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
 	spritecomponent01->Create("", Vector2D(0.5f, 0.5f));
 	spritecomponent01->SetDepth(100);
@@ -74,12 +75,21 @@ void Hero::Update()
 void Hero::OnEvent(const Event & event)
 {
 	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "dragon") {
-	//		std::cout << "Walked over dragon" << std::endl;
+		if (event.sender->GetTag() == "dragon")
+		{
+			if (!m_hasItem)
+			{
+				m_hugged = true;
+			}
 		}
 		else if (event.sender->GetTag() == "Item") {
-	//		std::cout << "Pickup item" << std::endl;
+			if (event.sender->GetTag() == "dragon") {
+				//		std::cout << "Walked over dragon" << std::endl;
+			}
+			else if (event.sender->GetTag() == "Item") {
+				//		std::cout << "Pickup item" << std::endl;
 
+			}
 		}
 	}
 }

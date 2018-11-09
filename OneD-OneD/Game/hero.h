@@ -13,6 +13,11 @@ public:
 	void Update();
 
 	void OnEvent(const Event & event);
+	bool GetHugged() { return m_hugged; }
+
 protected:
 	bool m_isFlipped = false;
+	bool m_hasItem = false;
+
+	bool m_hugged = false;
 };
