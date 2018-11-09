@@ -56,5 +56,9 @@ void Texture::Draw(const Vector2D & position, const Vector2D & origin, const Vec
 	dest.w = static_cast<int>(size.x);
 	dest.h = static_cast<int>(size.y);
 
-	SDL_RenderCopyEx(Renderer::Instance()->GetRenderer(), m_sdlTexture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	if (m_IsFlipped) {
+		flip = SDL_FLIP_HORIZONTAL;
+	}
+	SDL_RenderCopyEx(Renderer::Instance()->GetRenderer(), m_sdlTexture, nullptr, &dest, angle, nullptr, flip);
 }

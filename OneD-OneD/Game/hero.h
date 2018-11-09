@@ -13,5 +13,6 @@ public:
 	void Update();
 
 	void OnEvent(const Event & event);
-
+protected:
+	bool m_isFlipped = false;
 };

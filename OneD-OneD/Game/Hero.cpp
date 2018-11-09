@@ -39,6 +39,15 @@ void Hero::Update()
 	Entity::Update();
 
 	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) {
+		m_isFlipped = true;
+	}
+	if ((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) {
+		m_isFlipped = false;
+	}
+
+	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)|| 
 		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) ||
@@ -48,12 +57,11 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
 		std::vector<std::string> textureNames = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 
-	}
-	else {
+	} else {
 		std::vector<std::string> textureNames = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();

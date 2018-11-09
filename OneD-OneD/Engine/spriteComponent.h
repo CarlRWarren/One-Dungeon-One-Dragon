@@ -12,7 +12,7 @@ class ENGINE_API SpriteComponent : public IRenderComponent
 public:
 	SpriteComponent(Entity* owner) : IRenderComponent(owner) {}
 
-	void Create(const std::string& textureName, const Vector2D& origin = Vector2D::zero);
+	void Create(const std::string& textureName, const Vector2D& origin = Vector2D::zero, bool isFlipped = false);
 	void Destroy();
 	void Update();
 
