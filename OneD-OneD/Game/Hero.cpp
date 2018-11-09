@@ -9,6 +9,7 @@
 #include "eventManager.h"
 #include "animationComponent.h"
 #include "inputManager.h"
+#include <iostream>
 
 void Hero::Create(const Vector2D & position)
 {
@@ -20,7 +21,7 @@ void Hero::Create(const Vector2D & position)
 	kinematic->Create(800.0f, 0.3f, false);
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
-	heroControllerComponent->Create(50.0f);
+	heroControllerComponent->Create(0.5f);
 	
 	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
 	spritecomponent01->Create("", Vector2D(0.5f, 0.5f));
@@ -31,12 +32,21 @@ void Hero::Create(const Vector2D & position)
 	animationComponent->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
-	aabbComponent->Create();
+	aabbComponent->Create(Vector2D(1.0f, 1.0f));
 }
 
 void Hero::Update()
 {
 	Entity::Update();
+
+	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) {
+		m_isFlipped = true;
+	}
+	if ((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) {
+		m_isFlipped = false;
+	}
 
 	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)|| 
@@ -48,12 +58,11 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
 		std::vector<std::string> textureNames = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 
-	}
-	else {
+	} else {
 		std::vector<std::string> textureNames = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
-		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();
@@ -64,8 +73,12 @@ void Hero::Update()
 void Hero::OnEvent(const Event & event)
 {
 	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "Dragon") {
-
+		if (event.sender->GetTag() == "dragon") 
+		{
+			if (!m_hasItem)
+			{
+				m_hugged = true;
+			}
 		}
 		else if (event.sender->GetTag() == "Item") {
 

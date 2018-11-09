@@ -4,7 +4,7 @@
 #include "entity.h"
 #include "spriteComponent.h"
 
-void AnimationComponent::Create(const std::vector<std::string> textureNames, float rate, ePlayback playback)
+void AnimationComponent::Create(const std::vector<std::string> textureNames, float rate, ePlayback playback, bool isFlipped)
 {
 	if (m_textures.size() > 0) {
 		m_textures.clear();
@@ -12,6 +12,7 @@ void AnimationComponent::Create(const std::vector<std::string> textureNames, flo
 	for (std::string textureName : textureNames)
 	{
 		Texture* texture = new Texture();
+		texture->SetFlip(isFlipped);
 		texture->Create(textureName);
 		m_textures.push_back(texture);
 	}

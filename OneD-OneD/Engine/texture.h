@@ -17,8 +17,11 @@ public:
 
 	Vector2D GetSize() const;
 
+	void SetFlip(bool IsFlip) { m_IsFlipped = IsFlip; }
+
 	friend class Renderer;
 
 protected:
 	SDL_Texture* m_sdlTexture;
+	bool m_IsFlipped = false;
 };

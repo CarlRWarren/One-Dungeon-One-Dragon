@@ -2,10 +2,11 @@
 #include "transform.h"
 #include "entity.h"
 #include "renderer.h"
-void SpriteComponent::Create(const std::string & textureName, const Vector2D& origin)
+void SpriteComponent::Create(const std::string & textureName, const Vector2D& origin, bool IsFlipped)
 {
 	if (textureName != "") {
 		m_texture = new Texture;
+		m_texture->SetFlip(IsFlipped);
 		m_texture->Create(textureName);
 	}
 

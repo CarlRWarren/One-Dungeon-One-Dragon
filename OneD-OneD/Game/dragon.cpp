@@ -24,7 +24,7 @@ void Dragon::Create(const Vector2D & position)
 	dragonAnimation->Create(animations, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 
 	AABBComponent* dragonAabbComponent = AddComponent<AABBComponent>();
-	dragonAabbComponent->Create();
+	dragonAabbComponent->Create(Vector2D(1.0, 1.0f));
 	m_transform.scale = Vector2D(5.0f, 5.0f);
 	dragonSpritecomponent->SetDepth(2);
 }
@@ -40,8 +40,8 @@ void Dragon::Update()
 void Dragon::OnEvent(const Event & event)
 {
 	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "player" || event.sender->GetTag() == "player") {
-			std::cout << "Dragon Hit" << std::endl;
+		if (event.sender->GetTag() == "hero") 
+		{
 		}
 	}
 }
