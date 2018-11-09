@@ -74,9 +74,9 @@ void GameState::Enter()
 	backgroundSpriteComponent->SetDepth(1);
 
 	//Sleeping Dragon
-//	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
-//	dragon->Create(Vector2D(400.0f, 400.0f));
-//	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
+	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
+	dragon->Create(Vector2D(400.0f, 400.0f));
+	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
 	
 	//set up game
 }

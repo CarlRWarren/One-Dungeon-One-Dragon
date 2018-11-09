@@ -6,6 +6,9 @@
 
 void AnimationComponent::Create(const std::vector<std::string> textureNames, float rate, ePlayback playback)
 {
+	if (m_textures.size() > 0) {
+		m_textures.clear();
+	}
 	for (std::string textureName : textureNames)
 	{
 		Texture* texture = new Texture();
@@ -16,6 +19,7 @@ void AnimationComponent::Create(const std::vector<std::string> textureNames, flo
 	m_playback = playback;
 	m_direction = 1;
 }
+
 
 void AnimationComponent::Destroy()
 {

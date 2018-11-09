@@ -48,6 +48,8 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
 	{
 		std::vector<std::string> textureNames = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
+		this->GetComponent<AnimationComponent>()->Create(textureNames, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+
 	}
 	else {
 		std::vector<std::string> textureNames = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
@@ -55,8 +57,8 @@ void Hero::Update()
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();
-	m_transform.position.x = Math::Clamp(m_transform.position.x, 16.0f, size.x-16.0f);
-	m_transform.position.y = Math::Clamp(m_transform.position.y, 16.0f, size.y-16.0f);
+	m_transform.position.x = Math::Clamp(m_transform.position.x, 48.0f, size.x-48.0f);
+	m_transform.position.y = Math::Clamp(m_transform.position.y, 32.0f, size.y-86.0f);
 }
 
 void Hero::OnEvent(const Event & event)
