@@ -28,7 +28,7 @@ void TitleState::Enter()
 	title->GetTransform().scale = Vector2D(1.0f, 1.0f);
 	spritecomponentTitle->SetDepth(120);
 	Entity* returnText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-	returnText->GetTransform().position = Vector2D(200.0f, 300.0f);
+	returnText->GetTransform().position = Vector2D(200.0f, 700.0f);
 	TextComponent* returntextComponent = returnText->AddComponent<TextComponent>();
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
 	returntextComponent->SetDepth(120);

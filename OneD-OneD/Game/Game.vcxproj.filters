@@ -74,6 +74,9 @@
     <ClCompile Include="item.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="door.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shipControllerComponent.h">
@@ -116,6 +119,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="door.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
