@@ -22,6 +22,7 @@ public:
 	void Enter();
 	void Update();
 	void Exit();
+
 };
 
 class GameOverState : public IState

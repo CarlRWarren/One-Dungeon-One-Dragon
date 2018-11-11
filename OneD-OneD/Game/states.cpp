@@ -92,19 +92,25 @@ void GameState::Enter()
 }
 void GameState::Update()
 {
+	
+
+
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	if (eHero != nullptr)
 	{
 		Hero* hero = (Hero*)eHero;
-	
-			if (hero->GetHugged())
-			{
-				std::cout << "hugged" << std::endl;
-				m_owner->SetState("game_over");
-			}
-	
-	}
-		//stays in here while game is playing
+		if (hero->GetHugged())
+		{
+			std::cout << "hugged" << std::endl;
+			m_owner->SetState("game_over");
+		}
+		else if (hero->GetIdle())
+		{
+			std::cout << "Idle" << std::endl;
+			m_owner->SetState("game_over");
+		}
+
+	}//stays in here while game is playing
 }
 
 void GameState::Exit()
@@ -115,34 +121,55 @@ void GameState::Exit()
 
 void GameOverState::Enter()
 {
-	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
-	std::cout << "entered Game Over" << std::endl;
-	if (eHero != nullptr)
-	{
+		Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 		Hero* hero = (Hero*)eHero;
-		if (hero->GetHugged())
+		std::cout << "entered Game Over" << std::endl;
+		if (eHero != nullptr)
 		{
-			Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
-			if (entity1) {
-				entity1->SetState(Entity::DESTROY);
-			}
-			Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-			huggedText->GetTransform().position = Vector2D(0.0f, 300.0f);
-			TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-			huggedtextComponent->Create("You Have Hugged the Dragon. It has been", "Textures\\emulogic.ttf", 18, Color::white);
-			huggedtextComponent->SetDepth(120);
+			
+			if (hero->GetHugged())
+			{
+				Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+				if (entity1) {
+					entity1->SetState(Entity::DESTROY);
+				}
+				Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+				huggedText->GetTransform().position = Vector2D(0.0f, 300.0f);
+				TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
+				huggedtextComponent->Create("You Have Hugged the Dragon. It has been", "Textures\\emulogic.ttf", 18, Color::white);
+				huggedtextComponent->SetDepth(120);
 
-			huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-			huggedText->GetTransform().position = Vector2D(0.0f, 350.0f);
-			huggedtextComponent = huggedText->AddComponent<TextComponent>();
-			huggedtextComponent->Create("warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 18, Color::white);
-			huggedtextComponent->SetDepth(120);
+				huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+				huggedText->GetTransform().position = Vector2D(0.0f, 350.0f);
+				huggedtextComponent = huggedText->AddComponent<TextComponent>();
+				huggedtextComponent->Create("warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 18, Color::white);
+				huggedtextComponent->SetDepth(120);
+			}
+			if (hero->GetIdle())
+			{
+				std::cout << "entered idle" << std::endl;
+				Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+				if (entity1) {
+					entity1->SetState(Entity::DESTROY);
+				}
+
+				Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+				huggedText->GetTransform().position = Vector2D(0.0f, 300.0f);
+				TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
+				huggedtextComponent->Create("You Have Bored The Dragon to Death. Maybe", "Textures\\emulogic.ttf", 18, Color::white);
+				huggedtextComponent->SetDepth(120);
+
+				huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+				huggedText->GetTransform().position = Vector2D(0.0f, 350.0f);
+				huggedtextComponent = huggedText->AddComponent<TextComponent>();
+				huggedtextComponent->Create("Put down the Chips and Play", "Textures\\emulogic.ttf", 18, Color::white);
+				huggedtextComponent->SetDepth(120);
+			}
 		}
 	}
-
+	
 	// Create entities for game over screen
 	// add action or timer
-}
 
 void GameOverState::Update()
 {

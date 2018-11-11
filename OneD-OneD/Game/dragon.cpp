@@ -24,7 +24,7 @@ void Dragon::Create(const Vector2D & position)
 	dragonAnimation->Create(animations, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 
 	AABBComponent* dragonAabbComponent = AddComponent<AABBComponent>();
-	dragonAabbComponent->Create(Vector2D(1.0, 1.0f));
+	dragonAabbComponent->Create(Vector2D(0.75f, 0.75f));
 
 	m_transform.scale = Vector2D(5.0f, 5.0f);
 	dragonSpritecomponent->SetDepth(2);
