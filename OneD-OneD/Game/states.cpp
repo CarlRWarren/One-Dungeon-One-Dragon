@@ -21,6 +21,7 @@ void TitleState::Enter()
 {
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
 
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
 	title->GetTransform().position = Vector2D(400.0f, 400.0f);
