@@ -35,6 +35,15 @@ void TitleState::Enter()
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
 	returntextComponent->SetDepth(120);
 
+	//Achievement Background
+	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
+	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
+	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
+	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	achievementBackgroundSpriteComponent->SetDepth(200);
+	achievementBackgroundSpriteComponent->SetVisible(false);
+
 }
 
 void TitleState::Update()
@@ -80,6 +89,12 @@ void InitializeState::Enter()
 	achievementBackgroundSpriteComponent->SetDepth(200);
 	achievementBackgroundSpriteComponent->SetVisible(false);
 
+	
+	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	float x = 400.0f;
+	float y = 700.0f;
+	hero->Create(Vector2D(x, y));
+
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
 	dragon->Create(Vector2D(400.0f, 400.0f));
@@ -95,10 +110,19 @@ void InitializeState::Enter()
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
 	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
 
-	//door
+	//doors
 	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
-	topLeftDoor->Create(Vector2D(5.0f, 280.0f));
+	topLeftDoor->Create(Vector2D(5.0f,280.0f), false);
 	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
+	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
+	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
+	bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
+	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
+	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
+	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 }
 
 void InitializeState::Update()
