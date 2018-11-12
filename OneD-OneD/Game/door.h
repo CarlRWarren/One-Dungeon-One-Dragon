@@ -9,7 +9,7 @@ public:
 	Door(Scene* scene, const ID& id) : Entity(scene, id) {}
 	~Door() {}
 
-	void Create(const Vector2D& position);
+	void Create(const Vector2D& position, bool isFlipped);
 
 	void OnEvent(const Event & event);
 

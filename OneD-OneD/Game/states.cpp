@@ -100,10 +100,19 @@ void GameState::Enter()
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
 	sword->Create(Item::eType::SWORD,Vector2D(200.0f, 200.0f));
 
-	//door
+	//doors
 	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
-	topLeftDoor->Create(Vector2D(5.0f,280.0f));
+	topLeftDoor->Create(Vector2D(5.0f,280.0f), false);
 	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
+	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
+	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
+	bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
+	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
+	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
+	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 }
 void GameState::Update()
 {
