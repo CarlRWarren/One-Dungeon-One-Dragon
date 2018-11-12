@@ -1,0 +1,31 @@
+	public enum RestaurantType
+	{
+		AMERICAN,
+		MEXICAN,
+		ITALIAN,
+		UNKNOWN
+	}
+
+	public class Restaurant
+	{
+		public string Name { get; set; }
+		public RestaurantType Type { get; set; }
+		public string Address { get; set; }
+		public string Phone { get; set; }
+		public int Rating { get; set; }
+		public bool Open { get; set; }
+	}
+
+
+        <ObjectDataProvider x:Key="EnumDataProvider" 
+                            MethodName="GetValues"
+                            ObjectType="{x:Type ns:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:RestaurantType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+				new Restaurant { Name = "McDonalds", Type = RestaurantType.AMERICAN, Phone = "(801) 555-5555", Address = "Main St", Rating = 5, Open = true },
+				new Restaurant { Name = "Carls Jr", Type = RestaurantType.AMERICAN, Phone = "(801) 444-4444", Address = "Center St", Rating = 3, Open = true },
+				new Restaurant { Name = "Pizza Hut", Type = RestaurantType.ITALIAN, Phone = "(801) 333-3333", Address = "Apple St", Rating = 2, Open = false},
