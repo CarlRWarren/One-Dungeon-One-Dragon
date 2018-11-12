@@ -35,8 +35,12 @@ bool Game::Initialize()
 	//Flips through states in states.cpp
 	//can add more later
 	m_stateMachine->AddState("title", new TitleState(m_stateMachine));
+	m_stateMachine->AddState("intitialize", new InitializeState(m_stateMachine));
 	m_stateMachine->AddState("game", new GameState(m_stateMachine));
 	m_stateMachine->AddState("game_over", new GameOverState(m_stateMachine));
+	m_stateMachine->AddState("BoreDragonEnding", new BoreDragonEnding(m_stateMachine));
+	m_stateMachine->AddState("HugDragonEnding", new HugDragonEnding(m_stateMachine));
+	m_stateMachine->AddState("KillDragonEnding", new KillDragonEnding(m_stateMachine));
 
 	m_stateMachine->SetState("title");
 

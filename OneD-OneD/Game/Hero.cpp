@@ -40,27 +40,6 @@ void Hero::Update()
 {
 	Entity::Update();
 
-	if (!(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("pick up") == InputManager::eButtonState::HELD))
-	{
-		m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
-		if (m_timerRate <= 0.0f)
-		{
-			std::cout << "idle" << std::endl;
-			m_idled = true;
-		}
-	}
-	else
-	{
-		m_timerRate = m_timerReset;
-	}
-	
-
-
-
 	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) {
 		m_isFlipped = true;
@@ -81,43 +60,26 @@ void Hero::Update()
 	{
 		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	} else {
-		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
+		this->GetComponent<AnimationComponent>()->Create(m_idleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();
 	m_transform.position.x = Math::Clamp(m_transform.position.x, 48.0f, size.x-48.0f);
 	m_transform.position.y = Math::Clamp(m_transform.position.y, 32.0f, size.y-86.0f);
 
-	//changes label for inventory
-	Entity* Inventory = m_scene->GetEntitiesWithID("InventoryLabel");
-	if (m_itemHeld != "") {
-		Inventory->GetComponent<TextComponent>()->SetText(m_itemHeld.GetIDString());
-	}
-	else {
-		Inventory->GetComponent<TextComponent>()->SetText("No Items");
+
+	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld->GetIDString() == "sword") {
+		//Item* itemdroped = m_scene->AddEntity<Item>("sword");
+		//itemdroped->Create(Item::eType::SWORD, m_transform.position);
+		//m_itemHeld = new ID("No Items");
 	}
 
-	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld.GetIDString() != "No Items") {
-	//	if (m_itemHeld.GetIDString() == "sword") {
-	//	Item* itemdroped = m_scene->AddEntity<Item>();
-	//	itemdroped->Create(Item::eType::SWORD, m_transform.position);
-//}
-	}
+	//changes label for inventory
+	Entity* Inventory = m_scene->GetEntitiesWithID("InventoryLabel");
+	Inventory->GetComponent<TextComponent>()->SetText(m_itemHeld->GetIDString());
+
 }
 
 void Hero::OnEvent(const Event & event)
 {
-	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "dragon" && event.sender->GetTag() != "item")
-		{
-			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld == "")
-			{					
-				m_hugged = true;
-			}
-		}
-		else if (event.sender->GetTag() == "item") {
-			//drops item being held
-			
-		}
-	}
 }
