@@ -47,7 +47,6 @@ void Hero::Update()
 		!(InputManager::Instance()->GetActionButton("pick up") == InputManager::eButtonState::HELD))
 	{
 		m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
-		std::cout << m_timerRate << std::endl;
 		if (m_timerRate <= 0.0f)
 		{
 			std::cout << "idle" << std::endl;

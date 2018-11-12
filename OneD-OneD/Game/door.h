@@ -12,4 +12,7 @@ public:
 	void Create(const Vector2D& position);
 
 	void OnEvent(const Event & event);
+
+public:
+	std::vector<std::string> m_idleanimation = { "textures//leftdoor1.png", "textures//leftdoor2.png", "textures//leftdoor3.png", "textures//leftdoor4.png", "textures//leftdoor5.png" };
 };

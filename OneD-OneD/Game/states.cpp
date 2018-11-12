@@ -13,8 +13,9 @@
 #include "textComponent.h"
 #include "hero.h"
 #include "dragon.h"
-#include <iostream>
 #include "item.h"
+#include "door.h"
+#include <iostream>
 
 void TitleState::Enter()
 {
@@ -89,6 +90,11 @@ void GameState::Enter()
 	//set up game
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
 	sword->Create(Item::eType::SWORD,Vector2D(200.0f, 200.0f));
+
+	//door
+	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
+	topLeftDoor->Create(Vector2D(5.0f,280.0f));
+	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 }
 void GameState::Update()
 {
