@@ -21,6 +21,7 @@ void TitleState::Enter()
 {
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
 
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
 	title->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -33,6 +34,15 @@ void TitleState::Enter()
 	TextComponent* returntextComponent = returnText->AddComponent<TextComponent>();
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
 	returntextComponent->SetDepth(120);
+
+	//Achievement Background
+	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
+	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
+	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
+	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	achievementBackgroundSpriteComponent->SetDepth(200);
+	achievementBackgroundSpriteComponent->SetVisible(false);
 
 }
 
@@ -75,15 +85,6 @@ void GameState::Enter()
 	float x = 400.0f;
 	float y = 700.0f;
 	hero->Create(Vector2D(x, y));
-
-	//Achievement Background
-	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
-	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
-	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
-	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
-	achievementBackgroundSpriteComponent->SetDepth(200);
-	achievementBackgroundSpriteComponent->SetVisible(false);
 
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
