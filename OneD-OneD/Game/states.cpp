@@ -75,6 +75,15 @@ void GameState::Enter()
 	float y = 700.0f;
 	hero->Create(Vector2D(x, y));
 
+	//Achievement Background
+	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
+	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
+	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
+	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	achievementBackgroundSpriteComponent->SetDepth(200);
+	achievementBackgroundSpriteComponent->SetVisible(false);
+
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
 	dragon->Create(Vector2D(400.0f, 400.0f));
@@ -93,7 +102,12 @@ void GameState::Enter()
 void GameState::Update()
 {
 	
-
+	//Checks for Q for achievemnt Screen
+	if (InputManager::Instance()->GetActionButton("achieve") == InputManager::eButtonState::PRESSED) {
+		Entity* achievementBackground = m_owner->GetScene()->GetEntitiesWithID("achieve");
+		SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->GetComponent<SpriteComponent>();
+		achievementBackgroundSpriteComponent->SetVisible(!achievementBackgroundSpriteComponent->GetVisible());
+	}
 
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	if (eHero != nullptr)
