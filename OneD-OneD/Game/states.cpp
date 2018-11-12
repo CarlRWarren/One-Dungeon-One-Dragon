@@ -80,6 +80,7 @@ void InitializeState::Enter()
 //	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
+	
 	//Achievement Background
 	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
 	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -88,12 +89,6 @@ void InitializeState::Enter()
 	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
 	achievementBackgroundSpriteComponent->SetDepth(200);
 	achievementBackgroundSpriteComponent->SetVisible(false);
-
-	
-	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
-	float x = 400.0f;
-	float y = 700.0f;
-	hero->Create(Vector2D(x, y));
 
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");

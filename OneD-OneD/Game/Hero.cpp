@@ -69,9 +69,9 @@ void Hero::Update()
 
 
 	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld->GetIDString() == "sword") {
+		m_itemHeld = new ID("No Items");
 		//Item* itemdroped = m_scene->AddEntity<Item>("sword");
 		//itemdroped->Create(Item::eType::SWORD, m_transform.position);
-		//m_itemHeld = new ID("No Items");
 	}
 
 	//changes label for inventory
