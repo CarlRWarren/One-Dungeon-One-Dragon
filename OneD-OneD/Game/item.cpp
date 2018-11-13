@@ -38,7 +38,8 @@ void Item::OnEvent(const Event & event)
 			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED) {
 				Entity* hero = m_scene->GetEntitiesWithID("hero");
 				Hero* ehero = (Hero*)hero;
-				ehero->SetItemHeld(GetTag());
+				ID* id = new ID(m_id.GetIDString());
+				ehero->SetItemHeld(id);
 				SetState(eState::DESTROY);
 			}
 		}

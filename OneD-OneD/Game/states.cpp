@@ -22,6 +22,7 @@ void TitleState::Enter()
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
 
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
 	title->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -35,13 +36,22 @@ void TitleState::Enter()
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
 	returntextComponent->SetDepth(120);
 
+	//Achievement Background
+	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
+	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
+	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
+	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	achievementBackgroundSpriteComponent->SetDepth(200);
+	achievementBackgroundSpriteComponent->SetVisible(false);
+
 }
 
 void TitleState::Update()
 {
 	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
-		m_owner->SetState("game");
+		m_owner->SetState("intitialize");
 	}
 }
 
@@ -62,21 +72,16 @@ void TitleState::Exit()
 	}
 }
 
-void GameState::Enter()
+void InitializeState::Enter()
 {
 	//Background
 	Entity* Background = m_owner->GetScene()->AddEntity<Entity>("background");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
-	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
+//	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
 	
-	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
-	float x = 400.0f;
-	float y = 700.0f;
-	hero->Create(Vector2D(x, y));
-
 	//Achievement Background
 	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
 	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -90,7 +95,7 @@ void GameState::Enter()
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
 	dragon->Create(Vector2D(400.0f, 400.0f));
 	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
-	
+
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
 	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
@@ -99,13 +104,41 @@ void GameState::Enter()
 
 	//set up game
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
-	sword->Create(Item::eType::SWORD,Vector2D(200.0f, 200.0f));
+	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
 
-	//door
+	//doors
 	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
-	topLeftDoor->Create(Vector2D(5.0f,280.0f));
+	topLeftDoor->Create(Vector2D(5.0f,280.0f), false);
 	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
+	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
+	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
+	bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
+	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
+	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
+	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 }
+
+void InitializeState::Update()
+{
+	m_owner->SetState("game");
+}
+
+void InitializeState::Exit()
+{
+}
+
+void GameState::Enter()
+{
+	//anything that needs to be reset every time they win, place here
+	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	float x = 400.0f;
+	float y = 700.0f;
+	hero->Create(Vector2D(x, y));
+}
+
 void GameState::Update()
 {
 	if (InputManager::Instance()->GetActionButton("pause") == InputManager::eButtonState::PRESSED)
@@ -119,88 +152,128 @@ void GameState::Update()
 		achievementBackgroundSpriteComponent->SetVisible(!achievementBackgroundSpriteComponent->GetVisible());
 	}
 
-	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
-	if (eHero != nullptr)
-	{
-		Hero* hero = (Hero*)eHero;
-		if (hero->GetHugged())
-		{
-			std::cout << "hugged" << std::endl;
-			m_owner->SetState("game_over");
-		}
-		else if (hero->GetIdle())
-		{
-			std::cout << "Idle" << std::endl;
-			m_owner->SetState("game_over");
-		}
 
-	}//stays in here while game is playing
+	//hugged dragon
+	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
+	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
+
+	//if statement for checks that involve any "pick up" action
+	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED) 
+	{
+		//checks intersect
+		if (eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())) 
+		{
+			if (((Hero*)eHero)->GetItemHeld()->GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
+			if (((Hero*)eHero)->GetItemHeld()->GetIDString() == "sword") { m_owner->SetState("KillDragonEnding"); }
+		}
+	}
+
+	//bore dragon
+	if (!(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD) &&
+		!(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) &&
+		!(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD) &&
+		!(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD) &&
+		!(InputManager::Instance()->GetActionButton("pick up") == InputManager::eButtonState::HELD))
+	{
+		m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+		if (m_timerRate <= 0.0f)
+		{
+			m_owner->SetState("BoreDragonEnding");
+		}
+	}
+	else
+	{
+		m_timerRate = m_timerReset;
+	}
 }
 
 void GameState::Exit()
 {
-	
-	//destroy entities in game state here
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->SetState(Entity::DESTROY);
+	}
 }
 
 void GameOverState::Enter()
 {
-		Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
-		Hero* hero = (Hero*)eHero;
-		std::cout << "entered Game Over" << std::endl;
-		if (eHero != nullptr)
-		{
-			
-			if (hero->GetHugged())
-			{
-				Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
-				if (entity1) {
-					entity1->SetState(Entity::DESTROY);
-				}
-				Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-				huggedText->GetTransform().position = Vector2D(0.0f, 300.0f);
-				TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-				huggedtextComponent->Create("You Have Hugged the Dragon. It has been", "Textures\\emulogic.ttf", 18, Color::white);
-				huggedtextComponent->SetDepth(120);
-
-				huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-				huggedText->GetTransform().position = Vector2D(0.0f, 350.0f);
-				huggedtextComponent = huggedText->AddComponent<TextComponent>();
-				huggedtextComponent->Create("warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 18, Color::white);
-				huggedtextComponent->SetDepth(120);
-			}
-			if (hero->GetIdle())
-			{
-				std::cout << "entered idle" << std::endl;
-				Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
-				if (entity1) {
-					entity1->SetState(Entity::DESTROY);
-				}
-
-				Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-				huggedText->GetTransform().position = Vector2D(0.0f, 300.0f);
-				TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-				huggedtextComponent->Create("You Have Bored The Dragon to Death. Maybe", "Textures\\emulogic.ttf", 18, Color::white);
-				huggedtextComponent->SetDepth(120);
-
-				huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-				huggedText->GetTransform().position = Vector2D(0.0f, 350.0f);
-				huggedtextComponent = huggedText->AddComponent<TextComponent>();
-				huggedtextComponent->Create("Put down the Chips and Play", "Textures\\emulogic.ttf", 18, Color::white);
-				huggedtextComponent->SetDepth(120);
-			}
-		}
-	}
-	
-	// Create entities for game over screen
-	// add action or timer
+	//print out score?
+}
 
 void GameOverState::Update()
 {
-	//moves on if they press action or timer runs out
+
 }
 
 void GameOverState::Exit()
 {
-	//destroy gameover entities here
+
+}
+
+
+
+void BoreDragonEnding::Enter()
+{
+	Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+	huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
+	huggedtextComponent->Create("You Have Bored The Dragon to Death. Maybe put down the Chips and Play", "Textures\\emulogic.ttf", 10, Color::white);
+	huggedtextComponent->SetDepth(120);
+}
+
+void BoreDragonEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+}
+
+void BoreDragonEnding::Exit()
+{
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	huggedText->SetState(Entity::eState::DESTROY);
+
+}
+
+void HugDragonEnding::Enter()
+{
+	{
+		Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
+		huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
+		TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
+		huggedtextComponent->Create("You Have Hugged the Dragon. It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 8, Color::white);
+		huggedtextComponent->SetDepth(120);
+	}
+}
+
+void HugDragonEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+}
+
+void HugDragonEnding::Exit()
+{
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	huggedText->SetState(Entity::eState::DESTROY);
+}
+
+void KillDragonEnding::Enter()
+{
+
+}
+
+void KillDragonEnding::Update()
+{
+
+}
+
+void KillDragonEnding::Exit()
+{
+
 }

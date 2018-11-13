@@ -40,11 +40,4 @@ void Dragon::Update()
 }
 void Dragon::OnEvent(const Event & event)
 {
-	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "hero")
-		{
-		
-
-		}
-	}
 }
