@@ -250,11 +250,17 @@ void BoreDragonEnding::Exit()
 void HugDragonEnding::Enter()
 {
 	{
-		Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-		huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
-		TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-		huggedtextComponent->Create("You Have Hugged the Dragon. It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 8, Color::white);
-		huggedtextComponent->SetDepth(120);
+		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
+		huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+		huggedtextComponent1->Create("You Have Hugged the Dragon. It has been warmed", "Textures\\emulogic.ttf", 16, Color::white);
+		huggedtextComponent1->SetDepth(120);
+
+		Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent2");
+		huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
+		TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+		huggedtextComponent2->Create("by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 16, Color::white);
+		huggedtextComponent2->SetDepth(120);
 	}
 }
 
@@ -269,21 +275,76 @@ void HugDragonEnding::Update()
 
 void HugDragonEnding::Exit()
 {
-	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("HugTextSent1");
+	huggedText->SetState(Entity::eState::DESTROY);
+	huggedText = m_owner->GetScene()->GetEntitiesWithID("HugTextSent2");
 	huggedText->SetState(Entity::eState::DESTROY);
 }
 
 void KillDragonEnding::Enter()
 {
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
+	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
 
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent2");
+	huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	huggedtextComponent2->Create("Press F to Pay Respects.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent2->SetDepth(120);
 }
 
 void KillDragonEnding::Update()
 {
-
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (InputManager::Instance()->GetActionButton("respect") == InputManager::eButtonState::PRESSED)
+	{
+		m_owner->SetState("RespectEnding");
+	}
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
 }
 
 void KillDragonEnding::Exit()
 {
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent1");
+	huggedText->SetState(Entity::eState::DESTROY);
+	huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent2");
+	huggedText->SetState(Entity::eState::DESTROY);
+}
 
+void RespectEnding::Enter()
+{
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent1");
+	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	huggedtextComponent1->Create("You Pay Respect to the Mighty Tempest Dragon.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
+
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent2");
+	huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent2->SetDepth(120);
+}
+
+void RespectEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+}
+
+void RespectEnding::Exit()
+{
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent1");
+	huggedText->SetState(Entity::eState::DESTROY);
+	huggedText = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent2");
+	huggedText->SetState(Entity::eState::DESTROY);
 }

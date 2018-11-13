@@ -84,5 +84,18 @@ public:
 	void Update();
 	void Exit();
 protected:
-	float m_timerRate = 3.0f;
+	float m_timerRate = 5.0f;
+};
+
+class RespectEnding : public IState
+{
+public:
+	RespectEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+
+protected:
+	float m_timerRate = 5.0f;
 };
