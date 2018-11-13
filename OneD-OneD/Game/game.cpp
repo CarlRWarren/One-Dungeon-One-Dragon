@@ -41,6 +41,7 @@ bool Game::Initialize()
 	m_stateMachine->AddState("BoreDragonEnding", new BoreDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("HugDragonEnding", new HugDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("KillDragonEnding", new KillDragonEnding(m_stateMachine));
+	m_stateMachine->AddState("RespectEnding", new RespectEnding(m_stateMachine));
 
 	m_stateMachine->SetState("title");
 

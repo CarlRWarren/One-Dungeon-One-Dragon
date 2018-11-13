@@ -17,6 +17,7 @@ void HeroControllerComponent::Create(float speed)
 
 	InputManager::Instance()->AddAction("pick_up", SDL_SCANCODE_SPACE, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("use", SDL_SCANCODE_E, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("respect", SDL_SCANCODE_F, InputManager::eDevice::KEYBOARD);
 
 }
 

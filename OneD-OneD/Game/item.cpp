@@ -43,7 +43,7 @@ void Item::OnEvent(const Event & event)
 				Hero* ehero = (Hero*)hero;
 				ID* id = new ID(m_id.GetIDString());
 				ehero->SetItemHeld(this);
-				m_transform.position = Vector2D(775.0f, 25.0f);
+				m_transform.position = Vector2D(50.0f, 25.0f);
 			}
 		}
 	}
