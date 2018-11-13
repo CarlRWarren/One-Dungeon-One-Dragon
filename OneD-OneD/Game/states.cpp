@@ -15,6 +15,7 @@
 #include "dragon.h"
 #include "item.h"
 #include "door.h"
+#include "achievement.h"
 #include <iostream>
 
 void TitleState::Enter()
@@ -37,13 +38,8 @@ void TitleState::Enter()
 	returntextComponent->SetDepth(120);
 
 	//Achievement Background
-	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
-	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
-	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
-	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
-	achievementBackgroundSpriteComponent->SetDepth(200);
-	achievementBackgroundSpriteComponent->SetVisible(false);
+	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
+	createAchievement->Create(Vector2D(400.0f, 400.0f));
 
 }
 
@@ -81,15 +77,6 @@ void InitializeState::Enter()
 //	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
-	
-	//Achievement Background
-	Entity* achievementBackground = m_owner->GetScene()->AddEntity<Entity>("achieve");
-	achievementBackground->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->AddComponent<SpriteComponent>();
-	achievementBackgroundSpriteComponent->Create("Sprites\\AchievementBackground.png", Vector2D(0.5f, 0.5f));
-	achievementBackground->GetTransform().scale = Vector2D(1.0f, 1.0f);
-	achievementBackgroundSpriteComponent->SetDepth(200);
-	achievementBackgroundSpriteComponent->SetVisible(false);
 
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
@@ -156,11 +143,9 @@ void GameState::Update()
 	}
 	//Checks for Q for achievemnt Screen
 	if (InputManager::Instance()->GetActionButton("achieve") == InputManager::eButtonState::PRESSED) {
-		Entity* achievementBackground = m_owner->GetScene()->GetEntitiesWithID("achieve");
-		SpriteComponent* achievementBackgroundSpriteComponent = achievementBackground->GetComponent<SpriteComponent>();
-		achievementBackgroundSpriteComponent->SetVisible(!achievementBackgroundSpriteComponent->GetVisible());
+		Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		showAchievements->setVisibility(!showAchievements->GetComponent<SpriteComponent>()->GetVisible());
 	}
-
 
 	//hugged dragon
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
@@ -229,6 +214,11 @@ void BoreDragonEnding::Enter()
 	TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
 	huggedtextComponent->Create("You Have Bored The Dragon to Death. Maybe put down the Chips and Play", "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent->SetDepth(120);
+
+	//achievement
+	Achievement* boreDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* boreDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonAchievement");
+	boreDragon->updateAchievement(boreDragonAchievement);
 }
 
 void BoreDragonEnding::Update()
@@ -255,6 +245,11 @@ void HugDragonEnding::Enter()
 		TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
 		huggedtextComponent->Create("You Have Hugged the Dragon. It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 8, Color::white);
 		huggedtextComponent->SetDepth(120);
+
+		//achievement
+		Achievement* hugDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* hugDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
+		hugDragon->updateAchievement(hugDragonAchievement);
 	}
 }
 
@@ -276,6 +271,11 @@ void HugDragonEnding::Exit()
 void KillDragonEnding::Enter()
 {
 
+
+		//achievement
+		Achievement* killDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* killDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
+		killDragon->updateAchievement(killDragonAchievement);
 }
 
 void KillDragonEnding::Update()

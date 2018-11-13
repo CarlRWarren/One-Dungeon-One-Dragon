@@ -77,6 +77,9 @@
     <ClCompile Include="door.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="achievement.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shipControllerComponent.h">
@@ -122,6 +125,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="door.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="achievement.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
