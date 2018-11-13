@@ -26,26 +26,27 @@ void HeroControllerComponent::Destroy()
 
 void HeroControllerComponent::Update()
 {
+	bool pause = Timer::Instance()->IsPaused();
 	
-	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD))
+	if (((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) && pause == false)
 	{
 		m_owner->GetTransform().position += Vector2D::left * m_speed;
 	}
 
-	if ((InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD))
+	if (((InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD)) && pause == false)
 	{
 		m_owner->GetTransform().position += Vector2D::down* m_speed;
 	}
-	if ((InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD))
+	if (((InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD)) && pause == false)
 	{
 		m_owner->GetTransform().position += Vector2D::up* m_speed;
 	}
 
-	if ((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
+	if (((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) && pause == false)
 	{
 		m_owner->GetTransform().position += Vector2D::right* m_speed;
 	}

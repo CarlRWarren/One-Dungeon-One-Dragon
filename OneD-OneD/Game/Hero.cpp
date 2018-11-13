@@ -38,25 +38,26 @@ void Hero::Create(const Vector2D & position)
 
 void Hero::Update()
 {
+	bool pause = Timer::Instance()->IsPaused();
 	Entity::Update();
 
-	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) {
+	if (((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)) && pause == false) {
 		m_isFlipped = true;
 	}
-	if ((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) {
+	if (((InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) && pause == false) {
 		m_isFlipped = false;
 	}
 
-	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
+	if (((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD)|| 
 		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) ||
 		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD) ||
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
-		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD))
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) && pause == false)
 	{
 		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	} else {
