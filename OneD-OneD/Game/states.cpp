@@ -21,6 +21,7 @@ void TitleState::Enter()
 {
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
 	title->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -107,7 +108,10 @@ void GameState::Enter()
 }
 void GameState::Update()
 {
-	
+	if (InputManager::Instance()->GetActionButton("pause") == InputManager::eButtonState::PRESSED)
+	{
+		(Timer::Instance()->IsPaused()) ? Timer::Instance()->UnPause() : Timer::Instance()->Pause();
+	}
 	//Checks for Q for achievemnt Screen
 	if (InputManager::Instance()->GetActionButton("achieve") == InputManager::eButtonState::PRESSED) {
 		Entity* achievementBackground = m_owner->GetScene()->GetEntitiesWithID("achieve");
