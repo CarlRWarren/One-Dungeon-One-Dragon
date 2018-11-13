@@ -118,6 +118,15 @@ void InitializeState::Enter()
 	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
 	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
 	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+
+	//anything that needs to be reset every time they win, place here
+	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	float x = 400.0f;
+	float y = 700.0f;
+	hero->Create(Vector2D(x, y));
+
+	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
+	hero->SetItemHeld(emptyInventory);
 }
 
 void InitializeState::Update()
@@ -131,14 +140,7 @@ void InitializeState::Exit()
 
 void GameState::Enter()
 {
-	//anything that needs to be reset every time they win, place here
-	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
-	float x = 400.0f;
-	float y = 700.0f;
-	hero->Create(Vector2D(x, y));
 
-	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
-	hero->SetItemHeld(emptyInventory);
 }
 
 void GameState::Update()
@@ -192,7 +194,7 @@ void GameState::Exit()
 {
 	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
 	if (entity1) {
-		entity1->SetState(Entity::DESTROY);
+		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
 	}
 }
 
@@ -240,27 +242,14 @@ void BoreDragonEnding::Update()
 void BoreDragonEnding::Exit()
 {
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
-	huggedText->SetState(Entity::eState::DESTROY);
-
+	if (huggedText) {
+		huggedText->SetState(Entity::eState::DESTROY);
+	}
 }
 
 void HugDragonEnding::Enter()
 {
-<<<<<<< HEAD
-	{
-		Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-		huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
-		TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-		huggedtextComponent->Create("You Have Hugged the Dragon. It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 8, Color::white);
-		huggedtextComponent->SetDepth(120);
-
-		//achievement
-		Achievement* hugDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* hugDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-		hugDragon->updateAchievement(hugDragonAchievement);
-	}
-=======
-	m_timerRate = 3.0f;
+		m_timerRate = 3.0f;
 		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
 		huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -272,8 +261,10 @@ void HugDragonEnding::Enter()
 		TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
 		huggedtextComponent2->Create("by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 16, Color::white);
 		huggedtextComponent2->SetDepth(120);
-	
->>>>>>> dae5855f2f6712e363b152eb7e312f0419007e79
+		//achievement
+		Achievement* hugDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* hugDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
+		hugDragon->updateAchievement(hugDragonAchievement);
 }
 
 void HugDragonEnding::Update()
@@ -288,9 +279,13 @@ void HugDragonEnding::Update()
 void HugDragonEnding::Exit()
 {
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("HugTextSent1");
-	huggedText->SetState(Entity::eState::DESTROY);
-	huggedText = m_owner->GetScene()->GetEntitiesWithID("HugTextSent2");
-	huggedText->SetState(Entity::eState::DESTROY);
+	if (huggedText) {
+		huggedText->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("HugTextSent2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
 }
 
 void KillDragonEnding::Enter()
@@ -301,7 +296,6 @@ void KillDragonEnding::Enter()
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
 	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
-
 
 		//achievement
 		Achievement* killDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -325,9 +319,13 @@ void KillDragonEnding::Update()
 void KillDragonEnding::Exit()
 {
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent1");
-	huggedText->SetState(Entity::eState::DESTROY);
-	huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent2");
-	huggedText->SetState(Entity::eState::DESTROY);
+	if (huggedText) {
+		huggedText->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("KillTextSent2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
 }
 
 void RespectEnding::Enter()
@@ -358,7 +356,11 @@ void RespectEnding::Update()
 void RespectEnding::Exit()
 {
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent1");
-	huggedText->SetState(Entity::eState::DESTROY);
-	huggedText = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent2");
-	huggedText->SetState(Entity::eState::DESTROY);
+	if (huggedText) {
+		huggedText->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
 }
