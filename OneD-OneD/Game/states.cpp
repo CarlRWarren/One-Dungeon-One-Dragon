@@ -98,10 +98,16 @@ void InitializeState::Enter()
 
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
-	Inventory->GetTransform().position = Vector2D(650.0f, 25.0f);
+	Inventory->GetTransform().position = Vector2D(25.0f, 50.0f);
 	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
 	inventoryLabel->Create("No Items", "Textures\\emulogic.ttf", 18, Color::white);
 	inventoryLabel->SetDepth(120);
+	Entity* InventoryIcon = m_owner->GetScene()->AddEntity<Entity>("InventoryIcon");
+	InventoryIcon->GetTransform().position = Vector2D(50.0f, 40.0f);
+	InventoryIcon->GetTransform().scale = Vector2D(4.0f,4.0f);
+	SpriteComponent* inventoryicon = InventoryIcon->AddComponent<SpriteComponent>();
+	inventoryicon->Create("Sprites\\chest_empty_open_anim_f2.png", Vector2D(0.5f,0.5f));
+	inventoryicon->SetDepth(50);
 
 	//set up game
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
@@ -224,6 +230,7 @@ void GameOverState::Exit()
 
 void BoreDragonEnding::Enter()
 {
+	m_timerRate = 3.0f;
 	Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
 	huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
@@ -249,7 +256,7 @@ void BoreDragonEnding::Exit()
 
 void HugDragonEnding::Enter()
 {
-	{
+	m_timerRate = 3.0f;
 		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
 		huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -261,7 +268,7 @@ void HugDragonEnding::Enter()
 		TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
 		huggedtextComponent2->Create("by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 16, Color::white);
 		huggedtextComponent2->SetDepth(120);
-	}
+	
 }
 
 void HugDragonEnding::Update()
@@ -283,6 +290,7 @@ void HugDragonEnding::Exit()
 
 void KillDragonEnding::Enter()
 {
+	m_timerRate = 3.0f;
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
 	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -314,6 +322,7 @@ void KillDragonEnding::Exit()
 
 void RespectEnding::Enter()
 {
+	m_timerRate = 3.0f;
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent1");
 	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();

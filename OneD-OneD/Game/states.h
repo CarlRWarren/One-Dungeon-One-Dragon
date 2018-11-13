@@ -84,7 +84,7 @@ public:
 	void Update();
 	void Exit();
 protected:
-	float m_timerRate = 5.0f;
+	float m_timerRate = 3.0f;
 };
 
 class RespectEnding : public IState
@@ -97,5 +97,5 @@ public:
 	void Exit();
 
 protected:
-	float m_timerRate = 5.0f;
+	float m_timerRate = 3.0f;
 };
