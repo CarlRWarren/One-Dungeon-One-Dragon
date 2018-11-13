@@ -68,15 +68,14 @@ void Hero::Update()
 	m_transform.position.y = Math::Clamp(m_transform.position.y, 32.0f, size.y-86.0f);
 
 
-	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && m_itemHeld->GetIDString() == "sword") {
-		m_itemHeld = new ID("No Items");
-		//Item* itemdroped = m_scene->AddEntity<Item>("sword");
-		//itemdroped->Create(Item::eType::SWORD, m_transform.position);
+	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && ((ID)m_itemHeld->GetTag()).GetIDString() == "sword") {
+		m_itemHeld->GetTransform().position = m_transform.position;
+		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
 	}
 
 	//changes label for inventory
 	Entity* Inventory = m_scene->GetEntitiesWithID("InventoryLabel");
-	Inventory->GetComponent<TextComponent>()->SetText(m_itemHeld->GetIDString());
+	Inventory->GetComponent<TextComponent>()->SetText(((ID)m_itemHeld->GetTag()).GetIDString());
 
 }
 

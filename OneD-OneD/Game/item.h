@@ -9,6 +9,7 @@ class Item : public Entity
 public:
 	enum eType
 	{
+		NONE,
 		SWORD
 	};
 public:

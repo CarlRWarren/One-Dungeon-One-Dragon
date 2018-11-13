@@ -98,6 +98,7 @@ void InitializeState::Enter()
 
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
+	Inventory->GetTransform().position = Vector2D(650.0f, 25.0f);
 	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
 	inventoryLabel->Create("No Items", "Textures\\emulogic.ttf", 18, Color::white);
 	inventoryLabel->SetDepth(120);
@@ -105,6 +106,11 @@ void InitializeState::Enter()
 	//set up game
 	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
 	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
+
+	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
+	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
+
+
 
 	//doors
 	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
@@ -137,6 +143,9 @@ void GameState::Enter()
 	float x = 400.0f;
 	float y = 700.0f;
 	hero->Create(Vector2D(x, y));
+
+	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
+	hero->SetItemHeld(emptyInventory);
 }
 
 void GameState::Update()
@@ -163,8 +172,9 @@ void GameState::Update()
 		//checks intersect
 		if (eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())) 
 		{
-			if (((Hero*)eHero)->GetItemHeld()->GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
-			if (((Hero*)eHero)->GetItemHeld()->GetIDString() == "sword") { m_owner->SetState("KillDragonEnding"); }
+			ID id = ((Hero*)eHero)->GetItemHeld()->GetTag();
+			if (id.GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
+			if (id.GetIDString() == "sword") { m_owner->SetState("KillDragonEnding"); }
 		}
 	}
 

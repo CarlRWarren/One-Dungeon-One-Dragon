@@ -20,6 +20,9 @@ void Item::Create(Item::eType type, const Vector2D & position)
 		spriteComponent->Create("sprites\\weapon_regular_sword.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(50);
 	}
+	else {
+		SetTag("No Items");
+	}
 	
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
 	aabbComponent->Create(Vector2D(1.0f,1.0f));
@@ -39,8 +42,8 @@ void Item::OnEvent(const Event & event)
 				Entity* hero = m_scene->GetEntitiesWithID("hero");
 				Hero* ehero = (Hero*)hero;
 				ID* id = new ID(m_id.GetIDString());
-				ehero->SetItemHeld(id);
-				SetState(eState::DESTROY);
+				ehero->SetItemHeld(this);
+				m_transform.position = Vector2D(775.0f, 25.0f);
 			}
 		}
 	}
