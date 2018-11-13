@@ -78,7 +78,7 @@ void InitializeState::Enter()
 	Entity* Background = m_owner->GetScene()->AddEntity<Entity>("background");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
-//	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
+	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
 	
@@ -289,11 +289,6 @@ void KillDragonEnding::Enter()
 	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
-	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent2");
-	huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
-	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("Press F to Pay Respects.", "Textures\\emulogic.ttf", 16, Color::white);
-	huggedtextComponent2->SetDepth(120);
 }
 
 void KillDragonEnding::Update()
