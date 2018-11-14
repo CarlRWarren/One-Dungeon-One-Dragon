@@ -55,7 +55,16 @@ void Achievement::CreateAchievements()
 
 void Achievement::updateAchievement(Entity * completedAchivement)
 {
-		m_completedAchievements.push_back(completedAchivement);
+		bool exists = false;
+		for (Entity* entity : m_completedAchievements) {
+			if (entity == completedAchivement) {
+				exists = true;
+			}
+		} 
+		if (exists == false) {
+				m_completedAchievements.push_back(completedAchivement);
+		}
+
 }
 
 void Achievement::setVisibility(bool isVisible)
@@ -69,12 +78,12 @@ void Achievement::setVisibility(bool isVisible)
 				SpriteComponent* achieveSprite = entity->GetComponent<SpriteComponent>();
 				achieveSprite->SetDepth(201);
 				entity->GetComponent<SpriteComponent>()->SetVisible(isVisible);
-				if (y >= 700.0f) {
-						y = 100.0f;
-						x += 100.0f;
+				if (x >= 700.0f) {
+						x = 100.0f;
+						y += 100.0f;
 				}
 				else {
-						y += 100.0f;
+						x += 100.0f;
 				}
 		}
 }
