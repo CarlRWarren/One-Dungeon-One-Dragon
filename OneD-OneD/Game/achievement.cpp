@@ -51,6 +51,11 @@ void Achievement::CreateAchievements()
 		SpriteComponent* spritecomponentKillDragon = killDragon->AddComponent<SpriteComponent>();
 		spritecomponentKillDragon->Create("sprites\\weapon_regular_sword.png", Vector2D(0.5f, 0.5f));
 		m_achievements.push_back(killDragon);
+
+		Entity* respectDragon = GetScene()->AddEntity<Entity>("RespectDragonAchievement");
+		SpriteComponent* spritecomponentRespectDragon = respectDragon->AddComponent<SpriteComponent>();
+		spritecomponentRespectDragon->Create("sprites\\F.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(respectDragon);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)

@@ -342,6 +342,10 @@ void RespectEnding::Enter()
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
 	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent2->SetDepth(120);
+
+	Achievement* killDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* killDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("RespectDragonAchievement");
+	killDragon->updateAchievement(killDragonAchievement);
 }
 
 void RespectEnding::Update()
