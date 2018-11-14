@@ -36,14 +36,16 @@ void Item::Update()
 
 void Item::OnEvent(const Event & event)
 {
- 	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "hero") {
-			if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED) {
-				Entity* hero = m_scene->GetEntitiesWithID("hero");
-				Hero* ehero = (Hero*)hero;
-				ID* id = new ID(m_id.GetIDString());
-				ehero->SetItemHeld(this);
-				m_transform.position = Vector2D(50.0f, 25.0f);
+	if (GetComponent<SpriteComponent>()->GetVisible() == true) {
+		if (event.eventID == "collision") {
+			if (event.sender->GetTag() == "hero") {
+				if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED) {
+					Entity* hero = m_scene->GetEntitiesWithID("hero");
+					Hero* ehero = (Hero*)hero;
+					ID* id = new ID(m_id.GetIDString());
+					ehero->SetItemHeld(this);
+					m_transform.position = Vector2D(50.0f, 25.0f);
+				}
 			}
 		}
 	}
