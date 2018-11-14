@@ -10,13 +10,14 @@ public:
 	Hero(Scene* scene, const ID& id) : Entity(scene, id) {}
 	~Hero() {}
 
-	void Create(const Vector2D& position);
+	void Create(const Vector2D& position, bool isWizard = false);
 	void Update();
 
 	void OnEvent(const Event & event);
 
 	void SetItemHeld(Item* itemHeld) { m_itemHeld = itemHeld; }
 	Item* GetItemHeld() { return m_itemHeld; }
+
 
 protected:
 	bool m_isFlipped = false;

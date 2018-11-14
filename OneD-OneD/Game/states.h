@@ -22,7 +22,6 @@ public:
 	void Enter();
 	void Update();
 	void Exit();
-
 };
 
 class GameState : public IState

@@ -12,11 +12,16 @@
 #include <iostream>
 #include "textComponent.h"
 #include "item.h"
-void Hero::Create(const Vector2D & position)
+void Hero::Create(const Vector2D & position, bool isWizard)
 {
 	SetTag("hero");
 	m_transform.position = position;
 	m_transform.scale = Vector2D(5.0f, 5.0f);
+
+	if (isWizard == true) {
+		m_runanimation = { "sprites//wizzart_m_run_anim_f0.png","sprites//wizzart_m_run_anim_f1.png" ,"sprites//wizzart_m_run_anim_f2.png" ,"sprites//wizzart_m_run_anim_f3.png" };
+		m_idleanimation = { "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" };
+	}
 
 	KinematicComponent* kinematic = AddComponent<KinematicComponent>();
 	kinematic->Create(800.0f, 0.3f, false);

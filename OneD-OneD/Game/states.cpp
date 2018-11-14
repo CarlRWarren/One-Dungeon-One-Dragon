@@ -25,26 +25,103 @@ void TitleState::Enter()
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
 
+	InputManager::Instance()->AddAction("select_left", SDL_SCANCODE_LEFT, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("select_right", SDL_SCANCODE_RIGHT, InputManager::eDevice::KEYBOARD);
+
+	Entity* TitleText = m_owner->GetScene()->AddEntity<Entity>("title");
+	TitleText->GetTransform().position = Vector2D(25.0f, 100.0f);
+	TextComponent* TitleTextComponent = TitleText->AddComponent<TextComponent>();
+	TitleTextComponent->Create("One Dungeon, One Dragon", "Textures\\emulogic.ttf", 32, Color::white);
+	TitleTextComponent->SetDepth(120);
+
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
-	title->GetTransform().position = Vector2D(400.0f, 400.0f);
+	title->GetTransform().position = Vector2D(400.0f, 370.0f);
 	SpriteComponent* spritecomponentTitle = title->AddComponent<SpriteComponent>();
-	spritecomponentTitle->Create("Textures\\TitleScreen.png", Vector2D(0.5f, 0.5f));
-	title->GetTransform().scale = Vector2D(1.0f, 1.0f);
+	spritecomponentTitle->Create("", Vector2D(0.5f, 0.5f));
+	AnimationComponent* dragonAnimation = title->AddComponent<AnimationComponent>();
+	std::vector<std::string> animations = { "Sprites\\sleepingdragonframe1.png","Sprites\\sleepingdragonframe2.png" ,"Sprites\\sleepingdragonframe3.png" ,"Sprites\\sleepingdragonframe4.png" ,"Sprites\\sleepingdragonframe5.png" };
+	dragonAnimation->Create(animations, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	title->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	spritecomponentTitle->SetDepth(120);
+
+	
+	Entity* charaselect = m_owner->GetScene()->AddEntity<Entity>("CharaPrompt");
+	charaselect->GetTransform().position = Vector2D(200.0f, 545.0f);
+	TextComponent* charaselectcomponent = charaselect->AddComponent<TextComponent>();
+	charaselectcomponent->Create("< Select Your Character >", "Textures\\emulogic.ttf", 18, Color::white);
+	charaselectcomponent->SetDepth(120);
+
+	Entity* ItemPrompt = m_owner->GetScene()->AddEntity<Entity>("ItemPrompt");
+	ItemPrompt->GetTransform().position = Vector2D(250.0f, 690.0f);
+	TextComponent* ItemPromptComponent = ItemPrompt->AddComponent<TextComponent>();
+	ItemPromptComponent->Create("Press Space To Pick Up Items", "Textures\\emulogic.ttf", 10, Color::white);
+	ItemPromptComponent->SetDepth(120);
+
+	Entity* UsePrompt = m_owner->GetScene()->AddEntity<Entity>("UsePrompt");
+	UsePrompt->GetTransform().position = Vector2D(250.0f, 710.0f);
+	TextComponent* UsePromptComponent = UsePrompt->AddComponent<TextComponent>();
+	UsePromptComponent->Create("Press E to perform an action", "Textures\\emulogic.ttf", 10, Color::white);
+	UsePromptComponent->SetDepth(120);
+
+	Entity* AcheivePrompt = m_owner->GetScene()->AddEntity<Entity>("AcheivePrompt");
+	AcheivePrompt->GetTransform().position = Vector2D(250.0f, 730.0f);
+	TextComponent* AcheivePromptcomponent = AcheivePrompt->AddComponent<TextComponent>();
+	AcheivePromptcomponent->Create("Press Q to see Acheivements", "Textures\\emulogic.ttf", 10, Color::white);
+	AcheivePromptcomponent->SetDepth(120);
+
 	Entity* returnText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-	returnText->GetTransform().position = Vector2D(200.0f, 700.0f);
+	returnText->GetTransform().position = Vector2D(250.0f, 750.0f);
 	TextComponent* returntextComponent = returnText->AddComponent<TextComponent>();
-	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 18, Color::white);
+	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 10, Color::white);
 	returntextComponent->SetDepth(120);
 
+	
+	std::vector<std::string> m_runanimation = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
+	std::vector<std::string> m_wizidleanimation = { "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+
+	//character select:
+	Entity* CharacterHero = m_owner->GetScene()->AddEntity<Entity>("Charaheroselect");
+	CharacterHero->GetTransform().position = Vector2D(300.0f, 620.0f);
+	SpriteComponent* CharacterHerosprite = CharacterHero->AddComponent<SpriteComponent>();
+	CharacterHerosprite->Create("", Vector2D(0.5f, 0.5f));
+	CharacterHero->GetTransform().scale = Vector2D(5.0f, 5.0f);
+	AnimationComponent* CharacterHerospriteanimationComponent = CharacterHero->AddComponent<AnimationComponent>();
+	CharacterHerospriteanimationComponent->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+
+	Entity* CharacterWiz = m_owner->GetScene()->AddEntity<Entity>("Charawizselect");
+	CharacterWiz->GetTransform().position = Vector2D(500.0f, 620.0f);
+	SpriteComponent* CharacterWizsprite = CharacterWiz->AddComponent<SpriteComponent>();
+	CharacterWizsprite->Create("", Vector2D(0.5f, 0.5f));
+	CharacterWiz->GetTransform().scale = Vector2D(5.0f, 5.0f);
+	AnimationComponent* CharacterwizspriteanimationComponent = CharacterWiz->AddComponent<AnimationComponent>();
+	CharacterwizspriteanimationComponent->Create(m_wizidleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	   	 
 	//Achievement Background
 	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
 	createAchievement->Create(Vector2D(400.0f, 400.0f));
-
 }
 
 void TitleState::Update()
 {
+	//checks between active hero	
+	if (InputManager::Instance()->GetActionButton("select_left") == InputManager::eButtonState::PRESSED)
+	{
+	
+		Entity* wizard = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
+		wizard->GetComponent<AnimationComponent>()->Create({ "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		Entity* hero = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
+		hero->GetComponent<AnimationComponent>()->Create({ "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	}
+	if (InputManager::Instance()->GetActionButton("select_right") == InputManager::eButtonState::PRESSED)
+	{
+		Entity* wizard = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
+		wizard->GetComponent<AnimationComponent>()->Create({ "sprites//wizzart_m_run_anim_f0.png","sprites//wizzart_m_run_anim_f1.png" ,"sprites//wizzart_m_run_anim_f2.png" ,"sprites//wizzart_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+		Entity* hero = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
+		hero->GetComponent<AnimationComponent>()->Create({ "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+
+	}
+		   
+
 	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("intitialize");
@@ -65,6 +142,35 @@ void TitleState::Exit()
 	Entity* entity3 = m_owner->GetScene()->GetEntitiesWithID("TitleScreen");
 	if (entity3) {
 		entity3->SetState(Entity::DESTROY);
+	}
+	Entity* entity4 = m_owner->GetScene()->GetEntitiesWithID("CharaPrompt");
+	if (entity4) {
+		entity4->SetState(Entity::DESTROY);
+
+	}
+	Entity* entity5 = m_owner->GetScene()->GetEntitiesWithID("AcheivePrompt");
+	if (entity5) {
+		entity5->SetState(Entity::DESTROY);
+	}
+	Entity* entity6 = m_owner->GetScene()->GetEntitiesWithID("UsePrompt");
+	if (entity6) {
+		entity6->SetState(Entity::DESTROY);
+	}
+	Entity* entity7 = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	if (entity7) {
+		entity7->SetState(Entity::DESTROY);
+	}
+	Entity* entity8 = m_owner->GetScene()->GetEntitiesWithID("ItemPrompt");
+	if (entity8) {
+		entity8->SetState(Entity::DESTROY);
+	}
+	Entity* entity9 = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
+	if (entity9) {
+		entity9->SetState(Entity::DESTROY);
+	}
+	Entity* entity10 = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
+	if (entity10) {
+		entity10->SetState(Entity::DESTROY);
 	}
 }
 
@@ -119,14 +225,10 @@ void InitializeState::Enter()
 	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
 	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 
-	//anything that needs to be reset every time they win, place here
 	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
-	float x = 400.0f;
-	float y = 700.0f;
-	hero->Create(Vector2D(x, y));
-
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
 	hero->SetItemHeld(emptyInventory);
+	hero->GetTransform().position = Vector2D(400.0f, 600.0f);
 }
 
 void InitializeState::Update()
