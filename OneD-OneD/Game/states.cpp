@@ -228,6 +228,9 @@ void BoreDragonEnding::Enter()
 	Achievement* boreDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* boreDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonAchievement");
 	boreDragon->updateAchievement(boreDragonAchievement);
+	Achievement* boreDragonText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* boreDragonTextAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonTextAchievement");
+	boreDragonText->updateAchievement(boreDragonTextAchievement);
 }
 
 void BoreDragonEnding::Update()
@@ -265,6 +268,9 @@ void HugDragonEnding::Enter()
 		Achievement* hugDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* hugDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
 		hugDragon->updateAchievement(hugDragonAchievement);
+		Achievement* hugDragonText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* hugDragonTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
+		hugDragonText->updateAchievement(hugDragonTextAchievement);
 }
 
 void HugDragonEnding::Update()
@@ -301,6 +307,9 @@ void KillDragonEnding::Enter()
 		Achievement* killDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* killDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
 		killDragon->updateAchievement(killDragonAchievement);
+		Achievement* killDragonText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* killDragonTextAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonTextAchievement");
+		killDragonText->updateAchievement(killDragonTextAchievement);
 }
 
 void KillDragonEnding::Update()
