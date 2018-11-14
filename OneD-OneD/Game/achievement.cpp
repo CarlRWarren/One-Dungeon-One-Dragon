@@ -67,10 +67,16 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentKillDragon = killDragonText->AddComponent<TextComponent>();
 		textcomponentKillDragon->Create("Murderer...", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(killDragonText);
+
 		Entity* respectDragon = GetScene()->AddEntity<Entity>("RespectDragonAchievement");
 		SpriteComponent* spritecomponentRespectDragon = respectDragon->AddComponent<SpriteComponent>();
 		spritecomponentRespectDragon->Create("sprites\\F.png", Vector2D(0.5f, 0.5f));
 		m_achievements.push_back(respectDragon);
+
+		Entity* respectDragonText = GetScene()->AddEntity<Entity>("RespectDragonTextAchievement");
+		TextComponent* textcomponentRespectDragon = respectDragonText->AddComponent<TextComponent>();
+		textcomponentRespectDragon->Create("Press F to Pay Respects.", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(respectDragonText);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)
