@@ -22,4 +22,5 @@ public:
 protected:
 		std::vector<Entity*> m_achievements;
 		std::vector<Entity*> m_completedAchievements;
+		std::vector<Entity*> m_completedAchievementsText;
 };

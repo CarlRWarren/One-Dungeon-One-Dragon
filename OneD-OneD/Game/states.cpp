@@ -327,9 +327,12 @@ void BoreDragonEnding::Enter()
 	huggedtextComponent->SetDepth(120);
 
 	//achievement
-	Achievement* boreDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* boreDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonAchievement");
-	boreDragon->updateAchievement(boreDragonAchievement);
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonAchievement");
+	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonTextAchievement");
+	dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void BoreDragonEnding::Update()
@@ -364,9 +367,12 @@ void HugDragonEnding::Enter()
 		huggedtextComponent2->Create("by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 16, Color::white);
 		huggedtextComponent2->SetDepth(120);
 		//achievement
-		Achievement* hugDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* hugDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-		hugDragon->updateAchievement(hugDragonAchievement);
+		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
+		dragonAchivement->updateAchievement(dragonAchivementAchievement);
+		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
+		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void HugDragonEnding::Update()
@@ -400,9 +406,12 @@ void KillDragonEnding::Enter()
 	huggedtextComponent1->SetDepth(120);
 
 		//achievement
-		Achievement* killDragon = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* killDragonAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
-		killDragon->updateAchievement(killDragonAchievement);
+		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
+		dragonAchivement->updateAchievement(dragonAchivementAchievement);
+		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonTextAchievement");
+		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void KillDragonEnding::Update()
@@ -444,6 +453,13 @@ void RespectEnding::Enter()
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
 	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent2->SetDepth(120);
+
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("RespectDragonAchievement");
+	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("RespectDragonTextAchievement");
+	dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void RespectEnding::Update()
