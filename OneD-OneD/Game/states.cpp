@@ -44,13 +44,6 @@ void TitleState::Enter()
 	title->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	spritecomponentTitle->SetDepth(120);
 
-	
-	Entity* charaselect = m_owner->GetScene()->AddEntity<Entity>("CharaPrompt");
-	charaselect->GetTransform().position = Vector2D(200.0f, 545.0f);
-	TextComponent* charaselectcomponent = charaselect->AddComponent<TextComponent>();
-	charaselectcomponent->Create("< Select Your Character >", "Textures\\emulogic.ttf", 18, Color::white);
-	charaselectcomponent->SetDepth(120);
-
 	Entity* ItemPrompt = m_owner->GetScene()->AddEntity<Entity>("ItemPrompt");
 	ItemPrompt->GetTransform().position = Vector2D(250.0f, 690.0f);
 	TextComponent* ItemPromptComponent = ItemPrompt->AddComponent<TextComponent>();
@@ -75,27 +68,15 @@ void TitleState::Enter()
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 10, Color::white);
 	returntextComponent->SetDepth(120);
 
-	
-	std::vector<std::string> m_runanimation = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
-	std::vector<std::string> m_wizidleanimation = { "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-
 	//character select:
 	Entity* CharacterHero = m_owner->GetScene()->AddEntity<Entity>("Charaheroselect");
-	CharacterHero->GetTransform().position = Vector2D(300.0f, 620.0f);
+	CharacterHero->GetTransform().position = Vector2D(400.0f, 620.0f);
 	SpriteComponent* CharacterHerosprite = CharacterHero->AddComponent<SpriteComponent>();
 	CharacterHerosprite->Create("", Vector2D(0.5f, 0.5f));
 	CharacterHero->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	AnimationComponent* CharacterHerospriteanimationComponent = CharacterHero->AddComponent<AnimationComponent>();
-	CharacterHerospriteanimationComponent->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	CharacterHerospriteanimationComponent->Create({ "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
 
-	Entity* CharacterWiz = m_owner->GetScene()->AddEntity<Entity>("Charawizselect");
-	CharacterWiz->GetTransform().position = Vector2D(500.0f, 620.0f);
-	SpriteComponent* CharacterWizsprite = CharacterWiz->AddComponent<SpriteComponent>();
-	CharacterWizsprite->Create("", Vector2D(0.5f, 0.5f));
-	CharacterWiz->GetTransform().scale = Vector2D(5.0f, 5.0f);
-	AnimationComponent* CharacterwizspriteanimationComponent = CharacterWiz->AddComponent<AnimationComponent>();
-	CharacterwizspriteanimationComponent->Create(m_wizidleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-	   	 
 	//Achievement Background
 	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
 	createAchievement->Create(Vector2D(400.0f, 400.0f));
@@ -103,26 +84,7 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	//checks between active hero	
-	if (InputManager::Instance()->GetActionButton("select_left") == InputManager::eButtonState::PRESSED)
-	{
-	
-		Entity* wizard = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
-		wizard->GetComponent<AnimationComponent>()->Create({ "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-		Entity* hero = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
-		hero->GetComponent<AnimationComponent>()->Create({ "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-	}
-	if (InputManager::Instance()->GetActionButton("select_right") == InputManager::eButtonState::PRESSED)
-	{
-		Entity* wizard = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
-		wizard->GetComponent<AnimationComponent>()->Create({ "sprites//wizzart_m_run_anim_f0.png","sprites//wizzart_m_run_anim_f1.png" ,"sprites//wizzart_m_run_anim_f2.png" ,"sprites//wizzart_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-		Entity* hero = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
-		hero->GetComponent<AnimationComponent>()->Create({ "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-
-	}
-		   
-
-	//if pressed moves to next state
+ 	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("intitialize");
 	}
@@ -143,11 +105,7 @@ void TitleState::Exit()
 	if (entity3) {
 		entity3->SetState(Entity::DESTROY);
 	}
-	Entity* entity4 = m_owner->GetScene()->GetEntitiesWithID("CharaPrompt");
-	if (entity4) {
-		entity4->SetState(Entity::DESTROY);
 
-	}
 	Entity* entity5 = m_owner->GetScene()->GetEntitiesWithID("AcheivePrompt");
 	if (entity5) {
 		entity5->SetState(Entity::DESTROY);
@@ -167,10 +125,6 @@ void TitleState::Exit()
 	Entity* entity9 = m_owner->GetScene()->GetEntitiesWithID("Charaheroselect");
 	if (entity9) {
 		entity9->SetState(Entity::DESTROY);
-	}
-	Entity* entity10 = m_owner->GetScene()->GetEntitiesWithID("Charawizselect");
-	if (entity10) {
-		entity10->SetState(Entity::DESTROY);
 	}
 }
 
@@ -227,8 +181,8 @@ void InitializeState::Enter()
 
 	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
+	hero->Create(Vector2D(400.0f, 600.0f));
 	hero->SetItemHeld(emptyInventory);
-	hero->GetTransform().position = Vector2D(400.0f, 600.0f);
 }
 
 void InitializeState::Update()
@@ -262,10 +216,10 @@ void GameState::Update()
 	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
 
 	//if statement for checks that involve any "pick up" action
-	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED) 
+	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED)
 	{
 		//checks intersect
-		if (eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())) 
+		if (eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>()))
 		{
 			ID id = ((Hero*)eHero)->GetItemHeld()->GetTag();
 			if (id.GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
@@ -274,23 +228,21 @@ void GameState::Update()
 	}
 
 	//bore dragon
-	if (!(InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD) &&
-		!(InputManager::Instance()->GetActionButton("pick up") == InputManager::eButtonState::HELD))
-	{
-		m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
-		if (m_timerRate <= 0.0f)
-		{
-			m_owner->SetState("BoreDragonEnding");
-		}
-	}
-	else
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if ((InputManager::Instance()->GetActionButton("left") == InputManager::eButtonState::HELD) ||
+		(InputManager::Instance()->GetActionButton("up") == InputManager::eButtonState::HELD) ||
+		(InputManager::Instance()->GetActionButton("down") == InputManager::eButtonState::HELD) ||
+		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD) ||
+		(InputManager::Instance()->GetActionButton("pick up") == InputManager::eButtonState::HELD))
 	{
 		m_timerRate = m_timerReset;
 	}
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("BoreDragonEnding");
+	}
 }
+
 
 void GameState::Exit()
 {

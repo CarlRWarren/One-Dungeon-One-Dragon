@@ -10,7 +10,7 @@ public:
 	Hero(Scene* scene, const ID& id) : Entity(scene, id) {}
 	~Hero() {}
 
-	void Create(const Vector2D& position, bool isWizard = false);
+	void Create(const Vector2D& position);
 	void Update();
 
 	void OnEvent(const Event & event);
