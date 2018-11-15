@@ -14,8 +14,8 @@
 #include "hero.h"
 #include "dragon.h"
 #include "item.h"
-#include "door.h"
 #include "achievement.h"
+#include "room.h"
 #include <iostream>
 
 void TitleState::Enter()
@@ -130,13 +130,8 @@ void TitleState::Exit()
 
 void InitializeState::Enter()
 {
-	//Background
-	Entity* Background = m_owner->GetScene()->AddEntity<Entity>("background");
-	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
-	backgroundSpriteComponent->Create("Sprites\\MainRoomDesign.png", Vector2D(0.5f, 0.5f));
-	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
-	backgroundSpriteComponent->SetDepth(1);
+	Room* mainroom = m_owner->GetScene()->AddEntity<Room>("mainroom");
+	mainroom->SetRooms();
 
 	//Sleeping Dragon
 	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
@@ -156,28 +151,17 @@ void InitializeState::Enter()
 	inventoryicon->Create("Sprites\\chest_empty_open_anim_f2.png", Vector2D(0.5f,0.5f));
 	inventoryicon->SetDepth(50);
 
-	//set up game
-	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
-	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
 
-	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
-	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
-
-
-
-	//doors
-	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
-	topLeftDoor->Create(Vector2D(5.0f,280.0f), false);
-	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
-	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
-	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
-	bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
-	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
-	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
-	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	////doors
+	//Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
+	//topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
+	//topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	//Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
+	//bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
+	//bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	//Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
+	//bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
+	//bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 
 	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
@@ -214,6 +198,11 @@ void GameState::Update()
 	//hugged dragon
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
+	if ((eHero->GetTransform().position.x > 0 && eHero->GetTransform().position.x < 50) && (eHero->GetTransform().position.y > 220 && eHero->GetTransform().position.y < 300))
+	{
+		((Room*)mainroom)->ChangeRoom(1);
+	}
 
 	//if statement for checks that involve any "pick up" action
 	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED)

@@ -80,6 +80,9 @@
     <ClCompile Include="achievement.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="room.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shipControllerComponent.h">
@@ -128,6 +131,12 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="achievement.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="roomx.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
