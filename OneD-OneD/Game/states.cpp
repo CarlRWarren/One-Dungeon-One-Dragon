@@ -16,10 +16,13 @@
 #include "item.h"
 #include "door.h"
 #include "achievement.h"
+#include "audioSystem.h"
 #include <iostream>
 
 void TitleState::Enter()
 {
+	AudioSystem::Instance()->AddSound("Wii", "Sound\\WiiMusic.mp3");
+
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
@@ -80,6 +83,7 @@ void TitleState::Enter()
 	//Achievement Background
 	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
 	createAchievement->Create(Vector2D(400.0f, 400.0f));
+	AudioSystem::Instance()->PlaySound("Wii", true);
 }
 
 void TitleState::Update()
@@ -126,6 +130,7 @@ void TitleState::Exit()
 	if (entity9) {
 		entity9->SetState(Entity::DESTROY);
 	}
+	AudioSystem::Instance()->RemoveSound("Wii");
 }
 
 void InitializeState::Enter()
@@ -197,6 +202,8 @@ void InitializeState::Exit()
 void GameState::Enter()
 {
 
+	AudioSystem::Instance()->AddSound("background", "Sound\\prayerofsoul.mp3");
+	AudioSystem::Instance()->PlaySound("background", true);
 }
 
 void GameState::Update()
@@ -250,6 +257,7 @@ void GameState::Exit()
 	if (entity1) {
 		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
 	}
+	AudioSystem::Instance()->RemoveSound("background");
 }
 
 void GameOverState::Enter()
@@ -306,7 +314,9 @@ void BoreDragonEnding::Exit()
 
 void HugDragonEnding::Enter()
 {
-		m_timerRate = 3.0f;
+	AudioSystem::Instance()->AddSound("peaceful", "Sound\\angelsballad.mid");
+	AudioSystem::Instance()->PlaySound("peaceful", false);
+
 		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
 		huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -346,11 +356,14 @@ void HugDragonEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
+	AudioSystem::Instance()->RemoveSound("peaceful");
 }
 
 void KillDragonEnding::Enter()
 {
-	m_timerRate = 3.0f;
+	AudioSystem::Instance()->AddSound("death", "Sound\\churchofsaints.mid");
+	AudioSystem::Instance()->PlaySound("death", false);
+
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
 	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -389,11 +402,13 @@ void KillDragonEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
+	AudioSystem::Instance()->RemoveSound("death");
 }
 
 void RespectEnding::Enter()
 {
-	m_timerRate = 3.0f;
+	AudioSystem::Instance()->AddSound("bonus", "Sound\\Bonus.wav");
+	AudioSystem::Instance()->PlaySound("bonus", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent1");
 	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -433,4 +448,5 @@ void RespectEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
+	AudioSystem::Instance()->RemoveSound("bonus");
 }
