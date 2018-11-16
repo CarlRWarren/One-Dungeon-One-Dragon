@@ -77,6 +77,16 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentRespectDragon = respectDragonText->AddComponent<TextComponent>();
 		textcomponentRespectDragon->Create("Press F to Pay Respects.", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(respectDragonText);
+
+		Entity* wizardSecret = GetScene()->AddEntity<Entity>("WizardSecretAchievement");
+		SpriteComponent* spritecomponentWizardSecret = wizardSecret->AddComponent<SpriteComponent>();
+		spritecomponentWizardSecret->Create("sprites\\weapon_red_magic_staff.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(wizardSecret);
+
+		Entity* wizardSecretText = GetScene()->AddEntity<Entity>("WizardSecretTextAchievement");
+		TextComponent* textcomponentWizardSecret = wizardSecretText->AddComponent<TextComponent>();
+		textcomponentWizardSecret->Create("Secrets? I didn't know?", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(wizardSecretText);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)

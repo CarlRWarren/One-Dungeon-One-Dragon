@@ -119,6 +119,13 @@ void TitleState::Update()
 			Hero* hero = (Hero*)m_owner->GetScene()->GetEntitiesWithID("hero");
 			hero->GetRunAnimation(2);
 			hero->GetIdleAnimation(2);
+
+			Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+			Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("WizardSecretAchievement");
+			dragonAchivement->updateAchievement(dragonAchivementAchievement);
+			Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+			Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("WizardSecretTextAchievement");
+			dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 	}
  	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
