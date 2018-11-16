@@ -15,49 +15,13 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{7309fb6f-0fb8-4cc6-ac5b-9c4f5cc9b9c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Galaga">
-      <UniqueIdentifier>{53f51223-d8e5-41f7-b403-cb6302359469}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Galaga\Components">
-      <UniqueIdentifier>{a542a58e-3a9a-45ce-90f5-cbbf665cbf8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Galaga\Objects">
-      <UniqueIdentifier>{20d4d8d0-10a9-46f5-81e2-0948210e72ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Galaga\Sources">
-      <UniqueIdentifier>{c769c33d-3fe2-4280-b083-5d14cadcfe09}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shipControllerComponent.cpp">
-      <Filter>Galaga\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>Galaga\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="explosion.cpp">
-      <Filter>Galaga\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="formation.cpp">
-      <Filter>Galaga\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="missile.cpp">
-      <Filter>Galaga\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="ship.cpp">
-      <Filter>Galaga\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="GalagaGame.cpp">
-      <Filter>Galaga\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GalagaStates.cpp">
-      <Filter>Galaga\Sources</Filter>
     </ClCompile>
     <ClCompile Include="states.cpp">
       <Filter>Source Files</Filter>
@@ -85,32 +49,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shipControllerComponent.h">
-      <Filter>Galaga\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>Galaga\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="explosion.h">
-      <Filter>Galaga\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="formation.h">
-      <Filter>Galaga\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="missile.h">
-      <Filter>Galaga\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Galaga\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="GalagaGame.h">
-      <Filter>Galaga\Sources</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GalagaStates.h">
-      <Filter>Galaga\Sources</Filter>
     </ClInclude>
     <ClInclude Include="states.h">
       <Filter>Source Files</Filter>

@@ -1,11 +1,10 @@
 #include "hero.h"
 #include "transform.h"
 #include "HeroControllerComponent.h"
-#include"spriteComponent.h"
+#include "spriteComponent.h"
 #include "kinematicComponent.h"
 #include "renderer.h"
 #include "aabbComponent.h"
-#include "explosion.h"
 #include "eventManager.h"
 #include "animationComponent.h"
 #include "inputManager.h"
@@ -23,7 +22,7 @@ void Hero::Create(const Vector2D & position)
 	kinematic->Create(500.0f, 0.3f, false);
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
-	heroControllerComponent->Create(0.5f);
+	heroControllerComponent->Create(1.5f);
 
 	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
 	spritecomponent01->Create("", Vector2D(0.5f, 0.5f));
@@ -59,9 +58,9 @@ void Hero::Update()
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::PRESSED) ||
 		(InputManager::Instance()->GetActionButton("right") == InputManager::eButtonState::HELD)) && pause == false)
 	{
-		this->GetComponent<AnimationComponent>()->Create(m_runanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
+		this->GetComponent<AnimationComponent>()->Create(m_whichRun, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	} else {
-		this->GetComponent<AnimationComponent>()->Create(m_idleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
+		this->GetComponent<AnimationComponent>()->Create(m_whichIdle, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP, m_isFlipped);
 	}
 
 	Vector2D size = Renderer::Instance()->GetSize();
@@ -82,4 +81,24 @@ void Hero::Update()
 
 void Hero::OnEvent(const Event & event)
 {
+}
+
+void Hero::GetRunAnimation(int herowizzard)
+{
+		if (herowizzard == 1) {
+				m_whichRun = m_runanimation;
+		}
+		else if (herowizzard == 2) {
+				m_whichRun = m_runanimationwizard;
+		}
+}
+
+void Hero::GetIdleAnimation(int herowizzard)
+{
+		if (herowizzard == 1) {
+				m_whichIdle = m_idleanimation;
+		}
+		else if (herowizzard == 2) {
+				m_whichIdle = m_idleanimationwizard;
+		}
 }

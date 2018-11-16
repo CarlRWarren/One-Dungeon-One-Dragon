@@ -13,7 +13,6 @@ public:
 
 public:
 	std::vector<Roomx*> m_rooms;
-private:
 	Roomx* m_currentRoom=nullptr;
 };
 

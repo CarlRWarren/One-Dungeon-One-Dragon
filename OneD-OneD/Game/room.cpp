@@ -6,31 +6,23 @@ void Room::SetRooms()
 {
 	Roomx* room1= new Roomx();
 	room1->m_texture = "Sprites\\MainRoomDesign.png";
-	Item* item = GetScene()->AddEntity<Item>("sword");
+	/*Item* item = GetScene()->AddEntity<Item>("sword");
 	item->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
-	item->GetComponent<SpriteComponent>()->SetVisible(false);
-	room1->itemsInRoom.push_back(item);
-	Item* nothing = GetScene()->AddEntity<Item>("No Items");
-	room1->itemsInRoom.push_back(nothing);
-	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
+	room1->itemsInRoom.push_back(item);*/
 	Door* topLeftDoor = GetScene()->AddEntity<Door>("topLeftDoor");
 	topLeftDoor->Create(Vector2D(5.0f, 280.0f), false);
 	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	topLeftDoor->GetComponent<SpriteComponent>()->SetVisible(false);
 	room1->doors.push_back(topLeftDoor);
 	m_rooms.push_back(room1);
 
 	Roomx* room2 = new Roomx();
 	room2->m_texture = "Sprites\\Room2Design.png";
 	Item* item2 = GetScene()->AddEntity<Item>("sword");
-	item2->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
-	item2->GetComponent<SpriteComponent>()->SetVisible(false);
+	item2->Create(Item::eType::SWORD, Vector2D(700.0f, 200.0f));
 	room2->itemsInRoom.push_back(item2);
-	room2->itemsInRoom.push_back(nothing);
 	Door* door = GetScene()->AddEntity<Door>("room2door");
 	door->Create(Vector2D(800.0f, 680.0f), true);
 	door->GetComponent<SpriteComponent>()->SetDepth(2);
-	door->GetComponent<SpriteComponent>()->SetVisible(false);
 	room2->doors.push_back(door);
 	m_rooms.push_back(room2);
 
@@ -68,12 +60,17 @@ void Room::SetRooms()
 			{
 				door->GetComponent<SpriteComponent>()->SetVisible(false);
 			}
+			for (Item* item : room->itemsInRoom)
+			{
+				item->GetComponent<SpriteComponent>()->SetVisible(false);
+			}
 		}
-		/*if (room != m_rooms[0])
+		/*if (m_currentRoom != m_rooms[0])
 		{
 			Entity* dragon = GetScene()->GetEntitiesWithID("dragon");
 			dragon->GetComponent<SpriteComponent>()->SetVisible(false);
 		}*/
+		
 	}
 }
 
