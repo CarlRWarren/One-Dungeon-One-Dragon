@@ -68,22 +68,55 @@ void TitleState::Enter()
 	returntextComponent->Create("Press Enter to start", "Textures\\emulogic.ttf", 10, Color::white);
 	returntextComponent->SetDepth(120);
 
-	//character select:
-	Entity* CharacterHero = m_owner->GetScene()->AddEntity<Entity>("Charaheroselect");
-	CharacterHero->GetTransform().position = Vector2D(400.0f, 620.0f);
-	SpriteComponent* CharacterHerosprite = CharacterHero->AddComponent<SpriteComponent>();
-	CharacterHerosprite->Create("", Vector2D(0.5f, 0.5f));
-	CharacterHero->GetTransform().scale = Vector2D(5.0f, 5.0f);
-	AnimationComponent* CharacterHerospriteanimationComponent = CharacterHero->AddComponent<AnimationComponent>();
-	CharacterHerospriteanimationComponent->Create({ "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" }, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-
 	//Achievement Background
 	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
 	createAchievement->Create(Vector2D(400.0f, 400.0f));
+
+	//Inventory placeholder
+	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
+	Inventory->GetTransform().position = Vector2D(25.0f, 50.0f);
+	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
+	inventoryLabel->Create("No Items", "Textures\\emulogic.ttf", 18, Color::white);
+	inventoryLabel->SetDepth(120);
+	inventoryLabel->SetVisible(false);
+	Entity* InventoryIcon = m_owner->GetScene()->AddEntity<Entity>("InventoryIcon");
+	InventoryIcon->GetTransform().position = Vector2D(50.0f, 40.0f);
+	InventoryIcon->GetTransform().scale = Vector2D(4.0f, 4.0f);
+	SpriteComponent* inventoryicon = InventoryIcon->AddComponent<SpriteComponent>();
+	inventoryicon->Create("Sprites\\chest_empty_open_anim_f2.png", Vector2D(0.5f, 0.5f));
+	inventoryicon->SetDepth(50);
+	inventoryicon->SetVisible(false);
+
+	//SwordItem
+	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
+	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
+	sword->GetComponent<SpriteComponent>()->SetVisible(false);
+
+	//Nothing Item
+	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
+	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
+
+	//Hero
+	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
+	hero->Create(Vector2D(400.0f, 600.0f));
+	hero->SetItemHeld(emptyInventory);
+	Timer::Instance()->Pause();
+
 }
 
 void TitleState::Update()
 {
+	if (InputManager::Instance()->GetActionButton("select_left")==InputManager::eButtonState::PRESSED) {
+			Hero* hero = (Hero*)m_owner->GetScene()->GetEntitiesWithID("hero");
+			hero->GetRunAnimation(1);
+			hero->GetIdleAnimation(1);
+	}
+	else if (InputManager::Instance()->GetActionButton("select_right") == InputManager::eButtonState::PRESSED) {
+			Hero* hero = (Hero*)m_owner->GetScene()->GetEntitiesWithID("hero");
+			hero->GetRunAnimation(2);
+			hero->GetIdleAnimation(2);
+	}
  	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("intitialize");
@@ -130,6 +163,7 @@ void TitleState::Exit()
 
 void InitializeState::Enter()
 {
+
 	//Background
 	Entity* Background = m_owner->GetScene()->AddEntity<Entity>("background");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -144,26 +178,19 @@ void InitializeState::Enter()
 	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
 
 	//Inventory placeholder
-	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
-	Inventory->GetTransform().position = Vector2D(25.0f, 50.0f);
-	TextComponent* inventoryLabel = Inventory->AddComponent<TextComponent>();
-	inventoryLabel->Create("No Items", "Textures\\emulogic.ttf", 18, Color::white);
-	inventoryLabel->SetDepth(120);
-	Entity* InventoryIcon = m_owner->GetScene()->AddEntity<Entity>("InventoryIcon");
-	InventoryIcon->GetTransform().position = Vector2D(50.0f, 40.0f);
-	InventoryIcon->GetTransform().scale = Vector2D(4.0f,4.0f);
-	SpriteComponent* inventoryicon = InventoryIcon->AddComponent<SpriteComponent>();
-	inventoryicon->Create("Sprites\\chest_empty_open_anim_f2.png", Vector2D(0.5f,0.5f));
-	inventoryicon->SetDepth(50);
+	Entity* Inventory = m_owner->GetScene()->GetEntitiesWithID("InventoryLabel");
+	TextComponent* inventoryLabel = Inventory->GetComponent<TextComponent>();
+	inventoryLabel->SetVisible(true);
+	Entity* InventoryIcon = m_owner->GetScene()->GetEntitiesWithID("InventoryIcon");
+	SpriteComponent* inventoryicon = InventoryIcon->GetComponent<SpriteComponent>();
+	inventoryicon->SetVisible(true);
 
 	//set up game
-	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
-	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
+	Item* sword = (Item*) m_owner->GetScene()->GetEntitiesWithID("sword");
+	sword->GetComponent<SpriteComponent>()->SetVisible(true);
 
-	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
-	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
-
-
+	//Get Nothing
+	Item* nothing = (Item*) m_owner->GetScene()->GetEntitiesWithID("No Items");
 
 	//doors
 	Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
@@ -179,10 +206,12 @@ void InitializeState::Enter()
 	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
 	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 
-	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
+	//GetHero
+	Hero* hero = (Hero*) m_owner->GetScene()->GetEntitiesWithID("hero");
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
-	hero->Create(Vector2D(400.0f, 600.0f));
 	hero->SetItemHeld(emptyInventory);
+	Timer::Instance()->UnPause();
+
 }
 
 void InitializeState::Update()
@@ -294,7 +323,7 @@ void BoreDragonEnding::Update()
 	{
 		m_owner->SetState("game");
 	}
-}
+} 
 
 void BoreDragonEnding::Exit()
 {

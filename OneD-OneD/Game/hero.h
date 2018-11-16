@@ -15,14 +15,22 @@ public:
 
 	void OnEvent(const Event & event);
 
+	void GetRunAnimation(const int herowizzard);
+	void GetIdleAnimation(const int herowizzard);
+
 	void SetItemHeld(Item* itemHeld) { m_itemHeld = itemHeld; }
 	Item* GetItemHeld() { return m_itemHeld; }
+	bool getIsFlipped() { return m_isFlipped; }
 
 
 protected:
 	bool m_isFlipped = false;
 	std::vector<std::string> m_runanimation = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
 	std::vector<std::string> m_idleanimation = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
+	std::vector<std::string> m_runanimationwizard = { "sprites//wizzart_m_run_anim_f0.png","sprites//wizzart_m_run_anim_f1.png" ,"sprites//wizzart_m_run_anim_f2.png" ,"sprites//wizzart_m_run_anim_f3.png" };
+	std::vector<std::string> m_idleanimationwizard = { "sprites//wizzard_m_idle_anim_f0.png","sprites//wizzard_m_idle_anim_f1.png" ,"sprites//wizzard_m_idle_anim_f2.png" ,"sprites//wizzard_m_idle_anim_f3.png" };
 
+	std::vector<std::string> m_whichRun = { "sprites//knight_m_run_anim_f0.png","sprites//knight_m_run_anim_f1.png" ,"sprites//knight_m_run_anim_f2.png" ,"sprites//knight_m_run_anim_f3.png" };
+	std::vector<std::string> m_whichIdle = { "sprites//knight_m_idle_anim_f0.png","sprites//knight_m_idle_anim_f1.png" ,"sprites//knight_m_idle_anim_f2.png" ,"sprites//knight_m_idle_anim_f3.png" };
 	Item* m_itemHeld;
 };
