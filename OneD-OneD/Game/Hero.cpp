@@ -5,7 +5,6 @@
 #include "kinematicComponent.h"
 #include "renderer.h"
 #include "aabbComponent.h"
-#include "explosion.h"
 #include "eventManager.h"
 #include "animationComponent.h"
 #include "inputManager.h"

@@ -7,8 +7,6 @@
 #include "stateMachine.h"
 #include "entity.h"
 #include "inputManager.h"
-#include "enemy.h"
-#include "formation.h"
 #include "timer.h"
 #include "textComponent.h"
 #include "hero.h"

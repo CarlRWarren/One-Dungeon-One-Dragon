@@ -138,37 +138,21 @@
     <ClCompile Include="achievement.cpp" />
     <ClCompile Include="door.cpp" />
     <ClCompile Include="dragon.cpp" />
-    <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="explosion.cpp" />
-    <ClCompile Include="formation.cpp" />
-    <ClCompile Include="GalagaGame.cpp" />
-    <ClCompile Include="GalagaStates.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HeroControllerComponent.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="missile.cpp" />
-    <ClCompile Include="ship.cpp" />
-    <ClCompile Include="shipControllerComponent.cpp" />
     <ClCompile Include="states.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="achievement.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="dragon.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="explosion.h" />
-    <ClInclude Include="formation.h" />
-    <ClInclude Include="GalagaGame.h" />
-    <ClInclude Include="GalagaStates.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="hero.h" />
     <ClInclude Include="HeroControllerComponent.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="missile.h" />
-    <ClInclude Include="ship.h" />
-    <ClInclude Include="shipControllerComponent.h" />
     <ClInclude Include="states.h" />
   </ItemGroup>
   <ItemGroup>
