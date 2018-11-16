@@ -15,8 +15,8 @@ public:
 
 	void OnEvent(const Event & event);
 
-	void GetRunAnimation(const int herowizzard);
-	void GetIdleAnimation(const int herowizzard);
+	void GetRunAnimation(int herowizzard);
+	void GetIdleAnimation(int herowizzard);
 
 	void SetItemHeld(Item* itemHeld) { m_itemHeld = itemHeld; }
 	Item* GetItemHeld() { return m_itemHeld; }

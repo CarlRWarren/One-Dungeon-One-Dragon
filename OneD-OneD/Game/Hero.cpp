@@ -84,7 +84,7 @@ void Hero::OnEvent(const Event & event)
 {
 }
 
-void Hero::GetRunAnimation(const int herowizzard)
+void Hero::GetRunAnimation(int herowizzard)
 {
 		if (herowizzard == 1) {
 				m_whichRun = m_runanimation;
@@ -94,7 +94,7 @@ void Hero::GetRunAnimation(const int herowizzard)
 		}
 }
 
-void Hero::GetIdleAnimation(const int herowizzard)
+void Hero::GetIdleAnimation(int herowizzard)
 {
 		if (herowizzard == 1) {
 				m_whichIdle = m_idleanimation;
