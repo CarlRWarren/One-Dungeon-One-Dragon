@@ -12,13 +12,15 @@ public:
 	//changes room based on passed index defaults to 0 index which should be the main room
 	void ChangeRoom(int roomNum = 0);
 
+	void Update();
+
 	struct Roomx
 	{
 	public:
 		//texture
 		std::string m_texture;
 		//items
-		std::vector<Item*> itemsInRoom;
+		std::list<Item*> itemsInRoom;
 		//list of doors
 		std::vector<Door*> doors;
 	};

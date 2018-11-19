@@ -17,8 +17,7 @@ void Room::SetRooms()
 
 	Roomx* room2 = new Roomx();
 	room2->m_texture = "Sprites\\Room2Design.png";
-	Item* item2 = GetScene()->AddEntity<Item>("sword");
-	item2->Create(Item::eType::SWORD, Vector2D(700.0f, 200.0f));
+	Item* item2 = (Item*)GetScene()->GetEntitiesWithID("sword");
 	room2->itemsInRoom.push_back(item2);
 	Door* door = GetScene()->AddEntity<Door>("room2door");
 	door->Create(Vector2D(800.0f, 680.0f), true);
@@ -72,5 +71,31 @@ void Room::SetRooms()
 	
 	}
 }
+
+ void Room::Update()
+ {
+		 if (m_currentRoom->itemsInRoom.size() > 0) {
+				for (Item* item : m_currentRoom->itemsInRoom) {
+						if (item->GetTransform().position == Vector2D(50.0f, 25.0f) && item->GetComponent<SpriteComponent>()->GetVisible() == true) {
+								m_currentRoom->itemsInRoom.remove(item);
+								break;
+						}
+				}
+		 }
+
+		 Item* item2 = (Item*)GetScene()->GetEntitiesWithID("sword");
+		 if (item2->GetTransform().position != Vector2D(50.0f, 25.0f) && item2->GetComponent<SpriteComponent>()->GetVisible() == true) {
+				 bool exists = false;
+				 for (Item* item : m_currentRoom->itemsInRoom) {
+						 if (item == item2) {
+								 exists = true;
+						 }
+				 }
+				 if (!exists) {
+						 m_currentRoom->itemsInRoom.push_back(item2);
+				 }
+		 }
+
+ }
 
 
