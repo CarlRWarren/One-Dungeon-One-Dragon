@@ -100,3 +100,15 @@ public:
 protected:
 	float m_timerRate = 6.0f;
 };
+
+class PoisonDragonEnding : public IState
+{
+public:
+	PoisonDragonEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+};

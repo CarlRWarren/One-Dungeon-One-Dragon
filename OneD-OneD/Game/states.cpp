@@ -501,3 +501,38 @@ void RespectEnding::Exit()
 	}
 	AudioSystem::Instance()->RemoveSound("bonus");
 }
+
+void PoisonDragonEnding::Enter()
+{
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
+	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	huggedtextComponent1->Create("Some Falmer Ear and Some Imp Stool make a wonderful poison", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
+
+	//achievement
+	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("PoisonDragonAchievement");
+	poisonAchivement->updateAchievement(poisonAchivementAchievement);
+	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("PoisonDragonTextAchievement");
+	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
+}
+
+void PoisonDragonEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+}
+
+void PoisonDragonEnding::Exit()
+{
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent1");
+	if (huggedText) {
+		huggedText->SetState(Entity::eState::DESTROY);
+	}
+	
+}

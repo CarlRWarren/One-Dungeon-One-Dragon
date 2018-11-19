@@ -87,6 +87,16 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentWizardSecret = wizardSecretText->AddComponent<TextComponent>();
 		textcomponentWizardSecret->Create("Secrets? I didn't know?", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(wizardSecretText);
+
+		Entity* poisonDragon = GetScene()->AddEntity<Entity>("PoisonDragonAchievement");
+		SpriteComponent* spritecomponentPoisonDragon = poisonDragon->AddComponent<SpriteComponent>();
+		spritecomponentPoisonDragon->Create("sprites\\flask_big_green.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(poisonDragon);
+
+		Entity* poisonDragonText = GetScene()->AddEntity<Entity>("PoisonDragonTextAchievement");
+		TextComponent* textcomponentPoisonDragon = poisonDragonText->AddComponent<TextComponent>();
+		textcomponentPoisonDragon->Create("Falmer Ear and Imp Stool", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(poisonDragonText);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)
