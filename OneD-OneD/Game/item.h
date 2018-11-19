@@ -10,7 +10,8 @@ public:
 	enum eType
 	{
 		NONE,
-		SWORD
+		SWORD,
+		POISON
 	};
 public:
 	Item(Scene* scene, const ID& id) : Entity(scene, id) {}
