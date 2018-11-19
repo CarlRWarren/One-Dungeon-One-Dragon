@@ -76,8 +76,5 @@
     <ClInclude Include="room.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="roomx.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

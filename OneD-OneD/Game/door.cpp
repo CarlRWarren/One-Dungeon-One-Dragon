@@ -24,11 +24,4 @@ void Door::Create(const Vector2D & position, bool isFlipped)
 
 void Door::OnEvent(const Event & event)
 {
-	if (event.eventID == "collision") {
-		if (event.sender->GetTag() == "hero")
-		{
-
-
-		}
-	}
 }

@@ -31,10 +31,6 @@ void Dragon::Create(const Vector2D & position)
 void Dragon::Update()
 {
 	Entity::Update();
-	Vector2D size = Renderer::Instance()->GetSize();
-	m_transform.position.x = Math::Clamp(m_transform.position.x, 0.0f, size.x);
-	m_transform.position.y = Math::Clamp(m_transform.position.y, 0.0f, size.y);
-
 }
 void Dragon::OnEvent(const Event & event)
 {

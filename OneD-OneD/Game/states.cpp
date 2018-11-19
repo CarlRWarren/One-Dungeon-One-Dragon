@@ -251,22 +251,33 @@ void GameState::Update()
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
 	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
-	if ((eHero->GetTransform().position.x > 0 && eHero->GetTransform().position.x < 50) && (eHero->GetTransform().position.y > 220 && eHero->GetTransform().position.y < 300))
+	Entity* room2door = m_owner->GetScene()->GetEntitiesWithID("room2door");
+	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
+
+	m_roomswitch = m_roomswitch + Timer::Instance()->DeltaTime();
+
+	if ((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f))
 	{
-		((Room*)mainroom)->ChangeRoom(1);
-		eHero->GetTransform().position = Vector2D(750.0f,660.0f);
-	}
-	else if ((eHero->GetTransform().position.x > 750) && (eHero->GetTransform().position.y > 640 && eHero->GetTransform().position.y < 720))
-	{
-		((Room*)mainroom)->ChangeRoom();
+		((Room*)mainroom)->ChangeRoom(0);
 		eHero->GetTransform().position = Vector2D(50.0f, 260.0f);
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+
+	}
+	
+	if ((eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f))
+	{
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		((Room*)mainroom)->ChangeRoom(1);
+		eHero->GetTransform().position = Vector2D(750.0f, 660.0f);
 	}
 
 	//if statement for checks that involve any "pick up" action
 	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED)
 	{
 		//checks intersect
-		if (eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>()))
+		if ((eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>()) && (eDragon->GetComponent<SpriteComponent>()->GetVisible() == true)))
 		{
 			ID id = ((Hero*)eHero)->GetItemHeld()->GetTag();
 			if (id.GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }

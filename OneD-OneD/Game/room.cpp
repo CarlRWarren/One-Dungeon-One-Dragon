@@ -42,16 +42,19 @@ void Room::SetRooms()
 	backgroundSpriteComponent->Create(m_currentRoom->m_texture, Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
+
 	//load items in room currently
 	for (Item* item : m_currentRoom->itemsInRoom)
 	{
 		item->GetComponent<SpriteComponent>()->SetVisible();
 	}
+
 	//place doors in proper location
 	for (Door* door : m_currentRoom->doors)
 	{
 		door->GetComponent<SpriteComponent>()->SetVisible();
 	}
+
 	for (Roomx* room : m_rooms)
 	{
 		if (room != m_currentRoom)
@@ -65,12 +68,8 @@ void Room::SetRooms()
 				item->GetComponent<SpriteComponent>()->SetVisible(false);
 			}
 		}
-		/*if (m_currentRoom != m_rooms[0])
-		{
-			Entity* dragon = GetScene()->GetEntitiesWithID("dragon");
-			dragon->GetComponent<SpriteComponent>()->SetVisible(false);
-		}*/
-		
+
+	
 	}
 }
 

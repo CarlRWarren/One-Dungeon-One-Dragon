@@ -155,7 +155,6 @@
     <ClInclude Include="HeroControllerComponent.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="room.h" />
-    <ClInclude Include="roomx.h" />
     <ClInclude Include="states.h" />
   </ItemGroup>
   <ItemGroup>

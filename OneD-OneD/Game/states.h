@@ -36,6 +36,8 @@ public:
 protected:
 	float m_timerReset = 600.0f;
 	float m_timerRate = 600.0f;
+
+	float m_roomswitch = 0.0f;
 };
 
 //this state is for FINAL game over
