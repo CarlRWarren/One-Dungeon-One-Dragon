@@ -20,6 +20,12 @@ void Item::Create(Item::eType type, const Vector2D & position)
 		spriteComponent->Create("sprites\\weapon_regular_sword.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(50);
 	}
+	else if (type == POISON) {
+		SetTag("poison");
+		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
+		spriteComponent->Create("sprites\\flask_big_green.png", Vector2D(0.5f, 0.5f));
+		spriteComponent->SetDepth(50);
+	}
 	else {
 		SetTag("No Items");
 	}
