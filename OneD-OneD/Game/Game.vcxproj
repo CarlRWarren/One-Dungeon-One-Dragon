@@ -143,6 +143,7 @@
     <ClCompile Include="HeroControllerComponent.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="room.cpp" />
     <ClCompile Include="states.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,8 @@
     <ClInclude Include="hero.h" />
     <ClInclude Include="HeroControllerComponent.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="room.h" />
+    <ClInclude Include="roomx.h" />
     <ClInclude Include="states.h" />
   </ItemGroup>
   <ItemGroup>
