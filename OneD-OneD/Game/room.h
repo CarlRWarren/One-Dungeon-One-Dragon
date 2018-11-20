@@ -27,6 +27,7 @@ public:
 
 public:
 	std::vector<Roomx*> m_rooms;
+	int m_roomIndex = 0;
 	Roomx* m_currentRoom=nullptr;
 };
 

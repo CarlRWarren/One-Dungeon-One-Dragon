@@ -72,6 +72,10 @@ void Hero::Update()
 		m_itemHeld->GetTransform().position = m_transform.position;
 		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
 	}
+	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && ((ID)m_itemHeld->GetTag()).GetIDString() == "poison") {
+		m_itemHeld->GetTransform().position = m_transform.position;
+		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
+	}
 
 	//changes label for inventory
 	Entity* Inventory = m_scene->GetEntitiesWithID("InventoryLabel");

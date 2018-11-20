@@ -94,6 +94,11 @@ void TitleState::Enter()
 	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
 	sword->GetComponent<SpriteComponent>()->SetVisible(false);
 
+	//PosionItem
+	Item* poison = m_owner->GetScene()->AddEntity<Item>("poison");
+	poison->Create(Item::eType::POISON, Vector2D(200.0f, 200.0f));
+	poison->GetComponent<SpriteComponent>()->SetVisible(false);
+
 	//Nothing Item
 	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
 	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
@@ -253,24 +258,43 @@ void GameState::Update()
 	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
 	Entity* room2door = m_owner->GetScene()->GetEntitiesWithID("room2door");
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
-
+	Entity* room3door = m_owner->GetScene()->GetEntitiesWithID("room3door");
+	Entity* mainbottomleftdoor = m_owner->GetScene()->GetEntitiesWithID("bottomLeftDoor");
+	Room* room = ((Room*)mainroom);
 	m_roomswitch = m_roomswitch + Timer::Instance()->DeltaTime();
 
-	if ((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f))
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
 		((Room*)mainroom)->ChangeRoom(0);
-		eHero->GetTransform().position = Vector2D(50.0f, 260.0f);
+		eHero->GetTransform().position = Vector2D(65.0f, 260.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
 
 	}
 	
-	if ((eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f))
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
 		((Room*)mainroom)->ChangeRoom(1);
-		eHero->GetTransform().position = Vector2D(750.0f, 660.0f);
+		eHero->GetTransform().position = Vector2D(735.0f, 660.0f);
+	}
+
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 2)
+	{
+		((Room*)mainroom)->ChangeRoom(0);
+		eHero->GetTransform().position = Vector2D(65.0f, 518.0f);
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+
+	}
+
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
+	{
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		((Room*)mainroom)->ChangeRoom(2);
+		eHero->GetTransform().position = Vector2D(735.0f, 200.0f);
 	}
 
 	//if statement for checks that involve any "pick up" action
@@ -282,6 +306,7 @@ void GameState::Update()
 			ID id = ((Hero*)eHero)->GetItemHeld()->GetTag();
 			if (id.GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
 			if (id.GetIDString() == "sword") { m_owner->SetState("KillDragonEnding"); }
+			if (id.GetIDString() == "poison") { m_owner->SetState("PoisionEnding"); }
 		}
 	}
 
@@ -507,8 +532,14 @@ void PoisonDragonEnding::Enter()
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
 	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("Some Falmer Ear and Some Imp Stool make a wonderful poison", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->Create("You feed the dragon the Poison. Its face becomes", "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
+
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent2");
+	huggedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	huggedtextComponent2->Create("Pale as it takes it's last breath", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent2->SetDepth(120);
 
 	//achievement
 	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -530,9 +561,13 @@ void PoisonDragonEnding::Update()
 
 void PoisonDragonEnding::Exit()
 {
-	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent1");
-	if (huggedText) {
-		huggedText->SetState(Entity::eState::DESTROY);
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
 	}
 	
 }

@@ -6,15 +6,17 @@ void Room::SetRooms()
 {
 	Entity* Background = GetScene()->AddEntity<Entity>("background");
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
+
 	Roomx* room1= new Roomx();
 	room1->m_texture = "Sprites\\MainRoomDesign.png";
-	/*Item* item = GetScene()->AddEntity<Item>("sword");
-	item->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
-	room1->itemsInRoom.push_back(item);*/
 	Door* topLeftDoor = GetScene()->AddEntity<Door>("topLeftDoor");
 	topLeftDoor->Create(Vector2D(5.0f, 280.0f), false);
 	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 	room1->doors.push_back(topLeftDoor);
+	Door* bottomLeftDoor = GetScene()->AddEntity<Door>("bottomLeftDoor");
+	bottomLeftDoor->Create(Vector2D(5.0f, 518.0f), false);
+	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	room1->doors.push_back(bottomLeftDoor);
 	m_rooms.push_back(room1);
 
 	Roomx* room2 = new Roomx();
@@ -27,6 +29,16 @@ void Room::SetRooms()
 	room2->doors.push_back(door);
 	m_rooms.push_back(room2);
 
+	Roomx* room3 = new Roomx();
+	room3->m_texture = "Sprites\\Room3Design.png";
+	Item* item3 = (Item*)GetScene()->GetEntitiesWithID("poison");
+	room3->itemsInRoom.push_back(item3);
+	Door* door3 = GetScene()->AddEntity<Door>("room3door");
+	door3->Create(Vector2D(800.0f, 200.0f), true);
+	door3->GetComponent<SpriteComponent>()->SetDepth(2);
+	room3->doors.push_back(door3);
+	m_rooms.push_back(room3);
+
 	ChangeRoom();
 
 
@@ -35,7 +47,8 @@ void Room::SetRooms()
  void Room::ChangeRoom(int roomNum)
 {
 	//set current one equal to the room you're entering
-	m_currentRoom = m_rooms[roomNum];
+	m_roomIndex = roomNum;
+	m_currentRoom = m_rooms[m_roomIndex];
 	//load texture
 	Entity* Background = GetScene()->GetEntitiesWithID("background");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
@@ -96,6 +109,18 @@ void Room::SetRooms()
 				 if (!exists) {
 						 m_currentRoom->itemsInRoom.push_back(item2);
 				 }
+		 }
+		 Item* item3 = (Item*)GetScene()->GetEntitiesWithID("poison");
+		 if (item3->GetTransform().position != Vector2D(50.0f, 25.0f) && item2->GetComponent<SpriteComponent>()->GetVisible() == true) {
+			 bool exists = false;
+			 for (Item* item1 : m_currentRoom->itemsInRoom) {
+				 if (item1 == item3) {
+					 exists = true;
+				 }
+			 }
+			 if (!exists) {
+				 m_currentRoom->itemsInRoom.push_back(item3);
+			 }
 		 }
 
  }
