@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="achievement.cpp" />
+    <ClCompile Include="achievementSave.cpp" />
     <ClCompile Include="door.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="game.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="achievement.h" />
+    <ClInclude Include="achievementSave.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="dragon.h" />
     <ClInclude Include="game.h" />

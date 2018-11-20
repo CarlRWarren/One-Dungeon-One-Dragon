@@ -111,7 +111,7 @@ void Room::SetRooms()
 				 }
 		 }
 		 Item* item3 = (Item*)GetScene()->GetEntitiesWithID("poison");
-		 if (item3->GetTransform().position != Vector2D(50.0f, 25.0f) && item2->GetComponent<SpriteComponent>()->GetVisible() == true) {
+		 if (item3->GetTransform().position != Vector2D(50.0f, 25.0f) && item3->GetComponent<SpriteComponent>()->GetVisible() == true) {
 			 bool exists = false;
 			 for (Item* item1 : m_currentRoom->itemsInRoom) {
 				 if (item1 == item3) {
