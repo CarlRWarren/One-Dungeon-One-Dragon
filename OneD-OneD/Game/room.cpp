@@ -4,6 +4,8 @@
 
 void Room::SetRooms()
 {
+	Entity* Background = GetScene()->AddEntity<Entity>("background");
+	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
 	Roomx* room1= new Roomx();
 	room1->m_texture = "Sprites\\MainRoomDesign.png";
 	/*Item* item = GetScene()->AddEntity<Item>("sword");
@@ -35,9 +37,9 @@ void Room::SetRooms()
 	//set current one equal to the room you're entering
 	m_currentRoom = m_rooms[roomNum];
 	//load texture
-	Entity* Background = GetScene()->AddEntity<Entity>("background");
+	Entity* Background = GetScene()->GetEntitiesWithID("background");
 	Background->GetTransform().position = Vector2D(400.0f, 400.0f);
-	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
+	SpriteComponent* backgroundSpriteComponent = Background->GetComponent<SpriteComponent>();
 	backgroundSpriteComponent->Create(m_currentRoom->m_texture, Vector2D(0.5f, 0.5f));
 	Background->GetTransform().scale = Vector2D(5.0f, 5.0f);
 	backgroundSpriteComponent->SetDepth(1);
