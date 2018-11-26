@@ -281,7 +281,6 @@ void GameState::Update()
 				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)){
 				m_owner->SetState("TrapDragonEnding");
 				}
-
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				mainbottomleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
@@ -292,12 +291,10 @@ void GameState::Update()
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				room3door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
-
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				room2door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
-
 			}
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)

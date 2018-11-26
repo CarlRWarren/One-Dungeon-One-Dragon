@@ -38,6 +38,12 @@ void Achievement::OnEvent(const Event & event)
 
 void Achievement::CreateAchievements()
 {
+	//achievement count
+		Entity* NUMAcheivementsCompleted = GetScene()->AddEntity<Entity>("NUMAcheivementsCompleted");
+		TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->AddComponent<TextComponent>();
+		textcomponentNUMAcheivementsCompleted->Create("0/0 Completed", "Textures\\emulogic.ttf", 16, Color::white);
+
+		//achievments
 		Entity* hugDragon = GetScene()->AddEntity<Entity>("HugDragonAchievement");
 		SpriteComponent* spritecomponentHugDragon = hugDragon->AddComponent<SpriteComponent>();
 		spritecomponentHugDragon->Create("sprites\\ui_heart_full.png", Vector2D(0.5f, 0.5f));
@@ -137,6 +143,16 @@ void Achievement::setVisibility(bool isVisible)
 		float x = 100.0f;
 		float y = 100.0f;
 		GetComponent<SpriteComponent>()->SetVisible(isVisible);
+
+		//Entity* NUMAcheivementsCompleted = GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
+		//TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
+		//std::string numacheivements1 = m_completedAchievements.size() + "/";
+		//std::string numacheivements2 = m_achievements.size() + " ";
+		//std::string numacheivements = numacheivements1 + numacheivements2 + "Completed";
+		//textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 16, Color::white);
+		//textcomponentNUMAcheivementsCompleted->SetVisible(isVisible);
+
+
 		for (Entity* entity : m_completedAchievements) {
 				entity->GetTransform().position = Vector2D(x, y);
 				entity->GetTransform().scale = Vector2D(2.0f, 2.0f);
