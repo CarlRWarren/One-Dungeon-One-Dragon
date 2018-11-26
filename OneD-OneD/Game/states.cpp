@@ -204,20 +204,6 @@ void InitializeState::Enter()
 	//Get Nothing
 	Item* nothing = (Item*) m_owner->GetScene()->GetEntitiesWithID("No Items");
 
-	//doors
-	/*Door* topLeftDoor = m_owner->GetScene()->AddEntity<Door>("topLeftDoor");
-	topLeftDoor->Create(Vector2D(5.0f,280.0f), false);
-	topLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* topRightDoor = m_owner->GetScene()->AddEntity<Door>("topRightDoor");
-	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
-	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* bottomLeftDoor = m_owner->GetScene()->AddEntity<Door>("bottomLeftDoor");
-	bottomLeftDoor->Create(Vector2D(5.0f, 520.0f), false);
-	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
-	Door* bottomRightDoor = m_owner->GetScene()->AddEntity<Door>("bottomRightDoor");
-	bottomRightDoor->Create(Vector2D(800.0f, 520.0f), true);
-	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);*/
-
 	//GetHero
 	Hero* hero = (Hero*) m_owner->GetScene()->GetEntitiesWithID("hero");
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
@@ -237,7 +223,10 @@ void InitializeState::Exit()
 
 void GameState::Enter()
 {
-
+	Entity* room2LavaFountainL = m_owner->GetScene()->GetEntitiesWithID("leftLavaFountain");
+	Entity* room2LavaFountainR = m_owner->GetScene()->GetEntitiesWithID("rightLavaFountain");
+	room2LavaFountainL->GetComponent<SpriteComponent>()->SetVisible(false);
+	room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible(false);
 	AudioSystem::Instance()->AddSound("background", "Sound\\prayerofsoul.mp3");
 	AudioSystem::Instance()->PlaySound("background", true);
 
@@ -271,6 +260,8 @@ void GameState::Update()
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
 	Entity* room3door = m_owner->GetScene()->GetEntitiesWithID("room3door");
 	Entity* mainbottomleftdoor = m_owner->GetScene()->GetEntitiesWithID("bottomLeftDoor");
+	Entity* room2LavaFountainL = m_owner->GetScene()->GetEntitiesWithID("leftLavaFountain");
+	Entity* room2LavaFountainR = m_owner->GetScene()->GetEntitiesWithID("rightLavaFountain");
 	Room* room = ((Room*)mainroom);
 	m_roomswitch = m_roomswitch + Timer::Instance()->DeltaTime();
 	
@@ -305,6 +296,8 @@ void GameState::Update()
 		((Room*)mainroom)->ChangeRoom(0);
 		eHero->GetTransform().position = Vector2D(65.0f, 260.0f);
 		m_roomswitch = 0.0f;
+		room2LavaFountainL->GetComponent<SpriteComponent>()->SetVisible(false);
+		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible(false);
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
 
 	}
@@ -314,6 +307,8 @@ void GameState::Update()
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
 		((Room*)mainroom)->ChangeRoom(1);
+		room2LavaFountainL->GetComponent<SpriteComponent>()->SetVisible();
+		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible();
 		eHero->GetTransform().position = Vector2D(735.0f, 660.0f);
 	}
 

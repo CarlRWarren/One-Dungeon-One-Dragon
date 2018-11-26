@@ -139,6 +139,7 @@
     <ClCompile Include="achievementSave.cpp" />
     <ClCompile Include="door.cpp" />
     <ClCompile Include="dragon.cpp" />
+    <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HeroControllerComponent.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="achievementSave.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="dragon.h" />
+    <ClInclude Include="Fountain.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="hero.h" />
     <ClInclude Include="HeroControllerComponent.h" />
