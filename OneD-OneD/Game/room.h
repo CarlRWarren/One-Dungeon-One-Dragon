@@ -23,6 +23,8 @@ public:
 		std::list<Item*> itemsInRoom;
 		//list of doors
 		std::vector<Door*> doors;
+		//list of possible Fountains
+		std::vector<Fountain*> fountains;
 	};
 
 public:

@@ -1,6 +1,8 @@
 #include "room.h"
 #include "door.h"
+#include "Fountain.h"
 #include "spriteComponent.h"
+#include "animationComponent.h"
 
 void Room::SetRooms()
 {
@@ -27,6 +29,14 @@ void Room::SetRooms()
 	door->Create(Vector2D(800.0f, 680.0f), true);
 	door->GetComponent<SpriteComponent>()->SetDepth(2);
 	room2->doors.push_back(door);
+	Fountain* leftFountain = GetScene()->AddEntity<Fountain>("leftLavaFountain");
+	leftFountain->Create(Vector2D(360.0f, 75.0f), 1);
+	leftFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	room2->fountains.push_back(leftFountain);
+	Fountain* rightFountain = GetScene()->AddEntity<Fountain>("rightLavaFountain");
+	rightFountain->Create(Vector2D(440.0f, 75.0f), 1);
+	rightFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	room2->fountains.push_back(rightFountain);
 	m_rooms.push_back(room2);
 
 	Roomx* room3 = new Roomx();
@@ -69,6 +79,7 @@ void Room::SetRooms()
 		door->GetComponent<SpriteComponent>()->SetVisible();
 	}
 
+	
 	for (Roomx* room : m_rooms)
 	{
 		if (room != m_currentRoom)
