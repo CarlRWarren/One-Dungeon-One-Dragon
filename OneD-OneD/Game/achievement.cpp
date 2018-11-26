@@ -97,6 +97,24 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentPoisonDragon = poisonDragonText->AddComponent<TextComponent>();
 		textcomponentPoisonDragon->Create("Falmer Ear and Imp Stool", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(poisonDragonText);
+
+		Entity* TrapDragon = GetScene()->AddEntity<Entity>("TrapDragonAchievement");
+		SpriteComponent* spritecomponentTrapDragon = TrapDragon->AddComponent<SpriteComponent>();
+		spritecomponentTrapDragon->Create("sprites\\floor_ladder.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(TrapDragon);
+		Entity* TrapDragonText = GetScene()->AddEntity<Entity>("TrapDragonTextAchievement");
+		TextComponent* textcomponentTrapDragon = TrapDragonText->AddComponent<TextComponent>();
+		textcomponentTrapDragon->Create("He's not going anywhere", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(TrapDragonText);
+
+		Entity* TrapYourself = GetScene()->AddEntity<Entity>("TrapYourselfAchievement");
+		SpriteComponent* spritecomponentTrapYourself = TrapYourself->AddComponent<SpriteComponent>();
+		spritecomponentTrapYourself->Create("sprites\\skelet_idle_anim_f0.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(TrapYourself);
+		Entity* TrapYourselfText = GetScene()->AddEntity<Entity>("TrapYourselfTextAchievement");
+		TextComponent* textcomponentTrapYourselfText = TrapYourselfText->AddComponent<TextComponent>();
+		textcomponentTrapYourselfText->Create("You're not going anywhere...", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(TrapYourselfText);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)

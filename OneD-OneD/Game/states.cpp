@@ -240,6 +240,15 @@ void GameState::Enter()
 
 	AudioSystem::Instance()->AddSound("background", "Sound\\prayerofsoul.mp3");
 	AudioSystem::Instance()->PlaySound("background", true);
+
+	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
+	((Room*)mainroom)->ChangeRoom(0);
+	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	eDragon->GetComponent<SpriteComponent>()->SetVisible();
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
+	}
 }
 
 void GameState::Update()
@@ -269,18 +278,26 @@ void GameState::Update()
 	if (InputManager::Instance()->GetActionButton("delete") == InputManager::eButtonState::PRESSED) {
 		if (m_roomswitch < 3.0f) {
 			if (eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				mainroomtopleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)){
 				m_owner->SetState("TrapDragonEnding");
+				}
 
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
-				m_owner->SetState("TrapDragonEnding");
+				mainbottomleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
+					m_owner->SetState("TrapDragonEnding");
+				}
 
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				room3door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				room2door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 
 			}
@@ -352,10 +369,7 @@ void GameState::Update()
 
 void GameState::Exit()
 {
-	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
-	if (entity1) {
-		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
-	}
+
 	AudioSystem::Instance()->RemoveSound("background");
 }
 
@@ -597,24 +611,88 @@ void PoisonDragonEnding::Exit()
 
 void TrapDragonEnding::Enter()
 {
+	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText1");
+	TrappedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
+	trappedtextComponent1->Create("You have trapped the dragon in its den", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent1->SetDepth(120);
+
+	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText2");
+	TrappedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
+	trappedtextComponent2->Create("it can no longer terrorize the countryside", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapDragonAchievement");
+	poisonAchivement->updateAchievement(poisonAchivementAchievement);
+	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapDragonTextAchievement");
+	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
 }
 
 void TrapDragonEnding::Update()
 {
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
 }
 
 void TrapDragonEnding::Exit()
 {
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("TrapDragonText1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("TrapDragonText2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
 }
 
 void TrapYourselfEnding::Enter()
 {
+	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText1");
+	TrappedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
+	trappedtextComponent1->Create("You have trapped yourself in this room", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent1->SetDepth(120);
+
+	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText2");
+	TrappedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
+	trappedtextComponent2->Create("uh... Congratulations?", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfAchievement");
+	poisonAchivement->updateAchievement(poisonAchivementAchievement);
+	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfTextAchievement");
+	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
 }
 
 void TrapYourselfEnding::Update()
 {
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
 }
 
 void TrapYourselfEnding::Exit()
 {
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfText1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfText2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
 }
