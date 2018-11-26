@@ -275,8 +275,7 @@ void GameState::Update()
 	m_roomswitch = m_roomswitch + Timer::Instance()->DeltaTime();
 	
 	//delete related acheivements
-	if (InputManager::Instance()->GetActionButton("delete") == InputManager::eButtonState::PRESSED) {
-		if (m_roomswitch < 3.0f) {
+	if (InputManager::Instance()->GetActionButton("delete") == InputManager::eButtonState::HELD) {
 			if (eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				mainroomtopleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
 				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)){
@@ -289,7 +288,6 @@ void GameState::Update()
 				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
 					m_owner->SetState("TrapDragonEnding");
 				}
-
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				room3door->GetComponent<SpriteComponent>()->SetVisible(false);
@@ -301,7 +299,6 @@ void GameState::Update()
 				m_owner->SetState("TrapYourselfEnding");
 
 			}
-		}
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
