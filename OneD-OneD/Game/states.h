@@ -112,3 +112,27 @@ public:
 protected:
 	float m_timerRate = 10.0f;
 };
+
+class TrapDragonEnding : public IState
+{
+public:
+	TrapDragonEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+};
+
+class TrapYourselfEnding : public IState
+{
+public:
+	TrapYourselfEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+};

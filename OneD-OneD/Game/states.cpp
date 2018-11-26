@@ -29,6 +29,8 @@ void TitleState::Enter()
 
 	InputManager::Instance()->AddAction("select_left", SDL_SCANCODE_LEFT, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("select_right", SDL_SCANCODE_RIGHT, InputManager::eDevice::KEYBOARD);
+	
+	InputManager::Instance()->AddAction("delete", SDL_SCANCODE_DELETE, InputManager::eDevice::KEYBOARD);
 
 	Entity* TitleText = m_owner->GetScene()->AddEntity<Entity>("title");
 	TitleText->GetTransform().position = Vector2D(25.0f, 100.0f);
@@ -262,7 +264,28 @@ void GameState::Update()
 	Entity* mainbottomleftdoor = m_owner->GetScene()->GetEntitiesWithID("bottomLeftDoor");
 	Room* room = ((Room*)mainroom);
 	m_roomswitch = m_roomswitch + Timer::Instance()->DeltaTime();
+	
+	//delete related acheivements
+	if (InputManager::Instance()->GetActionButton("delete") == InputManager::eButtonState::PRESSED) {
+		if (m_roomswitch < 3.0f) {
+			if (eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				m_owner->SetState("TrapDragonEnding");
 
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				m_owner->SetState("TrapDragonEnding");
+
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				m_owner->SetState("TrapYourselfEnding");
+
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				m_owner->SetState("TrapYourselfEnding");
+
+			}
+		}
+	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
 		((Room*)mainroom)->ChangeRoom(0);
@@ -570,4 +593,28 @@ void PoisonDragonEnding::Exit()
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
 	
+}
+
+void TrapDragonEnding::Enter()
+{
+}
+
+void TrapDragonEnding::Update()
+{
+}
+
+void TrapDragonEnding::Exit()
+{
+}
+
+void TrapYourselfEnding::Enter()
+{
+}
+
+void TrapYourselfEnding::Update()
+{
+}
+
+void TrapYourselfEnding::Exit()
+{
 }

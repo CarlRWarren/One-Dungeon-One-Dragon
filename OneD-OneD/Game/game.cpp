@@ -43,6 +43,8 @@ bool Game::Initialize()
 	m_stateMachine->AddState("KillDragonEnding", new KillDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("RespectEnding", new RespectEnding(m_stateMachine));
 	m_stateMachine->AddState("PoisionEnding", new PoisonDragonEnding(m_stateMachine));
+	m_stateMachine->AddState("TrapYourselfEnding", new TrapYourselfEnding(m_stateMachine));
+	m_stateMachine->AddState("TrapDragonEnding", new TrapDragonEnding(m_stateMachine));
 
 	m_stateMachine->SetState("title");
 
