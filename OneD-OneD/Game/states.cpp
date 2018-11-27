@@ -258,8 +258,10 @@ void GameState::Update()
 	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
 	Entity* room2door = m_owner->GetScene()->GetEntitiesWithID("room2door");
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
-	Entity* room3door = m_owner->GetScene()->GetEntitiesWithID("room3door");
 	Entity* mainbottomleftdoor = m_owner->GetScene()->GetEntitiesWithID("bottomLeftDoor");
+	Entity* maintoprightdoor = m_owner->GetScene()->GetEntitiesWithID("topRightDoor");
+	Entity* room3door = m_owner->GetScene()->GetEntitiesWithID("room3door");
+	Entity* room4door = m_owner->GetScene()->GetEntitiesWithID("room4_1door");
 	Entity* room2LavaFountainL = m_owner->GetScene()->GetEntitiesWithID("leftLavaFountain");
 	Entity* room2LavaFountainR = m_owner->GetScene()->GetEntitiesWithID("rightLavaFountain");
 	Room* room = ((Room*)mainroom);
@@ -311,11 +313,27 @@ void GameState::Update()
 		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible();
 		eHero->GetTransform().position = Vector2D(735.0f, 660.0f);
 	}
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(maintoprightdoor->GetComponent<AABBComponent>()) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
+	{
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		((Room*)mainroom)->ChangeRoom(3);
+		eHero->GetTransform().position = Vector2D(105.0f, 660.0f);
+	}
 
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 2)
 	{
 		((Room*)mainroom)->ChangeRoom(0);
 		eHero->GetTransform().position = Vector2D(65.0f, 518.0f);
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+
+	}
+
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(room4door->GetComponent<AABBComponent>()) && (room4door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 3)
+	{
+		((Room*)mainroom)->ChangeRoom(0);
+		eHero->GetTransform().position = Vector2D(705.0f, 250.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
 
@@ -411,6 +429,7 @@ void BoreDragonEnding::Update()
 
 void BoreDragonEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
 	if (huggedText) {
 		huggedText->SetState(Entity::eState::DESTROY);
@@ -448,11 +467,13 @@ void HugDragonEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+
 	}
 }
 
 void HugDragonEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("HugTextSent1");
 	if (huggedText) {
 		huggedText->SetState(Entity::eState::DESTROY);
@@ -499,6 +520,7 @@ void KillDragonEnding::Update()
 
 void KillDragonEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent1");
 	if (huggedText) {
 		huggedText->SetState(Entity::eState::DESTROY);
@@ -545,6 +567,7 @@ void RespectEnding::Update()
 
 void RespectEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("RespectTextSent1");
 	if (huggedText) {
 		huggedText->SetState(Entity::eState::DESTROY);
@@ -590,6 +613,7 @@ void PoisonDragonEnding::Update()
 
 void PoisonDragonEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent1");
 	if (huggedText1) {
 		huggedText1->SetState(Entity::eState::DESTROY);
@@ -635,6 +659,7 @@ void TrapDragonEnding::Update()
 
 void TrapDragonEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("TrapDragonText1");
 	if (huggedText1) {
 		huggedText1->SetState(Entity::eState::DESTROY);
@@ -679,6 +704,7 @@ void TrapYourselfEnding::Update()
 
 void TrapYourselfEnding::Exit()
 {
+	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfText1");
 	if (huggedText1) {
 		huggedText1->SetState(Entity::eState::DESTROY);

@@ -3,17 +3,25 @@
 #include "aabbComponent.h"
 #include "animationComponent.h"
 
-void Door::Create(const Vector2D & position, bool isFlipped)
+void Door::Create(const Vector2D & position, bool isFlipped, bool vertical)
 {
 	SetTag("door");
 	m_transform.position = position;
 	m_transform.scale = Vector2D(1.0f, 1.0f);
 
 	SpriteComponent* doorSpritecomponent = AddComponent<SpriteComponent>();
-	doorSpritecomponent->Create("textures//leftdoor1.png", Vector2D(0.5f, 0.5f), isFlipped);
-
 	AnimationComponent* animationComponent = AddComponent<AnimationComponent>();
-	animationComponent->Create(m_idleanimation, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP, isFlipped);
+
+	if (!vertical) 
+	{
+		doorSpritecomponent->Create("textures//leftdoor1.png", Vector2D(0.5f, 0.5f), isFlipped);
+		animationComponent->Create(m_idleanimation, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP, isFlipped);
+	}
+	else 
+	{
+		doorSpritecomponent->Create("textures//leftdoor1v.png", Vector2D(0.5f, 0.5f), isFlipped);
+		animationComponent->Create(m_Vidleanimation, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP, isFlipped);
+	}
 
 	AABBComponent* doorAabbComponent = AddComponent<AABBComponent>();
 	doorAabbComponent->Create(Vector2D(0.5, 1.0f));
