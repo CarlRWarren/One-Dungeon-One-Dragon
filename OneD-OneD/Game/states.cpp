@@ -260,8 +260,10 @@ void GameState::Update()
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
 	Entity* mainbottomleftdoor = m_owner->GetScene()->GetEntitiesWithID("bottomLeftDoor");
 	Entity* maintoprightdoor = m_owner->GetScene()->GetEntitiesWithID("topRightDoor");
+	Entity* mainbottomrightdoor = m_owner->GetScene()->GetEntitiesWithID("bottomRightDoor");
 	Entity* room3door = m_owner->GetScene()->GetEntitiesWithID("room3door");
 	Entity* room4door = m_owner->GetScene()->GetEntitiesWithID("room4_1door");
+	Entity* room5door = m_owner->GetScene()->GetEntitiesWithID("room5_1door");
 	Entity* room2LavaFountainL = m_owner->GetScene()->GetEntitiesWithID("leftLavaFountain");
 	Entity* room2LavaFountainR = m_owner->GetScene()->GetEntitiesWithID("rightLavaFountain");
 	Room* room = ((Room*)mainroom);
@@ -320,6 +322,13 @@ void GameState::Update()
 		((Room*)mainroom)->ChangeRoom(3);
 		eHero->GetTransform().position = Vector2D(105.0f, 660.0f);
 	}
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(mainbottomrightdoor->GetComponent<AABBComponent>()) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
+	{
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		((Room*)mainroom)->ChangeRoom(4);
+		eHero->GetTransform().position = Vector2D(105.0f, 160.0f);
+	}
 
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room3door->GetComponent<AABBComponent>()) && (room3door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 2)
 	{
@@ -334,6 +343,14 @@ void GameState::Update()
 	{
 		((Room*)mainroom)->ChangeRoom(0);
 		eHero->GetTransform().position = Vector2D(705.0f, 250.0f);
+		m_roomswitch = 0.0f;
+		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+
+	}
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(room5door->GetComponent<AABBComponent>()) && (room5door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 4)
+	{
+		((Room*)mainroom)->ChangeRoom(0);
+		eHero->GetTransform().position = Vector2D(705.0f, 500.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
 
