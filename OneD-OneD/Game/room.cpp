@@ -59,6 +59,8 @@ void Room::SetRooms()
 
 	Roomx* room4 = new Roomx();
 	room4->m_texture = "Sprites\\Room4Design.png";
+	Item* steak1 = (Item*)GetScene()->GetEntitiesWithID("food");
+	room4->itemsInRoom.push_back(steak1);
 	Door* door4_1 = GetScene()->AddEntity<Door>("room4_1door");
 	door4_1->Create(Vector2D(5.0f, 680.0f), false);
 	door4_1->GetComponent<SpriteComponent>()->SetDepth(2);

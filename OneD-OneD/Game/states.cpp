@@ -101,6 +101,11 @@ void TitleState::Enter()
 	poison->Create(Item::eType::POISON, Vector2D(200.0f, 200.0f));
 	poison->GetComponent<SpriteComponent>()->SetVisible(false);
 
+	//food Item
+	Item* food = m_owner->GetScene()->AddEntity<Item>("food");
+	food->Create(Item::eType::FOOD, Vector2D(200.0f, 200.0f));
+	food->GetComponent<SpriteComponent>()->SetVisible(false);
+
 	//Nothing Item
 	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
 	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
@@ -259,6 +264,16 @@ void GameState::Enter()
 		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
 	}
 
+	for (Room::Roomx* room : ((Room*)mainroom)->m_rooms)
+	{
+		for (Item* item : room->itemsInRoom)
+		{
+			if (item->GetTag() == "food")
+			{
+				foodCount++;
+			}
+		}
+	}
 
 }
 
@@ -340,6 +355,23 @@ void GameState::Update()
 				room5door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 			}
+			else if (((Hero*)eHero)->GetItemHeld()->GetTag() == "food")
+			{
+				Item* food = ((Hero*)eHero)->GetItemHeld();
+				((Hero*)eHero)->SetItemHeld((Item*)m_owner->GetScene()->GetEntitiesWithID("No Items"));
+
+				if (food) {
+					food->SetState(Entity::eState::DESTROY);
+					foodCount--;
+					if (foodCount <= 0)
+					{
+						m_owner->SetState("Starvation");
+					}
+
+				}
+
+			}
+
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
@@ -773,6 +805,51 @@ void TrapYourselfEnding::Exit()
 		huggedText1->SetState(Entity::eState::DESTROY);
 	}
 	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfText2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
+}
+
+void StarveDragonEnding::Enter()
+{
+	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
+	StarveText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
+	starvetextComponent1->Create("The dragon has no more food", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent1->SetDepth(120);
+
+	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
+	StarveText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
+	starvetextComponent2->Create("*you here a stomach growl*", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* starveAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("StarvationAchievement");
+	starveAchivement->updateAchievement(starveAchivementAchievement);
+	Achievement* starveAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("StarvationTextAchievement");
+	starveAchivementText->updateAchievement(starveAchivementTextAchievement);
+}
+
+void StarveDragonEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+}
+
+void StarveDragonEnding::Exit()
+{
+	m_timerRate = m_timerReset;
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("Starvation2");
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}

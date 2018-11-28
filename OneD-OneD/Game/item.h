@@ -11,7 +11,8 @@ public:
 	{
 		NONE,
 		SWORD,
-		POISON
+		POISON,
+		FOOD
 	};
 public:
 	Item(Scene* scene, const ID& id) : Entity(scene, id) {}

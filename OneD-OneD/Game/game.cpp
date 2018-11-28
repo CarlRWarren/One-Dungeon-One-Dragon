@@ -45,6 +45,7 @@ bool Game::Initialize()
 	m_stateMachine->AddState("PoisionEnding", new PoisonDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("TrapYourselfEnding", new TrapYourselfEnding(m_stateMachine));
 	m_stateMachine->AddState("TrapDragonEnding", new TrapDragonEnding(m_stateMachine));
+	m_stateMachine->AddState("Starvation", new StarveDragonEnding(m_stateMachine));
 
 	m_stateMachine->SetState("title");
 

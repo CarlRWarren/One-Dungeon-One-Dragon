@@ -116,6 +116,16 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentTrapYourselfText = TrapYourselfText->AddComponent<TextComponent>();
 		textcomponentTrapYourselfText->Create("You're not going anywhere...", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(TrapYourselfText);
+
+		Entity* starveDragon = GetScene()->AddEntity<Entity>("StarvationAchievement");
+		SpriteComponent* spritecomponentStarveDragon = starveDragon->AddComponent<SpriteComponent>();
+		spritecomponentStarveDragon->Create("sprites\\steak.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(starveDragon);
+
+		Entity* starveDragonText = GetScene()->AddEntity<Entity>("StarvationTextAchievement");
+		TextComponent* textcomponentStarveDragon = starveDragonText->AddComponent<TextComponent>();
+		textcomponentStarveDragon->Create("My belly, It's sooooo empty.:(", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(starveDragonText);
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)

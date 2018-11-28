@@ -33,6 +33,9 @@ public:
 	void Update();
 	void Exit();
 
+public:
+	int foodCount = 0;
+
 protected:
 	float m_timerReset = 600.0f;
 	float m_timerRate = 600.0f;
@@ -135,6 +138,19 @@ class TrapYourselfEnding : public IState
 {
 public:
 	TrapYourselfEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
+};
+
+class StarveDragonEnding : public IState
+{
+public:
+	StarveDragonEnding(StateMachine* owner) : IState(owner) {}
 
 	void Enter();
 	void Update();
