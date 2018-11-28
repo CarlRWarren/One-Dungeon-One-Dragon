@@ -110,8 +110,20 @@ void TitleState::Enter()
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
 	hero->Create(Vector2D(400.0f, 600.0f));
 	hero->SetItemHeld(emptyInventory);
+
+	//achievement count
+	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->AddEntity<Entity>("NUMAcheivementsCompleted");
+	NUMAcheivementsCompleted->GetTransform().position = (Vector2D(600.0f, 75.0f));
+	TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->AddComponent<TextComponent>();
+	int numacheivements2 = createAchievement->GetNumAchievments()/2;
+	int numacheivements1 = createAchievement->GetNumAchievmentsCompleted()/2;
+	std::string numacheivements = std::to_string(numacheivements1) + "/" + std::to_string(numacheivements2) + " Achievements";
+	textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 8, Color::white);
+	textcomponentNUMAcheivementsCompleted->SetDepth(300);
+
 	Timer::Instance()->Pause();
 	AudioSystem::Instance()->PlaySound("Wii", true);
+
 }
 
 void TitleState::Update()
@@ -132,7 +144,16 @@ void TitleState::Update()
 			Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 			Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("WizardSecretTextAchievement");
 			dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+			
+			Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
+			TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
+			int numacheivements2 = dragonAchivement->GetNumAchievments()/2;
+			int numacheivements1 = dragonAchivement->GetNumAchievmentsCompleted()/2;
+			std::string numacheivements = std::to_string(numacheivements1) + "/" + std::to_string(numacheivements2) + " Achievements";
+			textcomponentNUMAcheivementsCompleted->SetText(numacheivements);
 	}
+
+
  	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("intitialize");
@@ -209,7 +230,6 @@ void InitializeState::Enter()
 	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
 	hero->SetItemHeld(emptyInventory);
 	Timer::Instance()->UnPause();
-
 }
 
 void InitializeState::Update()
@@ -238,6 +258,8 @@ void GameState::Enter()
 	if (entity1) {
 		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
 	}
+
+
 }
 
 void GameState::Update()
@@ -247,10 +269,17 @@ void GameState::Update()
 		(Timer::Instance()->IsPaused()) ? Timer::Instance()->UnPause() : Timer::Instance()->Pause();
 	}
 	//Checks for Q for achievemnt Screen
+	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
+	TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
 	if (InputManager::Instance()->GetActionButton("achieve") == InputManager::eButtonState::PRESSED) {
-		Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		showAchievements->setVisibility(!showAchievements->GetComponent<SpriteComponent>()->GetVisible());
 	}
+	int numacheivements2 = showAchievements->GetNumAchievments()/2;
+	int numacheivements1 = showAchievements->GetNumAchievmentsCompleted() / 2;
+	std::string numacheivements = std::to_string(numacheivements1) + "/" + std::to_string(numacheivements2) + " Achievements";
+	textcomponentNUMAcheivementsCompleted->SetText(numacheivements);
+	textcomponentNUMAcheivementsCompleted->SetVisible(showAchievements->GetComponent<SpriteComponent>()->GetVisible());
 
 	//hugged dragon
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
@@ -273,13 +302,25 @@ void GameState::Update()
 	if (InputManager::Instance()->GetActionButton("delete") == InputManager::eButtonState::HELD) {
 			if (eHero->GetComponent<AABBComponent>()->Intersects(mainroomtopleftdoor->GetComponent<AABBComponent>()) && (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				mainroomtopleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
-				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)){
-				m_owner->SetState("TrapDragonEnding");
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
+					m_owner->SetState("TrapDragonEnding");
 				}
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				mainbottomleftdoor->GetComponent<SpriteComponent>()->SetVisible(false);
-				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
+					m_owner->SetState("TrapDragonEnding");
+				}
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(maintoprightdoor->GetComponent<AABBComponent>()) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				maintoprightdoor->GetComponent<SpriteComponent>()->SetVisible(false);
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
+					m_owner->SetState("TrapDragonEnding");
+				}
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(mainbottomrightdoor->GetComponent<AABBComponent>()) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				mainbottomrightdoor->GetComponent<SpriteComponent>()->SetVisible(false);
+				if (mainroomtopleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == false) && (mainbottomrightdoor->GetComponent<SpriteComponent>()->GetVisible() == false)) {
 					m_owner->SetState("TrapDragonEnding");
 				}
 			}
@@ -289,6 +330,14 @@ void GameState::Update()
 			}
 			else if (eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
 				room2door->GetComponent<SpriteComponent>()->SetVisible(false);
+				m_owner->SetState("TrapYourselfEnding");
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(room4door->GetComponent<AABBComponent>()) && (room4door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				room4door->GetComponent<SpriteComponent>()->SetVisible(false);
+				m_owner->SetState("TrapYourselfEnding");
+			}
+			else if (eHero->GetComponent<AABBComponent>()->Intersects(room5door->GetComponent<AABBComponent>()) && (room5door->GetComponent<SpriteComponent>()->GetVisible() == true)) {
+				room5door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 			}
 	}

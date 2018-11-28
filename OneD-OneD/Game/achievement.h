@@ -19,6 +19,13 @@ public:
 	void updateAchievement(Entity* completedAchivement);
 
 	void setVisibility(bool isVisible);
+
+	int GetNumAchievments() {
+		return m_achievements.size();
+	}
+	int GetNumAchievmentsCompleted() {
+		return m_completedAchievements.size();
+	}
 protected:
 		std::vector<Entity*> m_achievements;
 		std::vector<Entity*> m_completedAchievements;
