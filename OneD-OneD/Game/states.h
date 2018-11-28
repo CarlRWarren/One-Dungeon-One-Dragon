@@ -62,6 +62,7 @@ public:
 
 protected:
 	float m_timerRate = 3.0f;
+	float m_timerReset = 3.0f;
 };
 
 class HugDragonEnding : public IState
@@ -74,6 +75,7 @@ public:
 	void Exit();
 protected:
 	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
 };
 
 class KillDragonEnding : public IState
@@ -86,6 +88,7 @@ public:
 	void Exit();
 protected:
 	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
 };
 
 class RespectEnding : public IState
@@ -99,6 +102,7 @@ public:
 
 protected:
 	float m_timerRate = 6.0f;
+	float m_timerReset = 6.0f;
 };
 
 class PoisonDragonEnding : public IState
@@ -111,6 +115,7 @@ public:
 	void Exit();
 protected:
 	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
 };
 
 class TrapDragonEnding : public IState
@@ -123,6 +128,7 @@ public:
 	void Exit();
 protected:
 	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
 };
 
 class TrapYourselfEnding : public IState
@@ -135,4 +141,5 @@ public:
 	void Exit();
 protected:
 	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
 };

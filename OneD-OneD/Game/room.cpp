@@ -19,6 +19,14 @@ void Room::SetRooms()
 	bottomLeftDoor->Create(Vector2D(5.0f, 518.0f), false);
 	bottomLeftDoor->GetComponent<SpriteComponent>()->SetDepth(2);
 	room1->doors.push_back(bottomLeftDoor);
+	Door* topRightDoor = GetScene()->AddEntity<Door>("topRightDoor");
+	topRightDoor->Create(Vector2D(800.0f, 280.0f), true);
+	topRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	room1->doors.push_back(topRightDoor);
+	Door* bottomRightDoor = GetScene()->AddEntity<Door>("bottomRightDoor");
+	bottomRightDoor->Create(Vector2D(800.0f, 518.0f), true);
+	bottomRightDoor->GetComponent<SpriteComponent>()->SetDepth(2);
+	room1->doors.push_back(bottomRightDoor);
 	m_rooms.push_back(room1);
 
 	Roomx* room2 = new Roomx();
@@ -48,6 +56,38 @@ void Room::SetRooms()
 	door3->GetComponent<SpriteComponent>()->SetDepth(2);
 	room3->doors.push_back(door3);
 	m_rooms.push_back(room3);
+
+	Roomx* room4 = new Roomx();
+	room4->m_texture = "Sprites\\Room4Design.png";
+	Door* door4_1 = GetScene()->AddEntity<Door>("room4_1door");
+	door4_1->Create(Vector2D(5.0f, 680.0f), false);
+	door4_1->GetComponent<SpriteComponent>()->SetDepth(2);
+	room4->doors.push_back(door4_1);
+	Door* door4_2 = GetScene()->AddEntity<Door>("room4_2door");
+	door4_2->Create(Vector2D(800.0f, 680.0f), true);
+	door4_2->GetComponent<SpriteComponent>()->SetDepth(2);
+	room4->doors.push_back(door4_2);
+	Door* door4_3 = GetScene()->AddEntity<Door>("room4_3door");
+	door4_3->Create(Vector2D(440.0f, 40.0f), true,true);
+	door4_3->GetComponent<SpriteComponent>()->SetDepth(2);
+	room4->doors.push_back(door4_3);
+	m_rooms.push_back(room4);
+
+	Roomx* room5 = new Roomx();
+	room5->m_texture = "Sprites\\Room5Design.png";
+	Door* door5_1 = GetScene()->AddEntity<Door>("room5_1door");
+	door5_1->Create(Vector2D(5.0f, 200.0f), false);
+	door5_1->GetComponent<SpriteComponent>()->SetDepth(2);
+	room5->doors.push_back(door5_1);
+	Door* door5_2 = GetScene()->AddEntity<Door>("room5_2door");
+	door5_2->Create(Vector2D(800.0f, 600.0f), true);
+	door5_2->GetComponent<SpriteComponent>()->SetDepth(2);
+	room5->doors.push_back(door5_2);
+	Door* door5_3 = GetScene()->AddEntity<Door>("room5_3door");
+	door5_3->Create(Vector2D(440.0f, 800.0f), true);
+	door5_3->GetComponent<SpriteComponent>()->SetDepth(2);
+	room5->doors.push_back(door5_3);
+	m_rooms.push_back(room5);
 
 	ChangeRoom();
 
