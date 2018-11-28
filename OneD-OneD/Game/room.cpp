@@ -175,6 +175,18 @@ void Room::SetRooms()
 				 m_currentRoom->itemsInRoom.push_back(item3);
 			 }
 		 }
+		 Item* item4 = (Item*)GetScene()->GetEntitiesWithID("food");
+		 if (item4->GetTransform().position != Vector2D(50.0f, 25.0f) && item4->GetComponent<SpriteComponent>()->GetVisible() == true) {
+			 bool exists = false;
+			 for (Item* item1 : m_currentRoom->itemsInRoom) {
+				 if (item1 == item4) {
+					 exists = true;
+				 }
+			 }
+			 if (!exists) {
+				 m_currentRoom->itemsInRoom.push_back(item4);
+			 }
+		 }
 
  }
 

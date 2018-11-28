@@ -22,8 +22,11 @@ void Hero::Create(const Vector2D & position)
 	kinematic->Create(500.0f, 0.3f, false);
 
 	HeroControllerComponent* heroControllerComponent = AddComponent<HeroControllerComponent>();
+#ifdef _DEBUG
 	heroControllerComponent->Create(1.5f);
-
+#else
+	heroControllerComponent->Create(0.5f);
+#endif
 	SpriteComponent* spritecomponent01 = AddComponent<SpriteComponent>();
 	spritecomponent01->Create("", Vector2D(0.5f, 0.5f));
 	spritecomponent01->SetDepth(100);
@@ -73,6 +76,10 @@ void Hero::Update()
 		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
 	}
 	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && ((ID)m_itemHeld->GetTag()).GetIDString() == "poison") {
+		m_itemHeld->GetTransform().position = m_transform.position;
+		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
+	}
+	if (InputManager::Instance()->GetActionButton("pick_up") == InputManager::eButtonState::PRESSED && ((ID)m_itemHeld->GetTag()).GetIDString() == "food") {
 		m_itemHeld->GetTransform().position = m_transform.position;
 		m_itemHeld = (Item*)m_scene->GetEntitiesWithID("No Items");
 	}
