@@ -92,29 +92,34 @@ void TitleState::Enter()
 	inventoryicon->SetVisible(false);
 
 	//SwordItem
-	Item* sword = m_owner->GetScene()->AddEntity<Item>("sword");
+	Item* sword = m_owner->GetScene()->AddEntity<Item>();
 	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
 	sword->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//PosionItem
-	Item* poison = m_owner->GetScene()->AddEntity<Item>("poison");
+	Item* poison = m_owner->GetScene()->AddEntity<Item>();
 	poison->Create(Item::eType::POISON, Vector2D(200.0f, 200.0f));
 	poison->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//food Item
-	Item* food = m_owner->GetScene()->AddEntity<Item>("food");
+	Item* food = m_owner->GetScene()->AddEntity<Item>();
 	food->Create(Item::eType::FOOD, Vector2D(200.0f, 200.0f));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//Nothing Item
-	Item* nothing = m_owner->GetScene()->AddEntity<Item>("No Items");
+	Item* nothing = m_owner->GetScene()->AddEntity<Item>();
 	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
 
 	//Hero
 	Hero* hero = m_owner->GetScene()->AddEntity<Hero>("hero");
-	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
 	hero->Create(Vector2D(400.0f, 600.0f));
-	hero->SetItemHeld(emptyInventory);
+	std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
+	for (Entity* entity : items) {
+		Item* emptyInventory = (Item*)entity;
+		if (emptyInventory->GetItemType() == "No Items") {
+			hero->SetItemHeld(emptyInventory);
+		}
+	}
 
 	//achievement count
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->AddEntity<Entity>("NUMAcheivementsCompleted");
@@ -223,17 +228,6 @@ void InitializeState::Enter()
 	SpriteComponent* inventoryicon = InventoryIcon->GetComponent<SpriteComponent>();
 	inventoryicon->SetVisible(true);
 
-	////set up game
-	//Item* sword = (Item*) m_owner->GetScene()->GetEntitiesWithID("sword");
-	//sword->GetComponent<SpriteComponent>()->SetVisible(true);
-
-	//Get Nothing
-	Item* nothing = (Item*) m_owner->GetScene()->GetEntitiesWithID("No Items");
-
-	//GetHero
-	Hero* hero = (Hero*) m_owner->GetScene()->GetEntitiesWithID("hero");
-	Item* emptyInventory = (Item*)m_owner->GetScene()->GetEntitiesWithID("No Items");
-	hero->SetItemHeld(emptyInventory);
 	Timer::Instance()->UnPause();
 }
 
@@ -268,7 +262,7 @@ void GameState::Enter()
 	{
 		for (Item* item : room->itemsInRoom)
 		{
-			if (item->GetTag() == "food")
+			if (item->GetItemType() == "food")
 			{
 				foodCount++;
 			}
@@ -355,10 +349,18 @@ void GameState::Update()
 				room5door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 			}
-			else if (((Hero*)eHero)->GetItemHeld()->GetTag() == "food")
+
+			else if (((Hero*)eHero)->GetItemHeld()->GetItemType() == "food")
 			{
 				Item* food = ((Hero*)eHero)->GetItemHeld();
-				((Hero*)eHero)->SetItemHeld((Item*)m_owner->GetScene()->GetEntitiesWithID("No Items"));
+
+				std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
+				for (Entity* entity : items) {
+					Item* emptyInventory = (Item*)entity;
+					if (emptyInventory->GetItemType() == "No Items") {
+						((Hero*)eHero)->SetItemHeld((Item*)m_owner->GetScene()->GetEntitiesWithID("No Items"));
+					}
+				}
 
 				if (food) {
 					food->SetState(Entity::eState::DESTROY);
@@ -393,7 +395,10 @@ void GameState::Update()
 		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible();
 		eHero->GetTransform().position = Vector2D(735.0f, 660.0f);
 	}
-	if (((eHero->GetComponent<AABBComponent>()->Intersects(maintoprightdoor->GetComponent<AABBComponent>()) && (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
+	if (((eHero->GetComponent<AABBComponent>()->Intersects(maintoprightdoor->GetComponent<AABBComponent>()) 
+		&& (maintoprightdoor->GetComponent<SpriteComponent>()->GetVisible() == true) 
+		&& m_roomswitch > 3.0f))
+		&& room->m_roomIndex == 0)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
@@ -448,10 +453,10 @@ void GameState::Update()
 		//checks intersect
 		if ((eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>()) && (eDragon->GetComponent<SpriteComponent>()->GetVisible() == true)))
 		{
-			ID id = ((Hero*)eHero)->GetItemHeld()->GetTag();
-			if (id.GetIDString() == "No Items") { m_owner->SetState("HugDragonEnding"); }
-			if (id.GetIDString() == "sword") { m_owner->SetState("KillDragonEnding"); }
-			if (id.GetIDString() == "poison") { m_owner->SetState("PoisionEnding"); }
+			std::string id = ((Hero*)eHero)->GetItemHeld()->GetItemType();
+			if (id == "No Items") { m_owner->SetState("HugDragonEnding"); }
+			if (id == "sword") { m_owner->SetState("KillDragonEnding"); }
+			if (id == "poison") { m_owner->SetState("PoisionEnding"); }
 		}
 	}
 
@@ -821,7 +826,7 @@ void StarveDragonEnding::Enter()
 	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
 	StarveText2->GetTransform().position = Vector2D(100.0f, 150.0f);
 	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
-	starvetextComponent2->Create("*you here a stomach growl*", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent2->Create("*you hear a stomach growl*", "Textures\\emulogic.ttf", 16, Color::white);
 	starvetextComponent2->SetDepth(120);
 
 	//achievement

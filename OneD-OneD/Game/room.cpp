@@ -9,6 +9,9 @@ void Room::SetRooms()
 	Entity* Background = GetScene()->AddEntity<Entity>("background");
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
 
+
+
+
 	Roomx* room1= new Roomx();
 	room1->m_texture = "Sprites\\MainRoomDesign.png";
 	Door* topLeftDoor = GetScene()->AddEntity<Door>("topLeftDoor");
@@ -31,8 +34,6 @@ void Room::SetRooms()
 
 	Roomx* room2 = new Roomx();
 	room2->m_texture = "Sprites\\Room2Design.png";
-	Item* item2 = (Item*)GetScene()->GetEntitiesWithID("sword");
-	room2->itemsInRoom.push_back(item2);
 	Door* door = GetScene()->AddEntity<Door>("room2door");
 	door->Create(Vector2D(800.0f, 680.0f), true);
 	door->GetComponent<SpriteComponent>()->SetDepth(2);
@@ -49,8 +50,6 @@ void Room::SetRooms()
 
 	Roomx* room3 = new Roomx();
 	room3->m_texture = "Sprites\\Room3Design.png";
-	Item* item3 = (Item*)GetScene()->GetEntitiesWithID("poison");
-	room3->itemsInRoom.push_back(item3);
 	Door* door3 = GetScene()->AddEntity<Door>("room3door");
 	door3->Create(Vector2D(800.0f, 200.0f), true);
 	door3->GetComponent<SpriteComponent>()->SetDepth(2);
@@ -59,8 +58,6 @@ void Room::SetRooms()
 
 	Roomx* room4 = new Roomx();
 	room4->m_texture = "Sprites\\Room4Design.png";
-	Item* steak1 = (Item*)GetScene()->GetEntitiesWithID("food");
-	room4->itemsInRoom.push_back(steak1);
 	Door* door4_1 = GetScene()->AddEntity<Door>("room4_1door");
 	door4_1->Create(Vector2D(5.0f, 680.0f), false);
 	door4_1->GetComponent<SpriteComponent>()->SetDepth(2);
@@ -91,6 +88,19 @@ void Room::SetRooms()
 	room5->doors.push_back(door5_3);
 	m_rooms.push_back(room5);
 
+	//getitems
+	std::vector<Entity*> items = GetScene()->GetEntitiesWithTag("item");
+	for (Entity* entity : items) {
+		Item* roomitem = (Item*)entity;
+		if (roomitem->GetItemType() == "sword") {
+			room2->itemsInRoom.push_back(roomitem);
+		} else if (roomitem->GetItemType() == "poison") {
+			room3->itemsInRoom.push_back(roomitem);
+		}else if (roomitem->GetItemType() == "food") {
+			room4->itemsInRoom.push_back(roomitem);
+		}
+	}
+	
 	ChangeRoom();
 
 
@@ -151,43 +161,23 @@ void Room::SetRooms()
 				}
 		 }
 
-		 Item* item2 = (Item*)GetScene()->GetEntitiesWithID("sword");
-		 if (item2->GetTransform().position != Vector2D(50.0f, 25.0f) && item2->GetComponent<SpriteComponent>()->GetVisible() == true) {
-				 bool exists = false;
-				 for (Item* item : m_currentRoom->itemsInRoom) {
-						 if (item == item2) {
-								 exists = true;
+		 std::vector<Entity*> items = GetScene()->GetEntitiesWithTag("item");
+		 for(Entity* entity : items) {
+			 Item* droppeditem = (Item*)entity;
+			 if (droppeditem->GetItemType() != "No Items"){
+				 if (droppeditem->GetTransform().position != Vector2D(50.0f, 25.0f) && droppeditem->GetComponent<SpriteComponent>()->GetVisible() == true) {
+					 bool exists = false;
+					 for (Item* _item : m_currentRoom->itemsInRoom) {
+						 if (_item == droppeditem) {
+							 exists = true;
 						 }
+					 }
+					 if (!exists) {
+						 m_currentRoom->itemsInRoom.push_back(droppeditem);
+					 }
 				 }
-				 if (!exists) {
-						 m_currentRoom->itemsInRoom.push_back(item2);
-				 }
-		 }
-		 Item* item3 = (Item*)GetScene()->GetEntitiesWithID("poison");
-		 if (item3->GetTransform().position != Vector2D(50.0f, 25.0f) && item3->GetComponent<SpriteComponent>()->GetVisible() == true) {
-			 bool exists = false;
-			 for (Item* item1 : m_currentRoom->itemsInRoom) {
-				 if (item1 == item3) {
-					 exists = true;
-				 }
-			 }
-			 if (!exists) {
-				 m_currentRoom->itemsInRoom.push_back(item3);
 			 }
 		 }
-		 Item* item4 = (Item*)GetScene()->GetEntitiesWithID("food");
-		 if (item4->GetTransform().position != Vector2D(50.0f, 25.0f) && item4->GetComponent<SpriteComponent>()->GetVisible() == true) {
-			 bool exists = false;
-			 for (Item* item1 : m_currentRoom->itemsInRoom) {
-				 if (item1 == item4) {
-					 exists = true;
-				 }
-			 }
-			 if (!exists) {
-				 m_currentRoom->itemsInRoom.push_back(item4);
-			 }
-		 }
-
  }
 
 

@@ -22,5 +22,7 @@ public:
 	void Update();
 
 	void OnEvent(const Event & event);
+	std::string GetItemType() { return m_itemType; }
 protected:
+	std::string m_itemType;
 };

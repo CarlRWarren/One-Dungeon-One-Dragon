@@ -12,28 +12,28 @@ void Item::Create(Item::eType type, const Vector2D & position)
 {
 	m_transform.position = position;
 	m_transform.scale = Vector2D(2.5f, 2.5f);
-
+	SetTag("item");
 
 	if (type == SWORD) {
-		SetTag("sword");
+		m_itemType = "sword";
 		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
 		spriteComponent->Create("sprites\\weapon_regular_sword.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(55);
 	}
 	else if (type == POISON) {
-		SetTag("poison");
+		m_itemType = ("poison");
 		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
 		spriteComponent->Create("sprites\\flask_big_green.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(55);
 	}
 	else if (type == FOOD) {
-		SetTag("food");
+		m_itemType = ("food");
 		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
 		spriteComponent->Create("sprites\\steak.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(55);
 	}
 	else {
-		SetTag("No Items");
+		m_itemType = ("No Items");
 	}
 	
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
