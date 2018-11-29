@@ -16,6 +16,7 @@
 #include "achievement.h"
 #include "audioSystem.h"
 #include "room.h"
+#include "pauseScreen.h"
 #include <iostream>
 
 void TitleState::Enter()
@@ -75,6 +76,18 @@ void TitleState::Enter()
 	//Achievement Background
 	Achievement* createAchievement = m_owner->GetScene()->AddEntity<Achievement>("achievement");
 	createAchievement->Create(Vector2D(400.0f, 400.0f));
+
+	//pause screen
+	PauseScreen* pauseScreen = m_owner->GetScene()->AddEntity<PauseScreen>("pauseScreen");
+	pauseScreen->Create(Vector2D(400.0f, 400.0f));
+
+	//pausePropmt
+	Entity* PauseScreen = m_owner->GetScene()->AddEntity<Entity>("PauseScreenPrompt");
+	PauseScreen->GetTransform().position = Vector2D(625.0f, 25.0f);
+	TextComponent* PauseScreenlabel = PauseScreen->AddComponent<TextComponent>();
+	PauseScreenlabel->Create("Press 'P' To Pause", "Textures\\emulogic.ttf", 8, Color::white);
+	PauseScreenlabel->SetDepth(120);
+	PauseScreenlabel->SetVisible(false);
 
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->AddEntity<Entity>("InventoryLabel");
@@ -228,6 +241,11 @@ void InitializeState::Enter()
 	SpriteComponent* inventoryicon = InventoryIcon->GetComponent<SpriteComponent>();
 	inventoryicon->SetVisible(true);
 
+	//show pause prompt
+	Entity* pauseprompt = m_owner->GetScene()->GetEntitiesWithID("PauseScreenPrompt");
+	TextComponent* pausepromptlabel = pauseprompt->GetComponent<TextComponent>();
+	pausepromptlabel->SetVisible(true);
+
 	Timer::Instance()->UnPause();
 }
 
@@ -273,9 +291,13 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	PauseScreen* showPause = (PauseScreen*)m_owner->GetScene()->GetEntitiesWithID("pauseScreen");
+
 	if (InputManager::Instance()->GetActionButton("pause") == InputManager::eButtonState::PRESSED)
 	{
 		(Timer::Instance()->IsPaused()) ? Timer::Instance()->UnPause() : Timer::Instance()->Pause();
+		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
+
 	}
 	//Checks for Q for achievemnt Screen
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -364,8 +386,8 @@ void GameState::Update()
 
 				if (food) {
 					food->SetState(Entity::eState::DESTROY);
-					foodCount--;
-					if (foodCount <= 0)
+					//foodCount--;
+					//if (foodCount <= 0)
 					{
 						m_owner->SetState("Starvation");
 					}
