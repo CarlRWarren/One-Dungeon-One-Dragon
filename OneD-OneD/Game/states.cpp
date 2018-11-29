@@ -358,7 +358,7 @@ void GameState::Update()
 				for (Entity* entity : items) {
 					Item* emptyInventory = (Item*)entity;
 					if (emptyInventory->GetItemType() == "No Items") {
-						((Hero*)eHero)->SetItemHeld((Item*)m_owner->GetScene()->GetEntitiesWithID("No Items"));
+						((Hero*)eHero)->SetItemHeld(emptyInventory);
 					}
 				}
 
