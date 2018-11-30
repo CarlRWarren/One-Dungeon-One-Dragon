@@ -554,6 +554,13 @@ void GameState::Update()
 	{
 		m_owner->SetState("BoreDragonEnding");
 	}
+
+
+	Achievement* achievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	if (achievements->GetNumAchievments() == achievements->GetNumAchievmentsCompleted())
+	{
+		m_owner->SetState("game_over");
+	}
 }
 
 
@@ -570,11 +577,61 @@ void GameState::Exit()
 void GameOverState::Enter()
 {
 	//print out score?
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
+	spritecomponentTitlebanner->SetVisible(false);
+
+	Entity* gameoverprompt = m_owner->GetScene()->AddEntity<Entity>("GameOverText");
+	gameoverprompt->GetTransform().position = Vector2D(30.0f, 100.0f);
+	TextComponent* gameoverprompttextComponent = gameoverprompt->AddComponent<TextComponent>();
+	gameoverprompttextComponent->Create("Congratulations on Completing all Achievements!", "Textures\\emulogic.ttf", 16, Color::white);
+	gameoverprompttextComponent->SetDepth(120);
+
+
+	//create credits
+	std::vector<std::string> credits = { 
+		"Programmer: Emily Remy",
+		"Programmer: Carl Warren", 
+		"Programmer: Joe Hommel", 
+		"Programmer: Tyler White", 
+		"Tilesets by 0x72 on itch.io"	};
+
+	for (int i = 0; i < credits.size(); i++) {
+		Entity* Credits = m_owner->GetScene()->AddEntity<Entity>("credits");
+		TextComponent* Creditstext = Credits->AddComponent<TextComponent>();
+		Creditstext->SetDepth(120);
+		Credits->GetTransform().position = Vector2D(130.0f, (float)(400.0f + i * 50));
+		Creditstext->Create(credits[i], "Textures\\emulogic.ttf", 10, Color::white);
+
+	}
+
+	Entity* escprompt = m_owner->GetScene()->AddEntity<Entity>("ESCPromptText");
+	escprompt->GetTransform().position = Vector2D(130.0f, 200.0f);
+	TextComponent* escprompttextComponent = escprompt->AddComponent<TextComponent>();
+	escprompttextComponent->Create("Press ESC to quit", "Textures\\emulogic.ttf", 24, Color::white);
+	escprompttextComponent->SetDepth(120);
+	escprompttextComponent->SetVisible(false);
+
 }
 
 void GameOverState::Update()
 {
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
 
+	//scroll through credits by position
+//	std::vector<Entity*> credits = m_owner->GetScene()->GetEntitiesWithTag("credits");
+//	for (Entity* entity : credits) {
+//		entity->GetTransform().position += Vector2D::down* 30.0f;
+	//
+	//}
+
+
+	if (m_timerRate <= 0.0f)
+	{
+		Entity* escprompt = m_owner->GetScene()->GetEntitiesWithID("ESCPromptText");
+		escprompt->GetComponent<TextComponent>()->SetVisible(true);
+		//after 30 seconds show final prompt
+	}
 }
 
 void GameOverState::Exit()
