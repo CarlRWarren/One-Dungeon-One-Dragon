@@ -128,6 +128,10 @@ void TitleState::Enter()
 	food->Create(Item::eType::FOOD, Vector2D(200.0f, 200.0f));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
+	Item* coin = m_owner->GetScene()->AddEntity<Item>();
+	coin->Create(Item::eType::COIN, Vector2D(700.0f, 700.0f));
+	coin->GetComponent<SpriteComponent>()->SetVisible(false);
+
 	//Nothing Item
 	Item* nothing = m_owner->GetScene()->AddEntity<Item>();
 	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
@@ -485,6 +489,15 @@ void GameState::Update()
 				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
 				itemchosen->GetTransform().position = Vector2D(400.0f, 400.0f);
 				m_owner->SetState("Starvation");
+			}
+		}
+		if (itemchosen->GetItemType() == "coin") {
+			if (itemchosen->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())
+				 && eDragon->GetComponent<SpriteComponent>()->GetVisible() == true)
+			{
+				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
+				itemchosen->GetTransform().position = Vector2D(600.0f, 600.0f);
+				m_owner->SetState("DragonOffering");
 			}
 		}
 	}		
@@ -927,6 +940,55 @@ void StarveDragonEnding::Update()
 }
 
 void StarveDragonEnding::Exit()
+{
+	m_timerRate = m_timerReset;
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("Starvation2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
+}
+
+void DragonOfferingEnding::Enter()
+{
+	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
+	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
+	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
+	starvetextComponent1->Create("You offer up payment.", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent1->SetDepth(120);
+
+	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
+	StarveText2->GetTransform().position = Vector2D(130.0f, 400.0f);
+	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
+	starvetextComponent2->Create("The Dragon is pleased with your contribution", "Textures\\emulogic.ttf", 10, Color::white);
+	starvetextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* starveAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingAchievement");
+	starveAchivement->updateAchievement(starveAchivementAchievement);
+	Achievement* starveAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingTextAchievement");
+	starveAchivementText->updateAchievement(starveAchivementTextAchievement);
+}
+
+void DragonOfferingEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+	}
+}
+
+void DragonOfferingEnding::Exit()
 {
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");

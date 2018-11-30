@@ -12,7 +12,8 @@ public:
 		NONE,
 		SWORD,
 		POISON,
-		FOOD
+		FOOD,
+		COIN
 	};
 public:
 	Item(Scene* scene, const ID& id) : Entity(scene, id) {}

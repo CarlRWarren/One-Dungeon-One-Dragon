@@ -32,6 +32,12 @@ void Item::Create(Item::eType type, const Vector2D & position)
 		spriteComponent->Create("sprites\\steak.png", Vector2D(0.5f, 0.5f));
 		spriteComponent->SetDepth(55);
 	}
+	else if (type == COIN) {
+		m_itemType = ("coin");
+		SpriteComponent* spriteComponent = AddComponent<SpriteComponent>();
+		spriteComponent->Create("sprites\\coin_anim_f0.png", Vector2D(0.5f, 0.5f));
+		spriteComponent->SetDepth(55);
+	}
 	else {
 		m_itemType = ("No Items");
 	}

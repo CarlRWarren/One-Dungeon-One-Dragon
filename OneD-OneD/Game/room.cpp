@@ -104,6 +104,10 @@ void Room::SetRooms()
 		}else if (roomitem->GetItemType() == "food") {
 			room4->itemsInRoom.push_back(roomitem);
 		}
+		else if (roomitem->GetItemType() == "coin") {
+			room5->itemsInRoom.push_back(roomitem);
+		}
+
 	}
 	
 	ChangeRoom();

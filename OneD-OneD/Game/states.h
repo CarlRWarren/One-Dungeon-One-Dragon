@@ -159,3 +159,17 @@ protected:
 	float m_timerRate = 10.0f;
 	float m_timerReset = 10.0f;
 };
+
+
+class DragonOfferingEnding : public IState
+{
+public:
+	DragonOfferingEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
+};
