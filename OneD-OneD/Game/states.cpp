@@ -153,7 +153,6 @@ void TitleState::Enter()
 	textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 8, Color::white);
 	textcomponentNUMAcheivementsCompleted->SetDepth(300);
 
-	Timer::Instance()->Pause();
 	AudioSystem::Instance()->PlaySound("Wii", true);
 
 }
@@ -189,6 +188,10 @@ void TitleState::Update()
  	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start")==InputManager::eButtonState::PRESSED) {
 		m_owner->SetState("intitialize");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+			entity1->GetTransform().position = Vector2D(400.0f, 600.0f);
 	}
 }
 
@@ -255,7 +258,6 @@ void InitializeState::Enter()
 	TextComponent* pausepromptlabel = pauseprompt->GetComponent<TextComponent>();
 	pausepromptlabel->SetVisible(true);
 
-	Timer::Instance()->UnPause();
 }
 
 void InitializeState::Update()
