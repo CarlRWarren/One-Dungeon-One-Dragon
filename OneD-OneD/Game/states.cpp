@@ -18,6 +18,8 @@
 #include "room.h"
 #include "pauseScreen.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 void TitleState::Enter()
 {
@@ -27,6 +29,7 @@ void TitleState::Enter()
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("hint", SDL_SCANCODE_H, InputManager::eDevice::KEYBOARD);
 
 	InputManager::Instance()->AddAction("select_left", SDL_SCANCODE_LEFT, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("select_right", SDL_SCANCODE_RIGHT, InputManager::eDevice::KEYBOARD);
@@ -309,6 +312,7 @@ void GameState::Enter()
 void GameState::Update()
 {
 	PauseScreen* showPause = (PauseScreen*)m_owner->GetScene()->GetEntitiesWithID("pauseScreen");
+	float dt = Timer::Instance()->DeltaTime();
 
 	if (InputManager::Instance()->GetActionButton("pause") == InputManager::eButtonState::PRESSED)
 	{
@@ -316,6 +320,39 @@ void GameState::Update()
 		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
 
 	}
+	if (m_hintTimerRate > 0.0f) 
+	{
+		m_hintTimerRate = m_hintTimerRate - dt;
+	}
+	srand(time(NULL));
+	if (InputManager::Instance()->GetActionButton("hint") == InputManager::eButtonState::PRESSED && m_hintTimerRate <= 0.0f)
+	{
+		int random = rand() % m_hints.size();
+		m_hintActive = true;
+
+		Entity* hintText = m_owner->GetScene()->AddEntity<Entity>("hintText");
+		hintText->GetTransform().position = Vector2D(130.0f, 350.0f);
+		TextComponent* hintTextComponent = hintText->AddComponent<TextComponent>();
+		hintTextComponent->Create(m_hints[random], "Textures\\emulogic.ttf", 16, Color::white);
+		hintTextComponent->SetDepth(120);
+
+	}
+	if (m_hintActive)
+	{
+		m_hintVisibilityTimerRate = m_hintVisibilityTimerRate - dt;
+		if (m_hintVisibilityTimerRate <= 0.0f)
+		{
+			m_hintVisibilityTimerRate = m_hintVisibilityTimerReset;
+			m_hintTimerRate = m_hintTimerReset;
+			m_hintActive = false;
+			Entity* eHint = m_owner->GetScene()->GetEntitiesWithID("hintText");
+			if (eHint) {
+				eHint->SetState(Entity::eState::DESTROY);
+			}
+		}
+	}
+
+
 	//Checks for Q for achievemnt Screen
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
@@ -491,9 +528,9 @@ void GameState::Update()
 				m_owner->SetState("Starvation");
 			}
 		}
-		if (itemchosen->GetItemType() == "coin") {
+		if (itemchosen->GetItemType() == "coin"){
 			if (itemchosen->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())
-				 && eDragon->GetComponent<SpriteComponent>()->GetVisible() == true)
+				 && eDragon->GetComponent<SpriteComponent>()->GetVisible() == true && itemchosen->GetComponent<SpriteComponent>()->GetVisible() == true)
 			{
 				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
 				itemchosen->GetTransform().position = Vector2D(600.0f, 600.0f);
