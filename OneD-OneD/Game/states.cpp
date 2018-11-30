@@ -39,6 +39,15 @@ void TitleState::Enter()
 	TitleTextComponent->Create("One Dungeon, One Dragon", "Textures\\emulogic.ttf", 32, Color::white);
 	TitleTextComponent->SetDepth(120);
 
+	//banner
+	Entity* titlebanner = m_owner->GetScene()->AddEntity<Entity>("TitleBanner");
+	titlebanner->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* spritecomponentTitlebanner = titlebanner->AddComponent<SpriteComponent>();
+	spritecomponentTitlebanner->Create("Sprites\\TitleBanner.png", Vector2D(0.5f, 0.5f));
+	spritecomponentTitlebanner->SetDepth(100);
+	titlebanner->GetTransform().scale = Vector2D(1.1f, 1.1f);
+	spritecomponentTitlebanner->SetVisible(false);
+
 	Entity* title = m_owner->GetScene()->AddEntity<Entity>("TitleScreen");
 	title->GetTransform().position = Vector2D(400.0f, 370.0f);
 	SpriteComponent* spritecomponentTitle = title->AddComponent<SpriteComponent>();
@@ -286,7 +295,9 @@ void GameState::Enter()
 			}
 		}
 	}
-
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
+	spritecomponentTitlebanner->SetVisible(false);
 }
 
 void GameState::Update()
@@ -503,6 +514,10 @@ void GameState::Exit()
 {
 
 	AudioSystem::Instance()->RemoveSound("background");
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
+	spritecomponentTitlebanner->SetVisible(true);
+
 }
 
 void GameOverState::Enter()
@@ -525,11 +540,17 @@ void GameOverState::Exit()
 void BoreDragonEnding::Enter()
 {
 	m_timerRate = 3.0f;
-	Entity* huggedText = m_owner->GetScene()->AddEntity<Entity>("ReturnText");
-	huggedText->GetTransform().position = Vector2D(0.0f, 100.0f);
-	TextComponent* huggedtextComponent = huggedText->AddComponent<TextComponent>();
-	huggedtextComponent->Create("You Have Bored The Dragon to Death. Maybe put down the Chips and Play", "Textures\\emulogic.ttf", 10, Color::white);
-	huggedtextComponent->SetDepth(120);
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("ReturnText1");
+	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	huggedtextComponent1->Create("You Have Bored The Dragon to Death.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("ReturnText2");
+	huggedText2->GetTransform().position = Vector2D(175.0f, 400.0f);
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	huggedtextComponent2->Create("Maybe put down the Chips and Play", "Textures\\emulogic.ttf", 10, Color::white);
+	huggedtextComponent2->SetDepth(120);
+
 
 	//achievement
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -547,14 +568,22 @@ void BoreDragonEnding::Update()
 	{
 		m_owner->SetState("game");
 	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+	}
 } 
 
 void BoreDragonEnding::Exit()
 {
 	m_timerRate = m_timerReset;
-	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText");
+	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("ReturnText1");
 	if (huggedText) {
 		huggedText->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("ReturnText2");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
 	}
 }
 
@@ -563,16 +592,18 @@ void HugDragonEnding::Enter()
 	AudioSystem::Instance()->AddSound("peaceful", "Sound\\angelsballad.mid");
 	AudioSystem::Instance()->PlaySound("peaceful", false);
 
+
+
 		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
-		huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+		huggedText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-		huggedtextComponent1->Create("You Have Hugged the Dragon. It has been warmed", "Textures\\emulogic.ttf", 16, Color::white);
+		huggedtextComponent1->Create("You Have Hugged the Dragon. ", "Textures\\emulogic.ttf", 16, Color::white);
 		huggedtextComponent1->SetDepth(120);
 
 		Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent2");
-		huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
+		huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 		TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-		huggedtextComponent2->Create("by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 16, Color::white);
+		huggedtextComponent2->Create("It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 10, Color::white);
 		huggedtextComponent2->SetDepth(120);
 		//achievement
 		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -590,6 +621,10 @@ void HugDragonEnding::Update()
 	{
 		m_owner->SetState("game");
 
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
 	}
 }
 
@@ -613,9 +648,9 @@ void KillDragonEnding::Enter()
 	AudioSystem::Instance()->PlaySound("death", false);
 
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
-	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->Create("You Have Slain the Mighty Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 		//achievement
@@ -638,6 +673,10 @@ void KillDragonEnding::Update()
 	{
 		m_owner->SetState("game");
 	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+	}
 }
 
 void KillDragonEnding::Exit()
@@ -659,15 +698,15 @@ void RespectEnding::Enter()
 	AudioSystem::Instance()->AddSound("bonus", "Sound\\Bonus.wav");
 	AudioSystem::Instance()->PlaySound("bonus", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent1");
-	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Pay Respect to the Mighty Tempest Dragon.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->Create("You Pay Respect to your kill.", "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent2");
-	huggedText2->GetTransform().position = Vector2D(0.0f, 150.0f);
+	huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -684,6 +723,10 @@ void RespectEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
 	}
 }
 
@@ -704,15 +747,15 @@ void RespectEnding::Exit()
 void PoisonDragonEnding::Enter()
 {
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
-	huggedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	huggedText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You feed the dragon the Poison. Its face becomes", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->Create("You feed the dragon the Poison. ", "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent2");
-	huggedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("Pale as it takes it's last breath", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent2->Create("Its face becomes pale as it takes it's last breath", "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -730,6 +773,11 @@ void PoisonDragonEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+
 	}
 }
 
@@ -750,15 +798,15 @@ void PoisonDragonEnding::Exit()
 void TrapDragonEnding::Enter()
 {
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText1");
-	TrappedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
-	trappedtextComponent1->Create("You have trapped the dragon in its den", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent1->Create("You have trapped the dragon in.", "Textures\\emulogic.ttf", 16, Color::white);
 	trappedtextComponent1->SetDepth(120);
 
 	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText2");
-	TrappedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TrappedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
-	trappedtextComponent2->Create("it can no longer terrorize the countryside", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent2->Create("It can no longer terrorize the countryside", "Textures\\emulogic.ttf", 10, Color::white);
 	trappedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -776,6 +824,10 @@ void TrapDragonEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
 	}
 }
 
@@ -795,15 +847,15 @@ void TrapDragonEnding::Exit()
 void TrapYourselfEnding::Enter()
 {
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText1");
-	TrappedText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
-	trappedtextComponent1->Create("You have trapped yourself in this room", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent1->Create("You have trapped yourself in here", "Textures\\emulogic.ttf", 16, Color::white);
 	trappedtextComponent1->SetDepth(120);
 
 	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText2");
-	TrappedText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	TrappedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
-	trappedtextComponent2->Create("uh... Congratulations?", "Textures\\emulogic.ttf", 16, Color::white);
+	trappedtextComponent2->Create("uh... Congratulations?", "Textures\\emulogic.ttf", 10, Color::white);
 	trappedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -821,6 +873,10 @@ void TrapYourselfEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
 	}
 }
 
@@ -840,15 +896,15 @@ void TrapYourselfEnding::Exit()
 void StarveDragonEnding::Enter()
 {
 	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
-	StarveText1->GetTransform().position = Vector2D(0.0f, 100.0f);
+	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
-	starvetextComponent1->Create("The dragon has no more food", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent1->Create("The dragon has no more food.", "Textures\\emulogic.ttf", 16, Color::white);
 	starvetextComponent1->SetDepth(120);
 
 	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
-	StarveText2->GetTransform().position = Vector2D(100.0f, 150.0f);
+	StarveText2->GetTransform().position = Vector2D(175.0f, 400.0f);
 	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
-	starvetextComponent2->Create("*you hear a stomach growl*", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent2->Create("*you hear a stomach growl*", "Textures\\emulogic.ttf", 10, Color::white);
 	starvetextComponent2->SetDepth(120);
 
 	//achievement
@@ -866,6 +922,10 @@ void StarveDragonEnding::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
 	}
 }
 

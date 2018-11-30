@@ -90,7 +90,9 @@ void Hero::Update()
 	else {
 		Inventory->GetComponent<TextComponent>()->SetText("No Items");
 	}
+
 }
+
 
 void Hero::OnEvent(const Event & event)
 {
