@@ -52,6 +52,10 @@ public:
 	void Enter();
 	void Update();
 	void Exit();
+
+protected:
+	float m_timerRate = 30.0f;
+	float m_timerReset = 30.0f;
 };
 
 class BoreDragonEnding : public IState
