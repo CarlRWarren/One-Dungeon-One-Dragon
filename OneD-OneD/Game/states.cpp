@@ -320,6 +320,11 @@ void GameState::Update()
 		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
 
 	}
+if (m_hintTimerRate > 0.0f) 
+	{
+		m_hintTimerRate = m_hintTimerRate - dt;
+	}
+
 	if (m_hintTimerRate > 0.0f) 
 	{
 		m_hintTimerRate = m_hintTimerRate - dt;
@@ -350,10 +355,8 @@ void GameState::Update()
 				eHint->SetState(Entity::eState::DESTROY);
 			}
 		}
-	}
+	}	//Checks for Q for achievemnt Screen
 
-
-	//Checks for Q for achievemnt Screen
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
 	TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
@@ -594,7 +597,10 @@ void GameOverState::Enter()
 		"Programmer: Carl Warren", 
 		"Programmer: Joe Hommel", 
 		"Programmer: Tyler White", 
-		"Tilesets by 0x72 on itch.io"	};
+		"Tilesets by 0x72 on itch.io",
+		"Sound by Rin on itch.io",
+		"Food by Henry on itch.io"
+	};
 
 	for (int i = 0; i < credits.size(); i++) {
 		Entity* Credits = m_owner->GetScene()->AddEntity<Entity>("credits");
