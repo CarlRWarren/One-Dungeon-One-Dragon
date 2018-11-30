@@ -382,32 +382,10 @@ void GameState::Update()
 				room5door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 			}
-
-			else if (((Hero*)eHero)->GetItemHeld()->GetItemType() == "food")
-			{
-				Item* food = ((Hero*)eHero)->GetItemHeld();
-
-				std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
-				for (Entity* entity : items) {
-					Item* emptyInventory = (Item*)entity;
-					if (emptyInventory->GetItemType() == "No Items") {
-						((Hero*)eHero)->SetItemHeld(emptyInventory);
-					}
-				}
-
-				if (food) {
-					food->SetState(Entity::eState::DESTROY);
-					//foodCount--;
-					//if (foodCount <= 0)
-					{
-						m_owner->SetState("Starvation");
-					}
-
-				}
-
-			}
-
 	}
+	
+
+	//check door interesections
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
 		((Room*)mainroom)->ChangeRoom(0);
@@ -461,7 +439,6 @@ void GameState::Update()
 		eHero->GetTransform().position = Vector2D(705.0f, 250.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
-
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room5door->GetComponent<AABBComponent>()) && (room5door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 4)
 	{
@@ -492,6 +469,24 @@ void GameState::Update()
 			if (id == "poison") { m_owner->SetState("PoisionEnding"); }
 		}
 	}
+	
+	//check individual items placement
+	std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
+	for (Entity* entity : items) {
+		Item* itemchosen = (Item*)entity;
+		//throw away food
+		if (itemchosen->GetItemType() == "food" ) {
+			if ((itemchosen->GetComponent<AABBComponent>()->Intersects(room2LavaFountainL->GetComponent<AABBComponent>()) 
+				|| itemchosen->GetComponent<AABBComponent>()->Intersects(room2LavaFountainR->GetComponent<AABBComponent>()) 
+					) && room2LavaFountainR->GetComponent<SpriteComponent>()->GetVisible() == true) 
+			{
+				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
+				itemchosen->GetTransform().position = Vector2D(400.0f, 400.0f);
+				m_owner->SetState("Starvation");
+			}
+		}
+	}		
+		
 
 	//bore dragon
 	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();

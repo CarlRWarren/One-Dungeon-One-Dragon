@@ -3,6 +3,7 @@
 #include "Fountain.h"
 #include "spriteComponent.h"
 #include "animationComponent.h"
+#include "aabbComponent.h"
 
 void Room::SetRooms()
 {
@@ -41,10 +42,14 @@ void Room::SetRooms()
 	Fountain* leftFountain = GetScene()->AddEntity<Fountain>("leftLavaFountain");
 	leftFountain->Create(Vector2D(360.0f, 75.0f), 1);
 	leftFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	AABBComponent* aabbComponentleftFountain = leftFountain->AddComponent<AABBComponent>();
+	aabbComponentleftFountain->Create();
 	room2->fountains.push_back(leftFountain);
 	Fountain* rightFountain = GetScene()->AddEntity<Fountain>("rightLavaFountain");
 	rightFountain->Create(Vector2D(440.0f, 75.0f), 1);
 	rightFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	AABBComponent* aabbComponentrightFountain = rightFountain->AddComponent<AABBComponent>();
+	aabbComponentrightFountain->Create();
 	room2->fountains.push_back(rightFountain);
 	m_rooms.push_back(room2);
 
@@ -165,15 +170,17 @@ void Room::SetRooms()
 		 for(Entity* entity : items) {
 			 Item* droppeditem = (Item*)entity;
 			 if (droppeditem->GetItemType() != "No Items"){
-				 if (droppeditem->GetTransform().position != Vector2D(50.0f, 25.0f) && droppeditem->GetComponent<SpriteComponent>()->GetVisible() == true) {
-					 bool exists = false;
-					 for (Item* _item : m_currentRoom->itemsInRoom) {
-						 if (_item == droppeditem) {
-							 exists = true;
+				 if (droppeditem) {
+					 if (droppeditem->GetTransform().position != Vector2D(50.0f, 25.0f) && droppeditem->GetComponent<SpriteComponent>()->GetVisible() == true) {
+						 bool exists = false;
+						 for (Item* _item : m_currentRoom->itemsInRoom) {
+							 if (_item == droppeditem) {
+								 exists = true;
+							 }
 						 }
-					 }
-					 if (!exists) {
-						 m_currentRoom->itemsInRoom.push_back(droppeditem);
+						 if (!exists) {
+							 m_currentRoom->itemsInRoom.push_back(droppeditem);
+						 }
 					 }
 				 }
 			 }
