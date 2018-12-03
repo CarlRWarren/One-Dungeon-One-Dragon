@@ -3,6 +3,7 @@
 #include "Fountain.h"
 #include "spriteComponent.h"
 #include "animationComponent.h"
+#include "aabbComponent.h"
 
 void Room::SetRooms()
 {
@@ -41,10 +42,14 @@ void Room::SetRooms()
 	Fountain* leftFountain = GetScene()->AddEntity<Fountain>("leftLavaFountain");
 	leftFountain->Create(Vector2D(360.0f, 75.0f), 1);
 	leftFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	AABBComponent* aabbComponentleftFountain = leftFountain->AddComponent<AABBComponent>();
+	aabbComponentleftFountain->Create();
 	room2->fountains.push_back(leftFountain);
 	Fountain* rightFountain = GetScene()->AddEntity<Fountain>("rightLavaFountain");
 	rightFountain->Create(Vector2D(440.0f, 75.0f), 1);
 	rightFountain->GetComponent<SpriteComponent>()->SetDepth(2);
+	AABBComponent* aabbComponentrightFountain = rightFountain->AddComponent<AABBComponent>();
+	aabbComponentrightFountain->Create();
 	room2->fountains.push_back(rightFountain);
 	m_rooms.push_back(room2);
 
@@ -62,14 +67,6 @@ void Room::SetRooms()
 	door4_1->Create(Vector2D(5.0f, 680.0f), false);
 	door4_1->GetComponent<SpriteComponent>()->SetDepth(2);
 	room4->doors.push_back(door4_1);
-	Door* door4_2 = GetScene()->AddEntity<Door>("room4_2door");
-	door4_2->Create(Vector2D(800.0f, 680.0f), true);
-	door4_2->GetComponent<SpriteComponent>()->SetDepth(2);
-	room4->doors.push_back(door4_2);
-	Door* door4_3 = GetScene()->AddEntity<Door>("room4_3door");
-	door4_3->Create(Vector2D(440.0f, 40.0f), true,true);
-	door4_3->GetComponent<SpriteComponent>()->SetDepth(2);
-	room4->doors.push_back(door4_3);
 	m_rooms.push_back(room4);
 
 	Roomx* room5 = new Roomx();
@@ -78,14 +75,6 @@ void Room::SetRooms()
 	door5_1->Create(Vector2D(5.0f, 200.0f), false);
 	door5_1->GetComponent<SpriteComponent>()->SetDepth(2);
 	room5->doors.push_back(door5_1);
-	Door* door5_2 = GetScene()->AddEntity<Door>("room5_2door");
-	door5_2->Create(Vector2D(800.0f, 600.0f), true);
-	door5_2->GetComponent<SpriteComponent>()->SetDepth(2);
-	room5->doors.push_back(door5_2);
-	Door* door5_3 = GetScene()->AddEntity<Door>("room5_3door");
-	door5_3->Create(Vector2D(440.0f, 800.0f), true);
-	door5_3->GetComponent<SpriteComponent>()->SetDepth(2);
-	room5->doors.push_back(door5_3);
 	m_rooms.push_back(room5);
 
 	//getitems
@@ -99,6 +88,10 @@ void Room::SetRooms()
 		}else if (roomitem->GetItemType() == "food") {
 			room4->itemsInRoom.push_back(roomitem);
 		}
+		else if (roomitem->GetItemType() == "coin") {
+			room5->itemsInRoom.push_back(roomitem);
+		}
+
 	}
 	
 	ChangeRoom();
@@ -165,15 +158,17 @@ void Room::SetRooms()
 		 for(Entity* entity : items) {
 			 Item* droppeditem = (Item*)entity;
 			 if (droppeditem->GetItemType() != "No Items"){
-				 if (droppeditem->GetTransform().position != Vector2D(50.0f, 25.0f) && droppeditem->GetComponent<SpriteComponent>()->GetVisible() == true) {
-					 bool exists = false;
-					 for (Item* _item : m_currentRoom->itemsInRoom) {
-						 if (_item == droppeditem) {
-							 exists = true;
+				 if (droppeditem) {
+					 if (droppeditem->GetTransform().position != Vector2D(50.0f, 25.0f) && droppeditem->GetComponent<SpriteComponent>()->GetVisible() == true) {
+						 bool exists = false;
+						 for (Item* _item : m_currentRoom->itemsInRoom) {
+							 if (_item == droppeditem) {
+								 exists = true;
+							 }
 						 }
-					 }
-					 if (!exists) {
-						 m_currentRoom->itemsInRoom.push_back(droppeditem);
+						 if (!exists) {
+							 m_currentRoom->itemsInRoom.push_back(droppeditem);
+						 }
 					 }
 				 }
 			 }

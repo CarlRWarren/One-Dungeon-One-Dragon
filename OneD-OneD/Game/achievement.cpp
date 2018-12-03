@@ -159,6 +159,18 @@ void Achievement::CreateAchievements()
 		TextComponent* textcomponentStarveDragon = starveDragonText->AddComponent<TextComponent>();
 		textcomponentStarveDragon->Create("My belly, It's sooooo empty.:(", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(starveDragonText);
+
+		Entity* DragonOfferingAchievement = GetScene()->AddEntity<Entity>("DragonOfferingAchievement");
+		SpriteComponent* spritecomponentDragonOfferingAchievement = DragonOfferingAchievement->AddComponent<SpriteComponent>();
+		spritecomponentDragonOfferingAchievement->Create("sprites\\coin_anim_f0.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(DragonOfferingAchievement);
+
+		Entity* DragonOfferingAchievementText = GetScene()->AddEntity<Entity>("DragonOfferingTextAchievement");
+		TextComponent* textcomponentDragonOffering = DragonOfferingAchievementText->AddComponent<TextComponent>();
+		textcomponentDragonOffering->Create("Pay your Taxes", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(DragonOfferingAchievementText);
+
+
 }
 
 void Achievement::updateAchievement(Entity * completedAchivement)

@@ -18,15 +18,18 @@
 #include "room.h"
 #include "pauseScreen.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 void TitleState::Enter()
 {
-	AudioSystem::Instance()->AddSound("Wii", "Sound\\WiiMusic.mp3");
+	AudioSystem::Instance()->AddSound("intro", "Sound\\introbeat.mp3");
 
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
+	InputManager::Instance()->AddAction("hint", SDL_SCANCODE_H, InputManager::eDevice::KEYBOARD);
 
 	InputManager::Instance()->AddAction("select_left", SDL_SCANCODE_LEFT, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("select_right", SDL_SCANCODE_RIGHT, InputManager::eDevice::KEYBOARD);
@@ -128,6 +131,10 @@ void TitleState::Enter()
 	food->Create(Item::eType::FOOD, Vector2D(200.0f, 200.0f));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
+	Item* coin = m_owner->GetScene()->AddEntity<Item>();
+	coin->Create(Item::eType::COIN, Vector2D(700.0f, 700.0f));
+	coin->GetComponent<SpriteComponent>()->SetVisible(false);
+
 	//Nothing Item
 	Item* nothing = m_owner->GetScene()->AddEntity<Item>();
 	nothing->Create(Item::eType::NONE, Vector2D(0.0f, 0.0f));
@@ -153,7 +160,7 @@ void TitleState::Enter()
 	textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 8, Color::white);
 	textcomponentNUMAcheivementsCompleted->SetDepth(300);
 
-	AudioSystem::Instance()->PlaySound("Wii", true);
+	AudioSystem::Instance()->PlaySound("intro", true);
 
 	//load Achievements
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -235,7 +242,7 @@ void TitleState::Exit()
 	if (entity9) {
 		entity9->SetState(Entity::DESTROY);
 	}
-	AudioSystem::Instance()->RemoveSound("Wii");
+	AudioSystem::Instance()->RemoveSound("intro");
 }
 
 void InitializeState::Enter()
@@ -314,6 +321,7 @@ void GameState::Enter()
 void GameState::Update()
 {
 	PauseScreen* showPause = (PauseScreen*)m_owner->GetScene()->GetEntitiesWithID("pauseScreen");
+	float dt = Timer::Instance()->DeltaTime();
 
 	if (InputManager::Instance()->GetActionButton("pause") == InputManager::eButtonState::PRESSED)
 	{
@@ -321,7 +329,43 @@ void GameState::Update()
 		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
 
 	}
-	//Checks for Q for achievemnt Screen
+if (m_hintTimerRate > 0.0f) 
+	{
+		m_hintTimerRate = m_hintTimerRate - dt;
+	}
+
+	if (m_hintTimerRate > 0.0f) 
+	{
+		m_hintTimerRate = m_hintTimerRate - dt;
+	}
+	srand(time(NULL));
+	if (InputManager::Instance()->GetActionButton("hint") == InputManager::eButtonState::PRESSED && m_hintTimerRate <= 0.0f)
+	{
+		int random = rand() % m_hints.size();
+		m_hintActive = true;
+
+		Entity* hintText = m_owner->GetScene()->AddEntity<Entity>("hintText");
+		hintText->GetTransform().position = Vector2D(130.0f, 350.0f);
+		TextComponent* hintTextComponent = hintText->AddComponent<TextComponent>();
+		hintTextComponent->Create(m_hints[random], "Textures\\emulogic.ttf", 16, Color::white);
+		hintTextComponent->SetDepth(120);
+
+	}
+	if (m_hintActive)
+	{
+		m_hintVisibilityTimerRate = m_hintVisibilityTimerRate - dt;
+		if (m_hintVisibilityTimerRate <= 0.0f)
+		{
+			m_hintVisibilityTimerRate = m_hintVisibilityTimerReset;
+			m_hintTimerRate = m_hintTimerReset;
+			m_hintActive = false;
+			Entity* eHint = m_owner->GetScene()->GetEntitiesWithID("hintText");
+			if (eHint) {
+				eHint->SetState(Entity::eState::DESTROY);
+			}
+		}
+	}	//Checks for Q for achievemnt Screen
+
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
 	TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
@@ -393,32 +437,10 @@ void GameState::Update()
 				room5door->GetComponent<SpriteComponent>()->SetVisible(false);
 				m_owner->SetState("TrapYourselfEnding");
 			}
-
-			else if (((Hero*)eHero)->GetItemHeld()->GetItemType() == "food")
-			{
-				Item* food = ((Hero*)eHero)->GetItemHeld();
-
-				std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
-				for (Entity* entity : items) {
-					Item* emptyInventory = (Item*)entity;
-					if (emptyInventory->GetItemType() == "No Items") {
-						((Hero*)eHero)->SetItemHeld(emptyInventory);
-					}
-				}
-
-				if (food) {
-					food->SetState(Entity::eState::DESTROY);
-					//foodCount--;
-					//if (foodCount <= 0)
-					{
-						m_owner->SetState("Starvation");
-					}
-
-				}
-
-			}
-
 	}
+	
+
+	//check door interesections
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room2door->GetComponent<AABBComponent>()) && (room2door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 1)
 	{
 		((Room*)mainroom)->ChangeRoom(0);
@@ -472,7 +494,6 @@ void GameState::Update()
 		eHero->GetTransform().position = Vector2D(705.0f, 250.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
-
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room5door->GetComponent<AABBComponent>()) && (room5door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 4)
 	{
@@ -503,6 +524,33 @@ void GameState::Update()
 			if (id == "poison") { m_owner->SetState("PoisionEnding"); }
 		}
 	}
+	
+	//check individual items placement
+	std::vector<Entity*> items = m_owner->GetScene()->GetEntitiesWithTag("item");
+	for (Entity* entity : items) {
+		Item* itemchosen = (Item*)entity;
+		//throw away food
+		if (itemchosen->GetItemType() == "food" ) {
+			if ((itemchosen->GetComponent<AABBComponent>()->Intersects(room2LavaFountainL->GetComponent<AABBComponent>()) 
+				|| itemchosen->GetComponent<AABBComponent>()->Intersects(room2LavaFountainR->GetComponent<AABBComponent>()) 
+					) && room2LavaFountainR->GetComponent<SpriteComponent>()->GetVisible() == true) 
+			{
+				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
+				itemchosen->GetTransform().position = Vector2D(400.0f, 400.0f);
+				m_owner->SetState("Starvation");
+			}
+		}
+		if (itemchosen->GetItemType() == "coin"){
+			if (itemchosen->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>())
+				 && eDragon->GetComponent<SpriteComponent>()->GetVisible() == true && itemchosen->GetComponent<SpriteComponent>()->GetVisible() == true)
+			{
+				itemchosen->GetComponent<SpriteComponent>()->SetVisible(false);
+				itemchosen->GetTransform().position = Vector2D(600.0f, 600.0f);
+				m_owner->SetState("DragonOffering");
+			}
+		}
+	}		
+		
 
 	//bore dragon
 	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
@@ -517,6 +565,13 @@ void GameState::Update()
 	if (m_timerRate <= 0.0f)
 	{
 		m_owner->SetState("BoreDragonEnding");
+	}
+
+
+	Achievement* achievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	if (achievements->GetNumAchievments() == achievements->GetNumAchievmentsCompleted())
+	{
+		m_owner->SetState("game_over");
 	}
 }
 
@@ -534,11 +589,64 @@ void GameState::Exit()
 void GameOverState::Enter()
 {
 	//print out score?
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
+	spritecomponentTitlebanner->SetVisible(false);
+
+	Entity* gameoverprompt = m_owner->GetScene()->AddEntity<Entity>("GameOverText");
+	gameoverprompt->GetTransform().position = Vector2D(30.0f, 100.0f);
+	TextComponent* gameoverprompttextComponent = gameoverprompt->AddComponent<TextComponent>();
+	gameoverprompttextComponent->Create("Congratulations on Completing all Achievements!", "Textures\\emulogic.ttf", 16, Color::white);
+	gameoverprompttextComponent->SetDepth(120);
+
+
+	//create credits
+	std::vector<std::string> credits = { 
+		"Programmer: Emily Remy",
+		"Programmer: Carl Warren", 
+		"Programmer: Joe Hommel", 
+		"Programmer: Tyler White", 
+		"Tilesets by 0x72 on itch.io",
+		"Sound by Rin on itch.io",
+		"Food by Henry on itch.io"
+	};
+
+	for (int i = 0; i < credits.size(); i++) {
+		Entity* Credits = m_owner->GetScene()->AddEntity<Entity>("credits");
+		TextComponent* Creditstext = Credits->AddComponent<TextComponent>();
+		Creditstext->SetDepth(120);
+		Credits->GetTransform().position = Vector2D(130.0f, (float)(400.0f + i * 50));
+		Creditstext->Create(credits[i], "Textures\\emulogic.ttf", 10, Color::white);
+
+	}
+
+	Entity* escprompt = m_owner->GetScene()->AddEntity<Entity>("ESCPromptText");
+	escprompt->GetTransform().position = Vector2D(130.0f, 200.0f);
+	TextComponent* escprompttextComponent = escprompt->AddComponent<TextComponent>();
+	escprompttextComponent->Create("Press ESC to quit", "Textures\\emulogic.ttf", 24, Color::white);
+	escprompttextComponent->SetDepth(120);
+	escprompttextComponent->SetVisible(false);
+
 }
 
 void GameOverState::Update()
 {
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
 
+	//scroll through credits by position
+//	std::vector<Entity*> credits = m_owner->GetScene()->GetEntitiesWithTag("credits");
+//	for (Entity* entity : credits) {
+//		entity->GetTransform().position += Vector2D::down* 30.0f;
+	//
+	//}
+
+
+	if (m_timerRate <= 0.0f)
+	{
+		Entity* escprompt = m_owner->GetScene()->GetEntitiesWithID("ESCPromptText");
+		escprompt->GetComponent<TextComponent>()->SetVisible(true);
+		//after 30 seconds show final prompt
+	}
 }
 
 void GameOverState::Exit()
@@ -940,6 +1048,55 @@ void StarveDragonEnding::Update()
 }
 
 void StarveDragonEnding::Exit()
+{
+	m_timerRate = m_timerReset;
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("Starvation2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
+}
+
+void DragonOfferingEnding::Enter()
+{
+	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
+	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
+	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
+	starvetextComponent1->Create("You offer up payment.", "Textures\\emulogic.ttf", 16, Color::white);
+	starvetextComponent1->SetDepth(120);
+
+	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
+	StarveText2->GetTransform().position = Vector2D(130.0f, 400.0f);
+	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
+	starvetextComponent2->Create("The Dragon is pleased with your contribution", "Textures\\emulogic.ttf", 10, Color::white);
+	starvetextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* starveAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingAchievement");
+	starveAchivement->updateAchievement(starveAchivementAchievement);
+	Achievement* starveAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* starveAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingTextAchievement");
+	starveAchivementText->updateAchievement(starveAchivementTextAchievement);
+}
+
+void DragonOfferingEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+	}
+}
+
+void DragonOfferingEnding::Exit()
 {
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
