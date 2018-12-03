@@ -13,6 +13,9 @@ public:
 	void Create(const Vector2D& position);
 	void Update();
 
+	void Save();
+	void Load();
+
 	void OnEvent(const Event & event);
 
 	void CreateAchievements();
@@ -29,5 +32,4 @@ public:
 protected:
 		std::vector<Entity*> m_achievements;
 		std::vector<Entity*> m_completedAchievements;
-		std::vector<Entity*> m_completedAchievementsText;
 };

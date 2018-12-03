@@ -155,6 +155,10 @@ void TitleState::Enter()
 
 	AudioSystem::Instance()->PlaySound("Wii", true);
 
+	//load Achievements
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	dragonAchivement->Load();
+
 }
 
 void TitleState::Update()
@@ -300,6 +304,11 @@ void GameState::Enter()
 	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
 	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
 	spritecomponentTitlebanner->SetVisible(false);
+
+	//Save Achievements
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	dragonAchivement->Save();
+
 }
 
 void GameState::Update()
@@ -610,10 +619,9 @@ void HugDragonEnding::Enter()
 		//achievement
 		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-		dragonAchivement->updateAchievement(dragonAchivementAchievement);
-		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
-		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+		dragonAchivement->updateAchievement(dragonAchivementAchievement);
+		dragonAchivement->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void HugDragonEnding::Update()
