@@ -637,6 +637,7 @@ if (m_hintTimerRate > 0.0f)
 	}
 	if (m_timerRate <= 0.0f)
 	{
+		m_timerRate = m_timerReset;
 		m_owner->SetState("BoreDragonEnding");
 	}
 
@@ -841,7 +842,7 @@ void KillDragonEnding::Enter()
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
 	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Have Slain the Mighty Dragon.",  "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 13, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 		//achievement
@@ -937,6 +938,8 @@ void RespectEnding::Exit()
 
 void PoisonDragonEnding::Enter()
 {
+	AudioSystem::Instance()->AddSound("posionED", "Sound\\blackbargain.mid");
+	AudioSystem::Instance()->PlaySound("posionED", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
 	huggedText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -983,11 +986,14 @@ void PoisonDragonEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
-	
+	AudioSystem::Instance()->RemoveSound("posionED");
 }
 
 void TrapDragonEnding::Enter()
 {
+	AudioSystem::Instance()->AddSound("trapED", "Sound\\trapdragon.wav");
+	AudioSystem::Instance()->PlaySound("trapED", false);
+
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText1");
 	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
@@ -1033,10 +1039,13 @@ void TrapDragonEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
+	AudioSystem::Instance()->RemoveSound("trapED");
 }
 
 void TrapYourselfEnding::Enter()
 {
+	AudioSystem::Instance()->AddSound("trapSelfED", "Sound\\whistle.wav");
+	AudioSystem::Instance()->PlaySound("trapSelfED", false);
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText1");
 	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
@@ -1073,6 +1082,7 @@ void TrapYourselfEnding::Update()
 
 void TrapYourselfEnding::Exit()
 {
+	AudioSystem::Instance()->RemoveSound("trapSelfED");
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfText1");
 	if (huggedText1) {
@@ -1086,6 +1096,8 @@ void TrapYourselfEnding::Exit()
 
 void StarveDragonEnding::Enter()
 {
+	AudioSystem::Instance()->AddSound("growl", "Sound\\growl.wav");
+	AudioSystem::Instance()->PlaySound("growl", false);
 	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
 	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
@@ -1122,6 +1134,7 @@ void StarveDragonEnding::Update()
 
 void StarveDragonEnding::Exit()
 {
+	AudioSystem::Instance()->RemoveSound("growl");
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
 	if (huggedText1) {
@@ -1135,6 +1148,8 @@ void StarveDragonEnding::Exit()
 
 void DragonOfferingEnding::Enter()
 {
+	AudioSystem::Instance()->AddSound("money", "Sound\\Cha - Ching.mp3");
+	AudioSystem::Instance()->PlaySound("money", false);
 	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
 	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
@@ -1171,6 +1186,8 @@ void DragonOfferingEnding::Update()
 
 void DragonOfferingEnding::Exit()
 {
+
+	AudioSystem::Instance()->RemoveSound("money");
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("Starvation1");
 	if (huggedText1) {
