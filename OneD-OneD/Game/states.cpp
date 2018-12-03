@@ -23,7 +23,7 @@
 
 void TitleState::Enter()
 {
-	AudioSystem::Instance()->AddSound("Wii", "Sound\\WiiMusic.mp3");
+	AudioSystem::Instance()->AddSound("intro", "Sound\\introbeat.mp3");
 
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
@@ -160,7 +160,7 @@ void TitleState::Enter()
 	textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 8, Color::white);
 	textcomponentNUMAcheivementsCompleted->SetDepth(300);
 
-	AudioSystem::Instance()->PlaySound("Wii", true);
+	AudioSystem::Instance()->PlaySound("intro", true);
 
 }
 
@@ -238,7 +238,7 @@ void TitleState::Exit()
 	if (entity9) {
 		entity9->SetState(Entity::DESTROY);
 	}
-	AudioSystem::Instance()->RemoveSound("Wii");
+	AudioSystem::Instance()->RemoveSound("intro");
 }
 
 void InitializeState::Enter()
