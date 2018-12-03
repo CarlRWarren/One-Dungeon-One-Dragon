@@ -2,6 +2,27 @@
 #include "state.h"
 #include <vector>
 
+class CutSceneState : public IState
+{
+public:
+	CutSceneState(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+
+protected:
+	float m_timer = 4.0f;
+	int cutscene = 0;
+	std::vector<std::string> intro = {"In that land...", "There lived a mighty dragon...", 
+		"and a brave knight...", "and a wizard...",
+		"the knight asked the wizard","''What is the best way",
+		"to defeat the dragon?''",  "the wizard said...",
+		"''I dont know the best way,","but I will let you try"," as many times as you need.''",
+		"and the wizard cast his spell...",
+	};
+};
+
 class TitleState : public IState
 {
 public:
@@ -12,7 +33,6 @@ public:
 	void Exit();
 
 protected:
-	size_t m_credits = 0;
 };
 
 class InitializeState : public IState

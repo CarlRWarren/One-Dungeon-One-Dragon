@@ -34,6 +34,8 @@ bool Game::Initialize()
 
 	//Flips through states in states.cpp
 	//can add more later
+	m_stateMachine->AddState("cutscene", new CutSceneState(m_stateMachine));
+
 	m_stateMachine->AddState("title", new TitleState(m_stateMachine));
 	m_stateMachine->AddState("intitialize", new InitializeState(m_stateMachine));
 	m_stateMachine->AddState("game", new GameState(m_stateMachine));
@@ -49,7 +51,7 @@ bool Game::Initialize()
 	m_stateMachine->AddState("Starvation", new StarveDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("DragonOffering", new DragonOfferingEnding(m_stateMachine));
 
-	m_stateMachine->SetState("title");
+	m_stateMachine->SetState("cutscene");
 
 	m_running = success;
 

@@ -21,12 +21,85 @@
 #include <cstdlib>
 #include <ctime>
 
+
+void CutSceneState::Enter()
+{
+	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
+
+	Entity* TitleText = m_owner->GetScene()->AddEntity<Entity>("cutscene");
+	TitleText->GetTransform().position = Vector2D(25.0f, 300.0f);
+	TextComponent* TitleTextComponent = TitleText->AddComponent<TextComponent>();
+	TitleTextComponent->Create("Once apon a time...", "Textures\\emulogic.ttf", 24, Color::white);
+	TitleTextComponent->SetDepth(120);
+
+	Entity* TitleText3 = m_owner->GetScene()->AddEntity<Entity>("cutscene2");
+	TitleText3->GetTransform().position = Vector2D(25.0f, 400.0f);
+	TextComponent* TitleTextComponent3 = TitleText3->AddComponent<TextComponent>();
+	TitleTextComponent3->Create("There was a kingdom...", "Textures\\emulogic.ttf", 24, Color::white);
+	TitleTextComponent3->SetDepth(120);
+
+
+	Entity* TitleText2 = m_owner->GetScene()->AddEntity<Entity>("skipprompt");
+	TitleText2->GetTransform().position = Vector2D(625.0f, 100.0f);
+	TextComponent* TitleTextComponent2 = TitleText2->AddComponent<TextComponent>();
+	TitleTextComponent2->Create("Press Enter To Skip", "Textures\\emulogic.ttf", 8, Color::white);
+	TitleTextComponent2->SetDepth(120);
+}
+
+void CutSceneState::Update()
+{
+	m_timer = m_timer - Timer::Instance()->DeltaTime();
+
+
+	Entity* TitleText = m_owner->GetScene()->GetEntitiesWithID("cutscene");
+	Entity* TitleText2 = m_owner->GetScene()->GetEntitiesWithID("cutscene2");
+
+	if (m_timer <= 0 && cutscene < intro.size()) {
+		if (cutscene < intro.size()) {
+			TitleText->GetComponent<TextComponent>()->SetText(intro[cutscene]);
+			cutscene++;
+		}
+		if (cutscene < intro.size()) {
+			TitleText2->GetComponent<TextComponent>()->SetText(intro[cutscene]);
+			cutscene++;
+		}
+
+		
+		m_timer = 4.0f;
+	}
+	if (cutscene >= intro.size() && m_timer <= 0.0f) {
+		m_owner->SetState("title");
+	}
+
+
+	//if pressed moves to next state
+	if (InputManager::Instance()->GetActionButton("start") == InputManager::eButtonState::PRESSED) {
+		m_owner->SetState("title");
+	}
+}
+
+void CutSceneState::Exit()
+{
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("cutscene");
+	if (entity1) {
+		entity1->SetState(Entity::DESTROY);
+	}
+	Entity* entity2 = m_owner->GetScene()->GetEntitiesWithID("skipprompt");
+	if (entity2) {
+		entity2->SetState(Entity::DESTROY);
+	}
+	Entity* entity3 = m_owner->GetScene()->GetEntitiesWithID("cutscene2");
+	if (entity3) {
+		entity3->SetState(Entity::DESTROY);
+	}
+}
+
+
 void TitleState::Enter()
 {
 	AudioSystem::Instance()->AddSound("Wii", "Sound\\WiiMusic.mp3");
 
 	//Adds action for enter key
-	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("hint", SDL_SCANCODE_H, InputManager::eDevice::KEYBOARD);
@@ -1100,3 +1173,4 @@ void DragonOfferingEnding::Exit()
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
 }
+
