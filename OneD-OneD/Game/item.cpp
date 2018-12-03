@@ -61,8 +61,26 @@ void Item::OnEvent(const Event & event)
 					Entity* hero = m_scene->GetEntitiesWithID("hero");
 					Hero* ehero = (Hero*)hero;
 					ID* id = new ID(m_id.GetIDString());
-					ehero->SetItemHeld(this);
-					m_transform.position = Vector2D(50.0f, 25.0f);
+					if (ehero->GetItemHeld()->GetItemType() == "No Items" && event.receiver->GetTag() == "item" && ((Item*)event.receiver)->GetItemType() == "sword")
+					{
+						ehero->SetItemHeld(this);
+						m_transform.position = Vector2D(50.0f, 25.0f);
+					}
+					else if (ehero->GetItemHeld()->GetItemType() == "No Items" && event.receiver->GetTag() == "item" && ((Item*)event.receiver)->GetItemType() == "food")
+					{
+						ehero->SetItemHeld(this);
+						m_transform.position = Vector2D(50.0f, 25.0f);
+					}
+					else if (ehero->GetItemHeld()->GetItemType() == "No Items" && event.receiver->GetTag() == "item" && ((Item*)event.receiver)->GetItemType() == "coin")
+					{
+						ehero->SetItemHeld(this);
+						m_transform.position = Vector2D(50.0f, 25.0f);
+					}
+					else if (ehero->GetItemHeld()->GetItemType() == "No Items" && event.receiver->GetTag() == "item" && ((Item*)event.receiver)->GetItemType() == "poison")
+					{
+						ehero->SetItemHeld(this);
+						m_transform.position = Vector2D(50.0f, 25.0f);
+					}
 				}
 			}
 		}
