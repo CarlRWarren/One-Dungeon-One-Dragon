@@ -37,10 +37,12 @@ public:
 public:
 	int foodCount = 0;
 	std::vector<std::string> m_hints = {
-   "Stabby Stabby.","Respect should be given to every kill.","Not even dragons can withstand every poison.",
-   "Patience is a virtue even for hunters.", "Some hear of a Mystical Right Wizard just before this dungeon.",
-   "Spoiled Food can be melted away","Hugs can cure those blind with anger","Becareful not to trap oneself.",
-   "If only there was a way to trap the dragon.","Treasure sooths the soul." };
+   "Stabby Stabby.","You can use more than just WASD",
+   "Respect should be given to every kill.","Not even dragons can withstand poison.",
+   "Patience is a virtue even for hunters.", "Stories tell of the Right Wizard just before this dungeon.",
+   "Spoiled Food can be melted away", "Hugs can cure those blind with anger",
+   "Be careful not to trap oneself.", "Ever wonder how many keys were mapped for this game?",
+   "If only there was a way to trap the dragon.", "Treasure sooths the soul." };
 protected:
 	float m_timerReset = 600.0f;
 	float m_timerRate = 600.0f;
