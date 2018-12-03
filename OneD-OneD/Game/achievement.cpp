@@ -8,6 +8,9 @@
 #include "aabbComponent.h"
 #include "hero.h"
 #include "inputManager.h"
+#include <string>
+#include <iostream>
+#include <fstream>
 
 void Achievement::Create(const Vector2D & position)
 {
@@ -28,6 +31,36 @@ void Achievement::Create(const Vector2D & position)
 void Achievement::Update()
 {
 	Entity::Update();
+}
+
+void Achievement::Save()
+{
+		std::ofstream myfile;
+		myfile.open("achievement.txt");
+		for (Entity* entity : m_completedAchievements) {
+				myfile << ((ID)entity->GetTag()).GetIDString() + "\n";
+		}
+		myfile.close();
+}
+
+void Achievement::Load()
+{
+		std::vector<std::string> AUID;
+		std::ifstream myfile("achievement.txt");
+		if (myfile.is_open()) {
+				std::string UIDString;
+				while (std::getline(myfile, UIDString)) {
+						AUID.push_back(UIDString);
+				}
+				myfile.close();
+		}
+		for (std::string UID : AUID) {
+				for (Entity* entity : m_achievements) {
+						if (((ID)entity->GetTag()).GetIDString() == UID) {
+								updateAchievement(entity);
+						}
+				}
+		}
 }
 
 

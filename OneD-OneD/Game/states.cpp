@@ -97,7 +97,7 @@ void CutSceneState::Exit()
 
 void TitleState::Enter()
 {
-	AudioSystem::Instance()->AddSound("Wii", "Sound\\WiiMusic.mp3");
+	AudioSystem::Instance()->AddSound("intro", "Sound\\introbeat.mp3");
 
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
@@ -233,7 +233,11 @@ void TitleState::Enter()
 	textcomponentNUMAcheivementsCompleted->Create(numacheivements, "Textures\\emulogic.ttf", 8, Color::white);
 	textcomponentNUMAcheivementsCompleted->SetDepth(300);
 
-	AudioSystem::Instance()->PlaySound("Wii", true);
+	AudioSystem::Instance()->PlaySound("intro", true);
+
+	//load Achievements
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	dragonAchivement->Load();
 
 }
 
@@ -311,7 +315,7 @@ void TitleState::Exit()
 	if (entity9) {
 		entity9->SetState(Entity::DESTROY);
 	}
-	AudioSystem::Instance()->RemoveSound("Wii");
+	AudioSystem::Instance()->RemoveSound("intro");
 }
 
 void InitializeState::Enter()
@@ -380,6 +384,11 @@ void GameState::Enter()
 	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
 	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
 	spritecomponentTitlebanner->SetVisible(false);
+
+	//Save Achievements
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	dragonAchivement->Save();
+
 }
 
 void GameState::Update()
@@ -791,10 +800,9 @@ void HugDragonEnding::Enter()
 		//achievement
 		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-		dragonAchivement->updateAchievement(dragonAchivementAchievement);
-		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
-		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+		dragonAchivement->updateAchievement(dragonAchivementAchievement);
+		dragonAchivement->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void HugDragonEnding::Update()
