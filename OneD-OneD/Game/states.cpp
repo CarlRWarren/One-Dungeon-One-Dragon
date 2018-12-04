@@ -1228,7 +1228,9 @@ void DragonOfferingEnding::Exit()
 
 void FeedDragonEnding::Enter()
 {
-	
+	AudioSystem::Instance()->AddSound("feed", "Sound\\eat.mp3");
+	AudioSystem::Instance()->PlaySound("feed", false);
+
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("FeedTextSent1");
 	huggedText1->GetTransform().position = Vector2D(230.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
@@ -1266,6 +1268,8 @@ void FeedDragonEnding::Update()
 
 void FeedDragonEnding::Exit()
 {
+	AudioSystem::Instance()->RemoveSound("feed");
+
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("FeedTextSent1");
 	if (huggedText1) {
