@@ -200,23 +200,38 @@ void TitleState::Enter()
 	inventoryicon->SetDepth(50);
 	inventoryicon->SetVisible(false);
 
+	float randomX;
+	float randomY;
+
 	//SwordItem
+	srand(time(NULL));
+	randomX = (rand() % 700) + 50;
+	randomY = (rand() % 700) + 50;
 	Item* sword = m_owner->GetScene()->AddEntity<Item>();
-	sword->Create(Item::eType::SWORD, Vector2D(200.0f, 200.0f));
+	sword->Create(Item::eType::SWORD, Vector2D(randomX, randomY));
 	sword->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//PosionItem
+	srand(time(NULL));
+	randomX = (rand() % 700) + 50;
+	randomY = (rand() % 700) + 50;
 	Item* poison = m_owner->GetScene()->AddEntity<Item>();
-	poison->Create(Item::eType::POISON, Vector2D(200.0f, 200.0f));
+	poison->Create(Item::eType::POISON, Vector2D(randomX, randomY));
 	poison->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//food Item
+	srand(time(NULL));
+	randomX = (rand() % 700) + 50;
+	randomY = (rand() % 700) + 50;
 	Item* food = m_owner->GetScene()->AddEntity<Item>();
-	food->Create(Item::eType::FOOD, Vector2D(200.0f, 200.0f));
+	food->Create(Item::eType::FOOD, Vector2D(randomX, randomY));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
+	srand(time(NULL));
+	randomX = (rand() % 700) + 50;
+	randomY = (rand() % 700) + 50;
 	Item* coin = m_owner->GetScene()->AddEntity<Item>();
-	coin->Create(Item::eType::COIN, Vector2D(700.0f, 700.0f));
+	coin->Create(Item::eType::COIN, Vector2D(randomX, randomY));
 	coin->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//Nothing Item
