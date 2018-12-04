@@ -301,7 +301,7 @@ void TitleState::Update()
 	}
 	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
 	if (entity1) {
-			entity1->GetTransform().position = Vector2D(400.0f, 600.0f);
+		entity1->GetTransform().position = Vector2D(400.0f, 600.0f);
 	}
 }
 
@@ -357,7 +357,7 @@ void InitializeState::Enter()
 
 	//create helper
 	Helper* helper = m_owner->GetScene()->AddEntity<Helper>("helper");
-	helper->Create(Vector2D(625.0f, 125.0f));
+	helper->Create(Vector2D(625.0f, 175.0f));
 
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->GetEntitiesWithID("InventoryLabel");
@@ -433,10 +433,8 @@ void GameState::Update()
 	{
 		(Timer::Instance()->IsPaused()) ? Timer::Instance()->UnPause() : Timer::Instance()->Pause();
 		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
-
 	}
 	//Checks for Q for achievemnt Screen
-
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
 	TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
@@ -453,7 +451,6 @@ void GameState::Update()
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
 	Entity* eHelper = m_owner->GetScene()->GetEntitiesWithID("helper");
-
 	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
 	Entity* room2door = m_owner->GetScene()->GetEntitiesWithID("room2door");
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
@@ -749,14 +746,16 @@ void BoreDragonEnding::Enter()
 {
 	m_timerRate = 3.0f;
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("ReturnText1");
-	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Have Bored The Dragon to Death.", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You Have Bored The Dragon to Death.";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("ReturnText2");
-	huggedText2->GetTransform().position = Vector2D(175.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("Maybe put down the Chips and Play", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "Maybe put down the Chips and Play";
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 
@@ -799,26 +798,26 @@ void HugDragonEnding::Enter()
 {
 	AudioSystem::Instance()->AddSound("peaceful", "Sound\\angelsballad.mid");
 	AudioSystem::Instance()->PlaySound("peaceful", false);
+	   
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	std::string text = "You Have Hugged the Dragon.";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
 
-
-
-		Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent1");
-		huggedText1->GetTransform().position = Vector2D(175.0f, 350.0f);
-		TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-		huggedtextComponent1->Create("You Have Hugged the Dragon. ", "Textures\\emulogic.ttf", 16, Color::white);
-		huggedtextComponent1->SetDepth(120);
-
-		Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent2");
-		huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
-		TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-		huggedtextComponent2->Create("It has been warmed by Kindess and will do no more harm.", "Textures\\emulogic.ttf", 10, Color::white);
-		huggedtextComponent2->SetDepth(120);
-		//achievement
-		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
-		dragonAchivement->updateAchievement(dragonAchivementAchievement);
-		dragonAchivement->updateAchievement(dragonAchivementTextAchievement);
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("HugTextSent2");
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	std::string text2 = "It has been warmed by Kindess and will do no more harm.";
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
+	huggedtextComponent2->SetDepth(120);
+	//achievement
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
+	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
+	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	dragonAchivement->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void HugDragonEnding::Update()
@@ -855,9 +854,10 @@ void KillDragonEnding::Enter()
 	AudioSystem::Instance()->PlaySound("death", false);
 
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
-	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Have Slain the Mighty Tempest Dragon.",  "Textures\\emulogic.ttf", 13, Color::white);
+	std::string text = "Maybe put down the Chips and Play";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text,  "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 		//achievement
@@ -905,15 +905,18 @@ void RespectEnding::Enter()
 	AudioSystem::Instance()->AddSound("bonus", "Sound\\Bonus.wav");
 	AudioSystem::Instance()->PlaySound("bonus", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent1");
-	huggedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You Pay Respect to your kill.", "Textures\\emulogic.ttf", 16, Color::white);
+
+	std::string text = "You Pay Respect to your kill.";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("RespectTextSent2");
-	huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("You've Earned a Bonus Achievement.", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "You've Earned a Bonus Achievement.";
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
@@ -956,15 +959,17 @@ void PoisonDragonEnding::Enter()
 	AudioSystem::Instance()->AddSound("posionED", "Sound\\blackbargain.mid");
 	AudioSystem::Instance()->PlaySound("posionED", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
-	huggedText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You feed the dragon the Poison. ", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You feed the dragon the Poison. ";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent2");
-	huggedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("Its face becomes pale as it takes it's last breath", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "Its face becomes pale as it takes it's last breath";
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -1010,15 +1015,17 @@ void TrapDragonEnding::Enter()
 	AudioSystem::Instance()->PlaySound("trapED", false);
 
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText1");
-	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
-	trappedtextComponent1->Create("You have trapped the dragon in.", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You have trapped the dragon in.";
+	TrappedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	trappedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	trappedtextComponent1->SetDepth(120);
 
 	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapDragonText2");
-	TrappedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
-	trappedtextComponent2->Create("It can no longer terrorize the countryside", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "It can no longer terrorize the countryside";
+	TrappedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	trappedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	trappedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -1062,15 +1069,17 @@ void TrapYourselfEnding::Enter()
 	AudioSystem::Instance()->AddSound("trapSelfED", "Sound\\whistle.wav");
 	AudioSystem::Instance()->PlaySound("trapSelfED", false);
 	Entity* TrappedText1 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText1");
-	TrappedText1->GetTransform().position = Vector2D(130.0f, 350.0f);
 	TextComponent* trappedtextComponent1 = TrappedText1->AddComponent<TextComponent>();
-	trappedtextComponent1->Create("You have trapped yourself in here", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You have trapped yourself in here.";
+	TrappedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	trappedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	trappedtextComponent1->SetDepth(120);
 
 	Entity* TrappedText2 = m_owner->GetScene()->AddEntity<Entity>("TrapYourselfText2");
-	TrappedText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* trappedtextComponent2 = TrappedText2->AddComponent<TextComponent>();
-	trappedtextComponent2->Create("uh... Congratulations?", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "uh... Congratulations";
+	TrappedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	trappedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	trappedtextComponent2->SetDepth(120);
 
 	//achievement
@@ -1114,15 +1123,17 @@ void StarveDragonEnding::Enter()
 	AudioSystem::Instance()->AddSound("growl", "Sound\\growl.wav");
 	AudioSystem::Instance()->PlaySound("growl", false);
 	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
-	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
-	starvetextComponent1->Create("The dragon has no more food.", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "The dragon has no more food";
+	StarveText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	starvetextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	starvetextComponent1->SetDepth(120);
 
 	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
-	StarveText2->GetTransform().position = Vector2D(175.0f, 400.0f);
 	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
-	starvetextComponent2->Create("*you hear a stomach growl*", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "*you hear a stomach growl*";
+	StarveText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	starvetextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	starvetextComponent2->SetDepth(120);
 
 	//achievement
@@ -1166,15 +1177,17 @@ void DragonOfferingEnding::Enter()
 	AudioSystem::Instance()->AddSound("money", "Sound\\Cha - Ching.mp3");
 	AudioSystem::Instance()->PlaySound("money", false);
 	Entity* StarveText1 = m_owner->GetScene()->AddEntity<Entity>("Starvation1");
-	StarveText1->GetTransform().position = Vector2D(175.0f, 350.0f);
 	TextComponent* starvetextComponent1 = StarveText1->AddComponent<TextComponent>();
-	starvetextComponent1->Create("You offer up payment.", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You offer up payment.";
+	StarveText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	starvetextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	starvetextComponent1->SetDepth(120);
 
 	Entity* StarveText2 = m_owner->GetScene()->AddEntity<Entity>("Starvation2");
-	StarveText2->GetTransform().position = Vector2D(130.0f, 400.0f);
 	TextComponent* starvetextComponent2 = StarveText2->AddComponent<TextComponent>();
-	starvetextComponent2->Create("The Dragon is pleased with your contribution", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "The Dragon is pleased with your contribution";
+	StarveText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	starvetextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	starvetextComponent2->SetDepth(120);
 
 	//achievement
@@ -1220,15 +1233,17 @@ void FeedDragonEnding::Enter()
 	AudioSystem::Instance()->PlaySound("feed", false);
 
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("FeedTextSent1");
-	huggedText1->GetTransform().position = Vector2D(230.0f, 350.0f);
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	huggedtextComponent1->Create("You fed the dragon.", "Textures\\emulogic.ttf", 16, Color::white);
+	std::string text = "You fed the dragon.";
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("FeedTextSent2");
-	huggedText2->GetTransform().position = Vector2D(210.0f, 400.0f);
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
-	huggedtextComponent2->Create("It no longer wants to eat you.", "Textures\\emulogic.ttf", 10, Color::white);
+	std::string text2 = "It no longer wants to eat you.";
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
 	//achievement

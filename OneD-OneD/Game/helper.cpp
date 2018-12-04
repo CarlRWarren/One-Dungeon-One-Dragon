@@ -26,10 +26,9 @@ void Helper::Create(const Vector2D & position)
 	
 	int random = rand() % m_hints.size();
 	Entity* hintText = GetScene()->AddEntity<Entity>("hintText");
-	hintText->GetTransform().position = Vector2D(60.0f, 650.0f);
 	TextComponent* hintTextComponent = hintText->AddComponent<TextComponent>();
 	hintTextComponent->Create(m_hints[random], "Textures\\emulogic.ttf", 12, Color::white);
-	hintTextComponent->SetDepth(120);
+	hintTextComponent->SetDepth(10);
 	hintTextComponent->SetVisible(false);
 
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
@@ -63,19 +62,20 @@ void Helper::Update()
 			m_firsttimeclick = false;
 			std::string text = "Hi there! I died but you can ask me if you need help";
 			eHint->GetComponent<TextComponent>()->SetText(text);
-			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 75.0f);
+			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 100.0f);
 		}
 		else if (m_hintTimerRate <= 0.0f) {
 
 			int random = rand() % m_hints.size();
 			std::string text = m_hints[random];
 			eHint->GetComponent<TextComponent>()->SetText(text);
-			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 75.0f);
+			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 100.0f);
+			m_hintTimerRate = m_hintTimerReset;
 		}
 		else {
 			std::string text = "Didn't we just talk? Go look around more";
 			eHint->GetComponent<TextComponent>()->SetText(text);
-			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 75.0f);
+			eHint->GetTransform().position = Vector2D(650.0f - (text.size() * 10), 100.0f);
 		}
 	}
 	if (m_hintActive)
@@ -84,7 +84,6 @@ void Helper::Update()
 		if (m_hintVisibilityTimerRate <= 0.0f)
 		{
 			m_hintVisibilityTimerRate = m_hintVisibilityTimerReset;
-			m_hintTimerRate = m_hintTimerReset;
 			m_hintActive = false;
 			Entity* eHint = GetScene()->GetEntitiesWithID("hintText");
 			eHint->GetComponent<TextComponent>()->SetVisible(false);
