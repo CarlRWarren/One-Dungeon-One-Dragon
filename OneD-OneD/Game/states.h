@@ -13,14 +13,7 @@ public:
 
 protected:
 	float m_timer = 4.0f;
-	int cutscene = 0;
-	std::vector<std::string> intro = {"In that land...", "There lived a mighty dragon...", 
-		"and a brave knight...", "and a wizard...",
-		"the knight asked the wizard","''What is the best way",
-		"to defeat the dragon?''",  "the wizard said...",
-		"''I dont know the best way,","but I will let you try"," as many times as you need.''",
-		"and the wizard cast his spell...",
-	};
+	int m_cutscene = 0;
 };
 
 class TitleState : public IState

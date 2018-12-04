@@ -27,23 +27,32 @@ void CutSceneState::Enter()
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
 
 	Entity* TitleText = m_owner->GetScene()->AddEntity<Entity>("cutscene");
-	TitleText->GetTransform().position = Vector2D(25.0f, 300.0f);
-	TextComponent* TitleTextComponent = TitleText->AddComponent<TextComponent>();
-	TitleTextComponent->Create("Once apon a time...", "Textures\\emulogic.ttf", 24, Color::white);
-	TitleTextComponent->SetDepth(120);
+	TitleText->GetTransform().position = Vector2D(400.0f, 400.0f);
+	SpriteComponent* TitleTextComponent = TitleText->AddComponent<SpriteComponent>();
+	TitleTextComponent->Create("Textures\\Cutscene1.jpg", Vector2D(0.5f,0.5f));
+	TitleTextComponent->SetDepth(130);
+
+	TitleText->GetTransform().scale = Vector2D(0.85f, 0.85f);
 
 	Entity* TitleText3 = m_owner->GetScene()->AddEntity<Entity>("cutscene2");
-	TitleText3->GetTransform().position = Vector2D(25.0f, 400.0f);
-	TextComponent* TitleTextComponent3 = TitleText3->AddComponent<TextComponent>();
-	TitleTextComponent3->Create("There was a kingdom...", "Textures\\emulogic.ttf", 24, Color::white);
+	TitleText3->GetTransform().position = Vector2D(400.0f, 400.0f);;
+	SpriteComponent* TitleTextComponent3 = TitleText3->AddComponent<SpriteComponent>();
+	TitleTextComponent3->Create("Textures\\Cutscene2.jpg", Vector2D(0.5f, 0.5f));
 	TitleTextComponent3->SetDepth(120);
+	TitleText3->GetTransform().scale = Vector2D(0.85f, 0.85f);
 
+	Entity* TitleText4 = m_owner->GetScene()->AddEntity<Entity>("cutscene3");
+	TitleText4->GetTransform().position = Vector2D(400.0f, 400.0f);;
+	SpriteComponent* TitleTextComponent4 = TitleText4->AddComponent<SpriteComponent>();
+	TitleTextComponent4->Create("Textures\\Cutscene3.jpg", Vector2D(0.5f, 0.5f));
+	TitleTextComponent4->SetDepth(110);
+	TitleText4->GetTransform().scale = Vector2D(0.85f, 0.85f);
 
 	Entity* TitleText2 = m_owner->GetScene()->AddEntity<Entity>("skipprompt");
 	TitleText2->GetTransform().position = Vector2D(625.0f, 100.0f);
 	TextComponent* TitleTextComponent2 = TitleText2->AddComponent<TextComponent>();
 	TitleTextComponent2->Create("Press Enter To Skip", "Textures\\emulogic.ttf", 8, Color::white);
-	TitleTextComponent2->SetDepth(120);
+	TitleTextComponent2->SetDepth(130);
 }
 
 void CutSceneState::Update()
@@ -54,23 +63,21 @@ void CutSceneState::Update()
 	Entity* TitleText = m_owner->GetScene()->GetEntitiesWithID("cutscene");
 	Entity* TitleText2 = m_owner->GetScene()->GetEntitiesWithID("cutscene2");
 
-	if (m_timer <= 0 && cutscene < intro.size()) {
-		if (cutscene < intro.size()) {
-			TitleText->GetComponent<TextComponent>()->SetText(intro[cutscene]);
-			cutscene++;
-		}
-		if (cutscene < intro.size()) {
-			TitleText2->GetComponent<TextComponent>()->SetText(intro[cutscene]);
-			cutscene++;
-		}
+	if (m_timer <= 0) {
+		if (m_cutscene == 0) {
+			TitleText->GetComponent<SpriteComponent>()->SetVisible(false);
+			TitleText2->GetComponent<SpriteComponent>()->SetVisible();
 
-		
+		}
+		if (m_cutscene == 1) {
+			TitleText2->GetComponent<SpriteComponent>()->SetVisible(false);
+		}
+		if (m_cutscene == 2) {
+			m_owner->SetState("title");
+		}
+		m_cutscene++;
 		m_timer = 4.0f;
 	}
-	if (cutscene >= intro.size() && m_timer <= 0.0f) {
-		m_owner->SetState("title");
-	}
-
 
 	//if pressed moves to next state
 	if (InputManager::Instance()->GetActionButton("start") == InputManager::eButtonState::PRESSED) {
@@ -91,6 +98,10 @@ void CutSceneState::Exit()
 	Entity* entity3 = m_owner->GetScene()->GetEntitiesWithID("cutscene2");
 	if (entity3) {
 		entity3->SetState(Entity::DESTROY);
+	}
+	Entity* entity4 = m_owner->GetScene()->GetEntitiesWithID("cutscene3");
+	if (entity4) {
+		entity4->SetState(Entity::DESTROY);
 	}
 }
 
