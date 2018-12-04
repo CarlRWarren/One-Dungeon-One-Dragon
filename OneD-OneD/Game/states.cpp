@@ -17,6 +17,7 @@
 #include "audioSystem.h"
 #include "room.h"
 #include "pauseScreen.h"
+#include "helper.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -113,7 +114,6 @@ void TitleState::Enter()
 	//Adds action for enter key
 	InputManager::Instance()->AddAction("pause", SDL_SCANCODE_P, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("achieve", SDL_SCANCODE_Q, InputManager::eDevice::KEYBOARD);
-	InputManager::Instance()->AddAction("hint", SDL_SCANCODE_H, InputManager::eDevice::KEYBOARD);
 
 	InputManager::Instance()->AddAction("select_left", SDL_SCANCODE_LEFT, InputManager::eDevice::KEYBOARD);
 	InputManager::Instance()->AddAction("select_right", SDL_SCANCODE_RIGHT, InputManager::eDevice::KEYBOARD);
@@ -355,6 +355,10 @@ void InitializeState::Enter()
 	dragon->Create(Vector2D(400.0f, 400.0f));
 	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
 
+	//create helper
+	Helper* helper = m_owner->GetScene()->AddEntity<Helper>("helper");
+	helper->Create(Vector2D(625.0f, 125.0f));
+
 	//Inventory placeholder
 	Entity* Inventory = m_owner->GetScene()->GetEntitiesWithID("InventoryLabel");
 	TextComponent* inventoryLabel = Inventory->GetComponent<TextComponent>();
@@ -396,6 +400,9 @@ void GameState::Enter()
 	if (entity1) {
 		entity1->GetTransform().position = Vector2D(300.0f, 700.0f);
 	}
+	Entity* eHelper = m_owner->GetScene()->GetEntitiesWithID("helper");
+	eHelper->GetComponent<SpriteComponent>()->SetVisible();
+
 
 	for (Room::Roomx* room : ((Room*)mainroom)->m_rooms)
 	{
@@ -428,42 +435,7 @@ void GameState::Update()
 		showPause->setVisibility(!showPause->GetComponent<SpriteComponent>()->GetVisible());
 
 	}
-if (m_hintTimerRate > 0.0f) 
-	{
-		m_hintTimerRate = m_hintTimerRate - dt;
-	}
-
-	if (m_hintTimerRate > 0.0f) 
-	{
-		m_hintTimerRate = m_hintTimerRate - dt;
-	}
-	srand(time(NULL));
-	if (InputManager::Instance()->GetActionButton("hint") == InputManager::eButtonState::PRESSED && m_hintTimerRate <= 0.0f)
-	{
-		int random = rand() % m_hints.size();
-		m_hintActive = true;
-
-		Entity* hintText = m_owner->GetScene()->AddEntity<Entity>("hintText");
-		hintText->GetTransform().position = Vector2D(130.0f, 350.0f);
-		TextComponent* hintTextComponent = hintText->AddComponent<TextComponent>();
-		hintTextComponent->Create(m_hints[random], "Textures\\emulogic.ttf", 16, Color::white);
-		hintTextComponent->SetDepth(120);
-
-	}
-	if (m_hintActive)
-	{
-		m_hintVisibilityTimerRate = m_hintVisibilityTimerRate - dt;
-		if (m_hintVisibilityTimerRate <= 0.0f)
-		{
-			m_hintVisibilityTimerRate = m_hintVisibilityTimerReset;
-			m_hintTimerRate = m_hintTimerReset;
-			m_hintActive = false;
-			Entity* eHint = m_owner->GetScene()->GetEntitiesWithID("hintText");
-			if (eHint) {
-				eHint->SetState(Entity::eState::DESTROY);
-			}
-		}
-	}	//Checks for Q for achievemnt Screen
+	//Checks for Q for achievemnt Screen
 
 	Achievement* showAchievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
 	Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
@@ -477,9 +449,11 @@ if (m_hintTimerRate > 0.0f)
 	textcomponentNUMAcheivementsCompleted->SetText(numacheivements);
 	textcomponentNUMAcheivementsCompleted->SetVisible(showAchievements->GetComponent<SpriteComponent>()->GetVisible());
 
-	//hugged dragon
+	//collect entities needed
 	Entity* eHero = m_owner->GetScene()->GetEntitiesWithID("hero");
 	Entity* eDragon = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	Entity* eHelper = m_owner->GetScene()->GetEntitiesWithID("helper");
+
 	Entity* mainroom = m_owner->GetScene()->GetEntitiesWithID("mainroom");
 	Entity* room2door = m_owner->GetScene()->GetEntitiesWithID("room2door");
 	Entity* mainroomtopleftdoor = m_owner->GetScene()->GetEntitiesWithID("topLeftDoor");
@@ -548,6 +522,7 @@ if (m_hintTimerRate > 0.0f)
 		room2LavaFountainL->GetComponent<SpriteComponent>()->SetVisible(false);
 		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible(false);
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+		eHelper->GetComponent<SpriteComponent>()->SetVisible();
 
 	}
 	
@@ -555,6 +530,8 @@ if (m_hintTimerRate > 0.0f)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		eHelper->GetComponent<SpriteComponent>()->SetVisible(false);
+
 		((Room*)mainroom)->ChangeRoom(1);
 		room2LavaFountainL->GetComponent<SpriteComponent>()->SetVisible();
 		room2LavaFountainR->GetComponent<SpriteComponent>()->SetVisible();
@@ -567,6 +544,8 @@ if (m_hintTimerRate > 0.0f)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		eHelper->GetComponent<SpriteComponent>()->SetVisible(false);
+
 		((Room*)mainroom)->ChangeRoom(3);
 		eHero->GetTransform().position = Vector2D(105.0f, 660.0f);
 	}
@@ -574,6 +553,8 @@ if (m_hintTimerRate > 0.0f)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		eHelper->GetComponent<SpriteComponent>()->SetVisible(false);
+
 		((Room*)mainroom)->ChangeRoom(4);
 		eHero->GetTransform().position = Vector2D(105.0f, 160.0f);
 	}
@@ -584,6 +565,7 @@ if (m_hintTimerRate > 0.0f)
 		eHero->GetTransform().position = Vector2D(65.0f, 518.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+		eHelper->GetComponent<SpriteComponent>()->SetVisible();
 
 	}
 
@@ -593,6 +575,8 @@ if (m_hintTimerRate > 0.0f)
 		eHero->GetTransform().position = Vector2D(705.0f, 250.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
+		eHelper->GetComponent<SpriteComponent>()->SetVisible();
+
 	}
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(room5door->GetComponent<AABBComponent>()) && (room5door->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 4)
 	{
@@ -600,13 +584,16 @@ if (m_hintTimerRate > 0.0f)
 		eHero->GetTransform().position = Vector2D(705.0f, 500.0f);
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible();
-
+		eHelper->GetComponent<SpriteComponent>()->SetVisible();
+		
 	}
 
 	if (((eHero->GetComponent<AABBComponent>()->Intersects(mainbottomleftdoor->GetComponent<AABBComponent>()) && (mainbottomleftdoor->GetComponent<SpriteComponent>()->GetVisible() == true) && m_roomswitch > 3.0f)) && room->m_roomIndex == 0)
 	{
 		m_roomswitch = 0.0f;
 		eDragon->GetComponent<SpriteComponent>()->SetVisible(false);
+		eHelper->GetComponent<SpriteComponent>()->SetVisible(false);
+
 		((Room*)mainroom)->ChangeRoom(2);
 		eHero->GetTransform().position = Vector2D(735.0f, 200.0f);
 	}
@@ -614,6 +601,7 @@ if (m_hintTimerRate > 0.0f)
 	//if statement for checks that involve any "pick up" action
 	if (InputManager::Instance()->GetActionButton("use") == InputManager::eButtonState::PRESSED)
 	{
+
 		//checks intersect
 		if ((eHero->GetComponent<AABBComponent>()->Intersects(eDragon->GetComponent<AABBComponent>()) && (eDragon->GetComponent<SpriteComponent>()->GetVisible() == true)))
 		{

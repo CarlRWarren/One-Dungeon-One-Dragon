@@ -10,9 +10,6 @@ void Room::SetRooms()
 	Entity* Background = GetScene()->AddEntity<Entity>("background");
 	SpriteComponent* backgroundSpriteComponent = Background->AddComponent<SpriteComponent>();
 
-
-
-
 	Roomx* room1= new Roomx();
 	room1->m_texture = "Sprites\\MainRoomDesign.png";
 	Door* topLeftDoor = GetScene()->AddEntity<Door>("topLeftDoor");

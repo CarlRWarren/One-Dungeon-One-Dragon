@@ -56,6 +56,9 @@
     <ClCompile Include="pauseScreen.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="helper.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -92,6 +95,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="pauseScreen.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="helper.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

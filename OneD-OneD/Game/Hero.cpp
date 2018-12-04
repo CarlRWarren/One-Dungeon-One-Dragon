@@ -32,7 +32,7 @@ void Hero::Create(const Vector2D & position)
 	spritecomponent01->SetDepth(100);
 
 	AnimationComponent* animationComponent = AddComponent<AnimationComponent>();
-	animationComponent->Create(m_idleanimation, 1.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
+	animationComponent->Create(m_idleanimation, 1.0f / 5.0f, AnimationComponent::ePlayback::LOOP);
 
 	AABBComponent* aabbComponent = AddComponent<AABBComponent>();
 	aabbComponent->Create(Vector2D(1.0f, 1.0f));
