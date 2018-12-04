@@ -170,6 +170,15 @@ void Achievement::CreateAchievements()
 		textcomponentDragonOffering->Create("Pay your Taxes", "Textures\\emulogic.ttf", 8, Color::white);
 		m_achievements.push_back(DragonOfferingAchievementText);
 
+		Entity* feedDragon = GetScene()->AddEntity<Entity>("FeedDragonAchievement");
+		SpriteComponent* spritecomponentFeedDragon = feedDragon->AddComponent<SpriteComponent>();
+		spritecomponentFeedDragon->Create("sprites\\apple.png", Vector2D(0.5f, 0.5f));
+		m_achievements.push_back(feedDragon);
+
+		Entity* feedDragonText = GetScene()->AddEntity<Entity>("FeedDragonTextAchievement");
+		TextComponent* textcomponentFeedDragon = killDragonText->AddComponent<TextComponent>();
+		textcomponentFeedDragon->Create("Thanks for the food", "Textures\\emulogic.ttf", 8, Color::white);
+		m_achievements.push_back(feedDragonText);
 
 }
 

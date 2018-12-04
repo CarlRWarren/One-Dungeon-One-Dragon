@@ -62,7 +62,7 @@ public:
    "Patience is a virtue even for hunters.", "Stories tell of the Right Wizard just before this dungeon.",
    "Spoiled Food can be melted away", "Hugs can cure those blind with anger",
    "Be careful not to trap oneself.", "Ever wonder how many keys were mapped for this game?",
-   "If only there was a way to trap the dragon.", "Treasure sooths the soul." };
+   "If only there was a way to trap the dragon.", "Treasure sooths the soul.", "*stomach rumbling*" };
 protected:
 	float m_timerReset = 600.0f;
 	float m_timerRate = 600.0f;
@@ -203,6 +203,19 @@ class DragonOfferingEnding : public IState
 {
 public:
 	DragonOfferingEnding(StateMachine* owner) : IState(owner) {}
+
+	void Enter();
+	void Update();
+	void Exit();
+protected:
+	float m_timerRate = 10.0f;
+	float m_timerReset = 10.0f;
+};
+
+class FeedDragonEnding : public IState
+{
+public:
+	FeedDragonEnding(StateMachine* owner) : IState(owner) {}
 
 	void Enter();
 	void Update();

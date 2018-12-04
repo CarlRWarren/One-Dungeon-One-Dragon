@@ -595,6 +595,7 @@ if (m_hintTimerRate > 0.0f)
 			if (id == "No Items") { m_owner->SetState("HugDragonEnding"); }
 			if (id == "sword") { m_owner->SetState("KillDragonEnding"); }
 			if (id == "poison") { m_owner->SetState("PoisionEnding"); }
+			if (id == "food") { m_owner->SetState("FeedDragonEnding"); }
 		}
 	}
 	
@@ -1197,5 +1198,57 @@ void DragonOfferingEnding::Exit()
 	if (huggedText2) {
 		huggedText2->SetState(Entity::eState::DESTROY);
 	}
+}
+
+void FeedDragonEnding::Enter()
+{
+	
+	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("FeedTextSent1");
+	huggedText1->GetTransform().position = Vector2D(230.0f, 350.0f);
+	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
+	huggedtextComponent1->Create("You fed the dragon.", "Textures\\emulogic.ttf", 16, Color::white);
+	huggedtextComponent1->SetDepth(120);
+
+	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("FeedTextSent2");
+	huggedText2->GetTransform().position = Vector2D(210.0f, 400.0f);
+	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
+	huggedtextComponent2->Create("It no longer wants to eat you.", "Textures\\emulogic.ttf", 10, Color::white);
+	huggedtextComponent2->SetDepth(120);
+
+	//achievement
+	Achievement* feedAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* feedAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("FeedDragonAchievement");
+	feedAchivement->updateAchievement(feedAchivementAchievement);
+	Achievement* feedAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* feedAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("FeedDragonTextAchievement");
+	feedAchivementText->updateAchievement(feedAchivementTextAchievement);
+}
+
+void FeedDragonEnding::Update()
+{
+	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
+	if (m_timerRate <= 0.0f)
+	{
+		m_owner->SetState("game");
+	}
+	Entity* entity1 = m_owner->GetScene()->GetEntitiesWithID("hero");
+	if (entity1) {
+		entity1->GetTransform().position = Vector2D(400.0f, 700.0f);
+
+	}
+}
+
+void FeedDragonEnding::Exit()
+{
+	m_timerRate = m_timerReset;
+	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("FeedTextSent1");
+	if (huggedText1) {
+		huggedText1->SetState(Entity::eState::DESTROY);
+	}
+	Entity* huggedText2 = m_owner->GetScene()->GetEntitiesWithID("FeedTextSent2");
+	if (huggedText2) {
+		huggedText2->SetState(Entity::eState::DESTROY);
+	}
+	
 }
 

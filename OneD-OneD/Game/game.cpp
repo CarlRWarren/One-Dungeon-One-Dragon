@@ -50,6 +50,7 @@ bool Game::Initialize()
 	m_stateMachine->AddState("TrapDragonEnding", new TrapDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("Starvation", new StarveDragonEnding(m_stateMachine));
 	m_stateMachine->AddState("DragonOffering", new DragonOfferingEnding(m_stateMachine));
+	m_stateMachine->AddState("FeedDragonEnding", new FeedDragonEnding(m_stateMachine));
 
 	m_stateMachine->SetState("cutscene");
 
