@@ -699,7 +699,6 @@ void GameOverState::Enter()
 	escprompttextComponent->SetDepth(150);
 	escprompttextComponent->SetVisible(false);
 
-
 	Entity* resprompt = m_owner->GetScene()->AddEntity<Entity>("ResetPromptText");
 	resprompt->GetTransform().position = Vector2D(400.0f, 700.0f);
 	TextComponent* rescprompttextComponent = resprompt->AddComponent<TextComponent>();
@@ -708,7 +707,6 @@ void GameOverState::Enter()
 	rescprompttextComponent->SetVisible(false);
 
 	InputManager::Instance()->AddAction("reset", SDL_SCANCODE_R, InputManager::eDevice::KEYBOARD);
-
 }
 
 void GameOverState::Update()
