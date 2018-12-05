@@ -12,7 +12,11 @@ public:
 	void Exit();
 
 protected:
+#ifdef _DEBUG
 	float m_timer = 4.0f;
+#else
+	float m_timer = 8.0f;
+#endif	
 	int m_cutscene = 0;
 };
 

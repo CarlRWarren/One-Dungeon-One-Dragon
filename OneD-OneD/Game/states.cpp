@@ -21,12 +21,12 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
+#include <fstream>
 
 void CutSceneState::Enter()
 {
 	InputManager::Instance()->AddAction("start", SDL_SCANCODE_RETURN, InputManager::eDevice::KEYBOARD);
-
+	   	 
 	Entity* TitleText = m_owner->GetScene()->AddEntity<Entity>("cutscene");
 	TitleText->GetTransform().position = Vector2D(400.0f, 400.0f);
 	SpriteComponent* TitleTextComponent = TitleText->AddComponent<SpriteComponent>();
@@ -77,7 +77,11 @@ void CutSceneState::Update()
 			m_owner->SetState("title");
 		}
 		m_cutscene++;
+#ifdef _DEBUG
 		m_timer = 4.0f;
+#else
+		m_timer = 8.0f;
+#endif
 	}
 
 	//if pressed moves to next state
@@ -679,39 +683,31 @@ void GameOverState::Enter()
 	SpriteComponent* spritecomponentTitlebanner = titlebanner->GetComponent<SpriteComponent>();
 	spritecomponentTitlebanner->SetVisible(false);
 
-	Entity* gameoverprompt = m_owner->GetScene()->AddEntity<Entity>("GameOverText");
-	gameoverprompt->GetTransform().position = Vector2D(30.0f, 100.0f);
-	TextComponent* gameoverprompttextComponent = gameoverprompt->AddComponent<TextComponent>();
-	gameoverprompttextComponent->Create("Congratulations on Completing all Achievements!", "Textures\\emulogic.ttf", 16, Color::white);
-	gameoverprompttextComponent->SetDepth(120);
-
-
 	//create credits
-	std::vector<std::string> credits = { 
-		"Programmer: Emily Remy",
-		"Programmer: Carl Warren", 
-		"Programmer: Joe Hommel", 
-		"Programmer: Tyler White", 
-		"Tilesets by 0x72 on itch.io",
-		"Sound by Rin on itch.io",
-		"Food by Henry on itch.io"
-	};
+	Entity* Credits = m_owner->GetScene()->AddEntity<Entity>("credits");
+	SpriteComponent* Creditstext = Credits->AddComponent<SpriteComponent>();
+	Creditstext->SetDepth(120);
+	Credits->GetTransform().position = Vector2D(400.0f, 400.0f);
+	Credits->GetTransform().scale = Vector2D(1.5f, 1.5f);
 
-	for (int i = 0; i < credits.size(); i++) {
-		Entity* Credits = m_owner->GetScene()->AddEntity<Entity>("credits");
-		TextComponent* Creditstext = Credits->AddComponent<TextComponent>();
-		Creditstext->SetDepth(120);
-		Credits->GetTransform().position = Vector2D(130.0f, (float)(400.0f + i * 50));
-		Creditstext->Create(credits[i], "Textures\\emulogic.ttf", 10, Color::white);
-
-	}
+	Creditstext->Create("Textures/Credits.png", Vector2D(0.5f, 0.5f));
 
 	Entity* escprompt = m_owner->GetScene()->AddEntity<Entity>("ESCPromptText");
-	escprompt->GetTransform().position = Vector2D(130.0f, 200.0f);
+	escprompt->GetTransform().position = Vector2D(50.0f, 700.0f);
 	TextComponent* escprompttextComponent = escprompt->AddComponent<TextComponent>();
-	escprompttextComponent->Create("Press ESC to quit", "Textures\\emulogic.ttf", 24, Color::white);
-	escprompttextComponent->SetDepth(120);
+	escprompttextComponent->Create("Press ESC to quit", "Textures\\emulogic.ttf", 18, Color::black);
+	escprompttextComponent->SetDepth(150);
 	escprompttextComponent->SetVisible(false);
+
+
+	Entity* resprompt = m_owner->GetScene()->AddEntity<Entity>("ResetPromptText");
+	resprompt->GetTransform().position = Vector2D(400.0f, 700.0f);
+	TextComponent* rescprompttextComponent = resprompt->AddComponent<TextComponent>();
+	rescprompttextComponent->Create("Press R to Reset File", "Textures\\emulogic.ttf", 18, Color::black);
+	rescprompttextComponent->SetDepth(150);
+	rescprompttextComponent->SetVisible(false);
+
+	InputManager::Instance()->AddAction("reset", SDL_SCANCODE_R, InputManager::eDevice::KEYBOARD);
 
 }
 
@@ -719,19 +715,20 @@ void GameOverState::Update()
 {
 	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
 
-	//scroll through credits by position
-//	std::vector<Entity*> credits = m_owner->GetScene()->GetEntitiesWithTag("credits");
-//	for (Entity* entity : credits) {
-//		entity->GetTransform().position += Vector2D::down* 30.0f;
-	//
-	//}
-
 
 	if (m_timerRate <= 0.0f)
 	{
 		Entity* escprompt = m_owner->GetScene()->GetEntitiesWithID("ESCPromptText");
 		escprompt->GetComponent<TextComponent>()->SetVisible(true);
-		//after 30 seconds show final prompt
+
+		Entity* resprompt = m_owner->GetScene()->GetEntitiesWithID("ResetPromptText");
+		resprompt->GetComponent<TextComponent>()->SetVisible(true);
+	}
+	if (InputManager::Instance()->GetActionButton("reset") == InputManager::eButtonState::PRESSED) {
+		std::ofstream myfile;
+		myfile.open("achievement.txt");
+		myfile << " ";
+		myfile.close();
 	}
 }
 
