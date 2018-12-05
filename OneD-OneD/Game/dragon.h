@@ -9,7 +9,7 @@ public:
 	Dragon(Scene* scene, const ID& id) : Entity(scene, id) {}
 	~Dragon() {}
 
-	void Create(const Vector2D& position);
+	void Create(const Vector2D& position, std::string anim = "default");
 	void Update();
 
 	void OnEvent(const Event & event);

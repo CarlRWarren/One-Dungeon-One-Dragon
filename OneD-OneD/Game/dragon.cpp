@@ -8,7 +8,7 @@
 #include "animationComponent.h"
 #include <iostream>
 
-void Dragon::Create(const Vector2D & position)
+void Dragon::Create(const Vector2D & position, std::string anim)
 {
 	SetTag("dragon");
 	m_transform.position = position;
@@ -17,10 +17,24 @@ void Dragon::Create(const Vector2D & position)
 	SpriteComponent* dragonSpritecomponent = AddComponent<SpriteComponent>();
 	dragonSpritecomponent->Create("", Vector2D(0.5f, 0.5f));
 
+	if (anim == "default") 
+	{
 	AnimationComponent* dragonAnimation = AddComponent<AnimationComponent>();
 	std::vector<std::string> animations = { "Sprites\\sleepingdragonframe1.png","Sprites\\sleepingdragonframe2.png" ,"Sprites\\sleepingdragonframe3.png" ,"Sprites\\sleepingdragonframe4.png" ,"Sprites\\sleepingdragonframe5.png" };
 	dragonAnimation->Create(animations, 5.0f / 10.0f, AnimationComponent::ePlayback::LOOP);
-
+	}
+	else if (anim == "green")
+	{
+		AnimationComponent* dragonAnimation = AddComponent<AnimationComponent>();
+		std::vector<std::string> animations = { "Sprites\\sleepingdragonframe1.png","Sprites\\sleepingdragongreenframe2.png" ,"Sprites\\sleepingdragongreenframe3.png" ,"Sprites\\sleepingdragongreenframe4.png" ,"Sprites\\sleepingdragongreenframe5.png" };
+		dragonAnimation->Create(animations, 12.0f / 10.0f, AnimationComponent::ePlayback::ONE_TIME);
+	}
+	else if (anim == "stab")
+	{
+		AnimationComponent* dragonAnimation = AddComponent<AnimationComponent>();
+		std::vector<std::string> animations = { "Sprites\\sleepingdragonframe1.png","Sprites\\sleepingdragonstabframe2.png" ,"Sprites\\sleepingdragonstabframe3.png" ,"Sprites\\sleepingdragonstabframe4.png" ,"Sprites\\sleepingdragonstabframe5.png" };
+		dragonAnimation->Create(animations, 12.0f / 10.0f, AnimationComponent::ePlayback::ONE_TIME);
+	}
 	AABBComponent* dragonAabbComponent = AddComponent<AABBComponent>();
 	dragonAabbComponent->Create(Vector2D(0.75f, 0.75f));
 

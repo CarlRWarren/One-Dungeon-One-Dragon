@@ -847,14 +847,26 @@ void HugDragonEnding::Exit()
 
 void KillDragonEnding::Enter()
 {
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	titlebanner->GetTransform().position = Vector2D(400.0f, 150.0f);
+
+	Entity* drago = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	if (drago) {
+		drago->SetState(Entity::eState::DESTROY);
+	}
+
+	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
+	dragon->Create(Vector2D(400.0f, 400.0f), "stab");
+	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
+
 	AudioSystem::Instance()->AddSound("death", "Sound\\churchofsaints.mid");
 	AudioSystem::Instance()->PlaySound("death", false);
 
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
 	std::string text = "You have slain the mighty tempest dragon";
-	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
-	huggedtextComponent1->Create(text,  "Textures\\emulogic.ttf", 16, Color::white);
+	huggedText1->GetTransform().position = Vector2D(150.0f , 100.0f);
+	huggedtextComponent1->Create(text,  "Textures\\emulogic.ttf", 12, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 		//achievement
@@ -885,6 +897,18 @@ void KillDragonEnding::Update()
 
 void KillDragonEnding::Exit()
 {
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	titlebanner->GetTransform().position = Vector2D(400.0f, 400.0f);
+
+	Entity* drago = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	if (drago) {
+		drago->SetState(Entity::eState::DESTROY);
+	}
+
+	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
+	dragon->Create(Vector2D(400.0f, 400.0f));
+	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
+
 	m_timerRate = m_timerReset;
 	Entity* huggedText = m_owner->GetScene()->GetEntitiesWithID("KillTextSent1");
 	if (huggedText) {
@@ -953,19 +977,32 @@ void RespectEnding::Exit()
 
 void PoisonDragonEnding::Enter()
 {
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	titlebanner->GetTransform().position = Vector2D(400.0f, 150.0f);
+	//titlebanner->GetTransform().position = Vector2D(400.0f, 400.0f);
+
+	Entity* drago = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	if (drago) {
+		drago->SetState(Entity::eState::DESTROY);
+	}
+	
+	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
+	dragon->Create(Vector2D(400.0f, 400.0f),"green");
+	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
+
 	AudioSystem::Instance()->AddSound("posionED", "Sound\\blackbargain.mid");
 	AudioSystem::Instance()->PlaySound("posionED", false);
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent1");
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
 	std::string text = "You feed the dragon the Poison. ";
-	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
+	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 100.0f);
 	huggedtextComponent1->Create(text, "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
 	Entity* huggedText2 = m_owner->GetScene()->AddEntity<Entity>("PoisonTextSent2");
 	TextComponent* huggedtextComponent2 = huggedText2->AddComponent<TextComponent>();
 	std::string text2 = "Its face becomes pale as it takes it's last breath";
-	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 400.0f);
+	huggedText2->GetTransform().position = Vector2D(400.0f - (text2.size() / 2 * 10), 150.0f);
 	huggedtextComponent2->Create(text2, "Textures\\emulogic.ttf", 10, Color::white);
 	huggedtextComponent2->SetDepth(120);
 
@@ -994,6 +1031,17 @@ void PoisonDragonEnding::Update()
 
 void PoisonDragonEnding::Exit()
 {
+	Entity* drago = m_owner->GetScene()->GetEntitiesWithID("dragon");
+	if (drago) {
+		drago->SetState(Entity::eState::DESTROY);
+	}
+	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
+	titlebanner->GetTransform().position = Vector2D(400.0f, 400.0f);
+
+	Dragon* dragon = m_owner->GetScene()->AddEntity<Dragon>("dragon");
+	dragon->Create(Vector2D(400.0f, 400.0f));
+	dragon->GetComponent<SpriteComponent>()->SetDepth(2);
+
 	m_timerRate = m_timerReset;
 	Entity* huggedText1 = m_owner->GetScene()->GetEntitiesWithID("PoisonTextSent1");
 	if (huggedText1) {
