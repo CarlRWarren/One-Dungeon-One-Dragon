@@ -98,17 +98,6 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent6 = PausePromptText6->AddComponent<TextComponent>();
 		PausePromptTextComponent6->Create("Find ALL the achievements to win", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText6);
-
-		Entity* PausePrompt7 = GetScene()->AddEntity<Entity>("PausePrompt6");
-		SpriteComponent* PausePrompt7sprite = PausePrompt7->AddComponent<SpriteComponent>();
-		PausePrompt7sprite->Create("sprites\\wall_side_top_left.png", Vector2D(0.5f, 0.5f));
-		m_pausePrompts.push_back(PausePrompt7);
-
-		Entity* PausePromptText7 = GetScene()->AddEntity<Entity>("PausePromptText7");
-		TextComponent* PausePromptTextComponent7 = PausePromptText7->AddComponent<TextComponent>();
-		PausePromptTextComponent7->Create("Press H for a Hint every Minute", "Textures\\emulogic.ttf", 8, Color::white);
-		m_pausePrompts.push_back(PausePromptText7);
-
 }
 
 void PauseScreen::setVisibility(bool isVisible)

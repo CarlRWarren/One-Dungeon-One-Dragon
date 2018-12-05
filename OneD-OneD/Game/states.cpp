@@ -855,7 +855,7 @@ void KillDragonEnding::Enter()
 
 	Entity* huggedText1 = m_owner->GetScene()->AddEntity<Entity>("KillTextSent1");
 	TextComponent* huggedtextComponent1 = huggedText1->AddComponent<TextComponent>();
-	std::string text = "Maybe put down the Chips and Play";
+	std::string text = "You have slain the mighty tempest dragon";
 	huggedText1->GetTransform().position = Vector2D(400.0f - (text.size() / 2 * 16), 350.0f);
 	huggedtextComponent1->Create(text,  "Textures\\emulogic.ttf", 16, Color::white);
 	huggedtextComponent1->SetDepth(120);
