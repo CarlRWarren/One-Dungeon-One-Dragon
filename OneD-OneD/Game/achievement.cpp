@@ -38,7 +38,8 @@ void Achievement::Save()
 		std::ofstream myfile;
 		myfile.open("achievement.txt");
 		for (Entity* entity : m_completedAchievements) {
-				myfile << ((ID)entity->GetTag()).GetIDString() + "\n";
+			std::string achievementid = ((ID)entity->GetTag()).GetIDString();
+				myfile << achievementid + "\n";
 		}
 		myfile.close();
 }
