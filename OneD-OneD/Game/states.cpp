@@ -209,31 +209,31 @@ void TitleState::Enter()
 
 	//SwordItem
 	srand(time(NULL));
-	randomX = (rand() % 700) + 50;
-	randomY = (rand() % 700) + 50;
+	randomX = (float)(rand() % 700) + 50.0f;
+	randomY = (float)(rand() % 700) + 50.0f;
 	Item* sword = m_owner->GetScene()->AddEntity<Item>();
 	sword->Create(Item::eType::SWORD, Vector2D(randomX, randomY));
 	sword->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//PosionItem
 	srand(time(NULL));
-	randomX = (rand() % 700) + 50;
-	randomY = (rand() % 700) + 50;
+	randomX = (float)(rand() % 700) + 50.0f;
+	randomY = (float)(rand() % 700) + 50.0f;
 	Item* poison = m_owner->GetScene()->AddEntity<Item>();
 	poison->Create(Item::eType::POISON, Vector2D(randomX, randomY));
 	poison->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//food Item
 	srand(time(NULL));
-	randomX = (rand() % 700) + 50;
-	randomY = (rand() % 700) + 50;
+	randomX = (float)(rand() % 700) + 50.0f;
+	randomY = (float)(rand() % 700) + 50.0f;
 	Item* food = m_owner->GetScene()->AddEntity<Item>();
 	food->Create(Item::eType::FOOD, Vector2D(randomX, randomY));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	srand(time(NULL));
-	randomX = (rand() % 700) + 50;
-	randomY = (rand() % 700) + 50;
+	randomX = (float)(rand() % 700) + 50.0f;
+	randomY = (float)(rand() % 700) + 50.0f;
 	Item* coin = m_owner->GetScene()->AddEntity<Item>();
 	coin->Create(Item::eType::COIN, Vector2D(randomX, randomY));
 	coin->GetComponent<SpriteComponent>()->SetVisible(false);
@@ -284,11 +284,9 @@ void TitleState::Update()
 			hero->GetIdleAnimation(2);
 
 			Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-			Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("WizardSecretAchievement");
-			dragonAchivement->updateAchievement(dragonAchivementAchievement);
+			dragonAchivement->updateAchievement("WizardSecretAchievement");
 			Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-			Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("WizardSecretTextAchievement");
-			dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+			dragonAchivementText->updateAchievement("WizardSecretTextAchievement");
 			
 			Entity* NUMAcheivementsCompleted = m_owner->GetScene()->GetEntitiesWithID("NUMAcheivementsCompleted");
 			TextComponent* textcomponentNUMAcheivementsCompleted = NUMAcheivementsCompleted->GetComponent<TextComponent>();
@@ -668,6 +666,8 @@ void GameState::Update()
 
 void GameState::Exit()
 {
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	dragonAchivement->Save();
 
 	AudioSystem::Instance()->RemoveSound("background");
 	Entity* titlebanner = m_owner->GetScene()->GetEntitiesWithID("TitleBanner");
@@ -756,11 +756,9 @@ void BoreDragonEnding::Enter()
 
 	//achievement
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonAchievement");
-	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	dragonAchivement->updateAchievement("BoreDragonAchievement");
 	Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("BoreDragonTextAchievement");
-	dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+	dragonAchivementText->updateAchievement("BoreDragonTextAchievement");
 }
 
 void BoreDragonEnding::Update()
@@ -809,10 +807,8 @@ void HugDragonEnding::Enter()
 	huggedtextComponent2->SetDepth(120);
 	//achievement
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonAchievement");
-	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("HugDragonTextAchievement");
-	dragonAchivement->updateAchievement(dragonAchivementAchievement);
-	dragonAchivement->updateAchievement(dragonAchivementTextAchievement);
+	dragonAchivement->updateAchievement("HugDragonAchievement");
+	dragonAchivement->updateAchievement("HugDragonTextAchievement");
 }
 
 void HugDragonEnding::Update()
@@ -857,11 +853,9 @@ void KillDragonEnding::Enter()
 
 		//achievement
 		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
-		dragonAchivement->updateAchievement(dragonAchivementAchievement);
+		dragonAchivement->updateAchievement("KillDragonAchievement");
 		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonTextAchievement");
-		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+		dragonAchivementText->updateAchievement("KillDragonTextAchievement");
 }
 
 void KillDragonEnding::Update()
@@ -915,11 +909,9 @@ void RespectEnding::Enter()
 	huggedtextComponent2->SetDepth(120);
 
 	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("RespectDragonAchievement");
-	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	dragonAchivement->updateAchievement("RespectDragonAchievement");
 	Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("RespectDragonTextAchievement");
-	dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+	dragonAchivementText->updateAchievement("RespectDragonTextAchievement");
 }
 
 void RespectEnding::Update()
@@ -969,11 +961,8 @@ void PoisonDragonEnding::Enter()
 
 	//achievement
 	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("PoisonDragonAchievement");
-	poisonAchivement->updateAchievement(poisonAchivementAchievement);
-	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("PoisonDragonTextAchievement");
-	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
+	poisonAchivement->updateAchievement("PoisonDragonAchievement");
+	poisonAchivement->updateAchievement("PoisonDragonTextAchievement");
 }
 
 void PoisonDragonEnding::Update()
@@ -1025,11 +1014,8 @@ void TrapDragonEnding::Enter()
 
 	//achievement
 	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapDragonAchievement");
-	poisonAchivement->updateAchievement(poisonAchivementAchievement);
-	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapDragonTextAchievement");
-	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
+	poisonAchivement->updateAchievement("TrapDragonAchievement");
+	poisonAchivement->updateAchievement("TrapDragonTextAchievement");
 }
 
 void TrapDragonEnding::Update()
@@ -1079,11 +1065,8 @@ void TrapYourselfEnding::Enter()
 
 	//achievement
 	Achievement* poisonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfAchievement");
-	poisonAchivement->updateAchievement(poisonAchivementAchievement);
-	Achievement* poisonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* poisonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("TrapYourselfTextAchievement");
-	poisonAchivementText->updateAchievement(poisonAchivementTextAchievement);
+	poisonAchivement->updateAchievement("TrapYourselfAchievement");
+	poisonAchivement->updateAchievement("TrapYourselfTextAchievement");
 }
 
 void TrapYourselfEnding::Update()
@@ -1133,11 +1116,8 @@ void StarveDragonEnding::Enter()
 
 	//achievement
 	Achievement* starveAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* starveAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("StarvationAchievement");
-	starveAchivement->updateAchievement(starveAchivementAchievement);
-	Achievement* starveAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* starveAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("StarvationTextAchievement");
-	starveAchivementText->updateAchievement(starveAchivementTextAchievement);
+	starveAchivement->updateAchievement("StarvationAchievement");
+	starveAchivement->updateAchievement("StarvationTextAchievement");
 }
 
 void StarveDragonEnding::Update()
@@ -1187,11 +1167,9 @@ void DragonOfferingEnding::Enter()
 
 	//achievement
 	Achievement* starveAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* starveAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingAchievement");
-	starveAchivement->updateAchievement(starveAchivementAchievement);
+	starveAchivement->updateAchievement("DragonOfferingAchievement");
 	Achievement* starveAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* starveAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("DragonOfferingTextAchievement");
-	starveAchivementText->updateAchievement(starveAchivementTextAchievement);
+	starveAchivementText->updateAchievement("DragonOfferingTextAchievement");
 }
 
 void DragonOfferingEnding::Update()
@@ -1243,11 +1221,8 @@ void FeedDragonEnding::Enter()
 
 	//achievement
 	Achievement* feedAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* feedAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("FeedDragonAchievement");
-	feedAchivement->updateAchievement(feedAchivementAchievement);
-	Achievement* feedAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	Entity* feedAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("FeedDragonTextAchievement");
-	feedAchivementText->updateAchievement(feedAchivementTextAchievement);
+	feedAchivement->updateAchievement("FeedDragonAchievement");
+	feedAchivement->updateAchievement("FeedDragonTextAchievement");
 }
 
 void FeedDragonEnding::Update()

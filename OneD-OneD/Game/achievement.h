@@ -19,7 +19,7 @@ public:
 	void OnEvent(const Event & event);
 
 	void CreateAchievements();
-	void updateAchievement(Entity* completedAchivement);
+	void updateAchievement(std::string completedAchivement);
 
 	void setVisibility(bool isVisible);
 
@@ -27,9 +27,16 @@ public:
 		return m_achievements.size();
 	}
 	int GetNumAchievmentsCompleted() {
-		return m_completedAchievements.size();
+		return m_completedAchievementsTags.size();
+	}
+	//trims for saving/loading
+	inline std::string trim(std::string& str)
+	{
+		str.erase(0, str.find_first_not_of(' '));       //prefixing spaces
+		str.erase(str.find_last_not_of(' ') + 1);         //surfixing spaces
+		return str;
 	}
 protected:
 		std::vector<Entity*> m_achievements;
-		std::vector<Entity*> m_completedAchievements;
+		std::vector<std::string> m_completedAchievementsTags;
 };
