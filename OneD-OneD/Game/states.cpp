@@ -867,13 +867,13 @@ void KillDragonEnding::Enter()
 	huggedtextComponent1->Create(text,  "Textures\\emulogic.ttf", 12, Color::white);
 	huggedtextComponent1->SetDepth(120);
 
-		//achievement
-		Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
-		dragonAchivement->updateAchievement(dragonAchivementAchievement);
-		Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-		Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonTextAchievement");
-		dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
+	//achievement
+	Achievement* dragonAchivement = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonAchievement");
+	dragonAchivement->updateAchievement(dragonAchivementAchievement);
+	Achievement* dragonAchivementText = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	Entity* dragonAchivementTextAchievement = m_owner->GetScene()->GetEntitiesWithID("KillDragonTextAchievement");
+	dragonAchivementText->updateAchievement(dragonAchivementTextAchievement);
 }
 
 void KillDragonEnding::Update()
