@@ -51,13 +51,14 @@ public:
 	void Update();
 	void Exit();
 
+	void DoorIntersections();
+
 public:
 	int foodCount = 0;
 
 protected:
 	float m_timerReset = 600.0f;
 	float m_timerRate = 600.0f;
-
 	float m_roomswitch = 0.0f;
 };
 

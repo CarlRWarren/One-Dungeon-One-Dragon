@@ -1,2 +1,6 @@
 HugDragonAchievement
 HugDragonTextAchievement
+TrapYourselfAchievement
+TrapYourselfTextAchievement
+TrapDragonAchievement
+TrapDragonTextAchievement
