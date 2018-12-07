@@ -428,6 +428,12 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	Achievement* achievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
+	if (achievements->GetNumAchievments() == achievements->GetNumAchievmentsCompleted())
+	{
+		m_owner->SetState("game_over");
+	}
+
 	PauseScreen* showPause = (PauseScreen*)m_owner->GetScene()->GetEntitiesWithID("pauseScreen");
 	float dt = Timer::Instance()->DeltaTime();
 
@@ -521,12 +527,6 @@ void GameState::Update()
 		m_owner->SetState("BoreDragonEnding");
 	}
 
-
-	Achievement* achievements = (Achievement*)m_owner->GetScene()->GetEntitiesWithID("achievement");
-	if (achievements->GetNumAchievments() == achievements->GetNumAchievmentsCompleted())
-	{
-		m_owner->SetState("game_over");
-	}
 }
 
 void GameState::DoorIntersections()
@@ -686,8 +686,6 @@ void GameState::Exit()
 	spritecomponentTitlebanner->SetVisible(true);
 
 }
-
-
 
 void GameOverState::Enter()
 {

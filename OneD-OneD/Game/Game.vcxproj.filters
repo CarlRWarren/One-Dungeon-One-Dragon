@@ -47,9 +47,6 @@
     <ClCompile Include="room.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="achievementSave.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Fountain.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="room.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="achievementSave.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Fountain.h">

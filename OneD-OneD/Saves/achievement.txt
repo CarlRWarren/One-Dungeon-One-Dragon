@@ -4,3 +4,13 @@ TrapYourselfAchievement
 TrapYourselfTextAchievement
 TrapDragonAchievement
 TrapDragonTextAchievement
+DragonOfferingAchievement
+DragonOfferingTextAchievement
+KillDragonAchievement
+KillDragonTextAchievement
+PoisonDragonAchievement
+PoisonDragonTextAchievement
+StarvationAchievement
+StarvationTextAchievement
+FeedDragonAchievement
+FeedDragonTextAchievement

@@ -246,7 +246,7 @@ void Achievement::CreateAchievements()
 
 	Entity* feedDragonText = GetScene()->AddEntity<Entity>("FeedDragonTextAchievement");
 	feedDragonText->SetTag("FeedDragonTextAchievement");
-	TextComponent* textcomponentFeedDragon = killDragonText->AddComponent<TextComponent>();
+	TextComponent* textcomponentFeedDragon = feedDragonText->AddComponent<TextComponent>();
 	textcomponentFeedDragon->Create("Thanks for the food", "Textures\\emulogic.ttf", 8, Color::white);
 	m_achievements.push_back(feedDragonText);
 	textcomponentFeedDragon->SetDepth(202);
@@ -269,53 +269,40 @@ void Achievement::updateAchievement(std::string completedAchivement)
 
 void Achievement::setVisibility(bool isVisible)
 {
-	int interval = 1;
 	float x = 100.0f;
 	float y = 100.0f;
+
+	float tx = 150.0f;
+	float ty = 95.0f;
 	GetComponent<SpriteComponent>()->SetVisible(isVisible);
 
 	for (std::string entity : m_completedAchievementsTags) {
 		Entity* entityget = m_scene->GetEntitiesWithID(entity);
 
 		if (entityget) {
-			entityget->GetTransform().position = Vector2D(x, y);
 			entityget->GetTransform().scale = Vector2D(2.0f, 2.0f);
-			if (interval == 1) 
-			{
-				SpriteComponent* achieveSprite = entityget->GetComponent<SpriteComponent>();
-				if (achieveSprite) {
-					entityget->GetComponent<SpriteComponent>()->SetVisible(isVisible);
-					if (y >= 600.0f) {
-						y = 100.0f;
-						x += 100.0f;
-					}
-					else {
-						y -= 10.0f;
-						x += 50;
-					}
-					++interval;
+			SpriteComponent* achieveSprite = entityget->GetComponent<SpriteComponent>();
+			if (achieveSprite) {
+				entityget->GetComponent<SpriteComponent>()->SetVisible(isVisible);
+				entityget->GetTransform().position = Vector2D(x, y);
+				if (y >= 600.0f) {
+					y = 100.0f;
+				}
+				else {
+					y += 50.0f;
 				}
 			}
-			else 
-			{
-				TextComponent* achieveText = entityget->GetComponent<TextComponent>();
-				if (achieveText) {
-					entityget->GetComponent<TextComponent>()->SetVisible(isVisible);
-					if (x >= 700.0f) {
-						x = 100.0f;
-						y += 100.0f;
-					}
-					else {
-						x -= 50;
-						y += 10.0f;
-						y += 50.0f;
-					}
-					--interval;
+			TextComponent* achieveText = entityget->GetComponent<TextComponent>();
+			if (achieveText) {
+				entityget->GetComponent<TextComponent>()->SetVisible(isVisible);
+				entityget->GetTransform().position = Vector2D(tx, ty);
+				if (tx >= 700.0f) {
+					ty = 100.0f;
+				}
+				else {
+					ty += 50.0f;
 				}
 			}
 		}
-
-
 	}
 }
-
