@@ -724,20 +724,21 @@ void GameOverState::Update()
 {
 	m_timerRate = m_timerRate - Timer::Instance()->DeltaTime();
 
+	Entity* resprompt = m_owner->GetScene()->GetEntitiesWithID("ResetPromptText");
 
 	if (m_timerRate <= 0.0f)
 	{
 		Entity* escprompt = m_owner->GetScene()->GetEntitiesWithID("ESCPromptText");
 		escprompt->GetComponent<TextComponent>()->SetVisible(true);
 
-		Entity* resprompt = m_owner->GetScene()->GetEntitiesWithID("ResetPromptText");
 		resprompt->GetComponent<TextComponent>()->SetVisible(true);
 	}
 	if (InputManager::Instance()->GetActionButton("reset") == InputManager::eButtonState::PRESSED) {
 		std::ofstream myfile;
-		myfile.open("achievement.txt");
+		myfile.open("../Saves/achievement.txt");
 		myfile << " ";
 		myfile.close();
+		resprompt->GetComponent<TextComponent>()->SetText("File Reset");
 	}
 }
 
