@@ -1,4 +1,0 @@
-HugDragonAchievement
-HugDragonTextAchievement
-FeedDragonAchievement
-FeedDragonTextAchievement

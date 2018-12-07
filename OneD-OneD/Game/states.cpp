@@ -208,7 +208,7 @@ void TitleState::Enter()
 	float randomY;
 
 	//SwordItem
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	randomX = (float)(rand() % 700) + 50.0f;
 	randomY = (float)(rand() % 700) + 50.0f;
 	Item* sword = m_owner->GetScene()->AddEntity<Item>();
@@ -216,7 +216,7 @@ void TitleState::Enter()
 	sword->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//PosionItem
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	randomX = (float)(rand() % 700) + 50.0f;
 	randomY = (float)(rand() % 700) + 50.0f;
 	Item* poison = m_owner->GetScene()->AddEntity<Item>();
@@ -224,14 +224,14 @@ void TitleState::Enter()
 	poison->GetComponent<SpriteComponent>()->SetVisible(false);
 
 	//food Item
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	randomX = (float)(rand() % 700) + 50.0f;
 	randomY = (float)(rand() % 700) + 50.0f;
 	Item* food = m_owner->GetScene()->AddEntity<Item>();
 	food->Create(Item::eType::FOOD, Vector2D(randomX, randomY));
 	food->GetComponent<SpriteComponent>()->SetVisible(false);
 
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	randomX = (float)(rand() % 700) + 50.0f;
 	randomY = (float)(rand() % 700) + 50.0f;
 	Item* coin = m_owner->GetScene()->AddEntity<Item>();

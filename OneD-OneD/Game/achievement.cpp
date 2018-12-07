@@ -37,7 +37,7 @@ void Achievement::Save()
 {
 	if (m_completedAchievementsTags.size() > 0) {
 		std::ofstream myfile;
-		myfile.open("achievement.txt");
+		myfile.open("../Saves/achievement.txt");
 		for (std::string achievementtags : m_completedAchievementsTags) {
 			myfile << achievementtags + "\n";
 		}
@@ -48,7 +48,7 @@ void Achievement::Save()
 void Achievement::Load()
 {
 	std::vector<std::string> AUID;
-	std::ifstream myfile("achievement.txt");
+	std::ifstream myfile("../Saves/achievement.txt");
 	if (myfile.is_open()) {
 		std::string UIDString;
 		while (std::getline(myfile, UIDString)) {

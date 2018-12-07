@@ -24,10 +24,10 @@ public:
 	void setVisibility(bool isVisible);
 
 	int GetNumAchievments() {
-		return m_achievements.size();
+		return (int)m_achievements.size();
 	}
 	int GetNumAchievmentsCompleted() {
-		return m_completedAchievementsTags.size();
+		return (int)m_completedAchievementsTags.size();
 	}
 	//trims for saving/loading
 	inline std::string trim(std::string& str)
