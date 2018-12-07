@@ -48,16 +48,18 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent1 = PausePromptText1->AddComponent<TextComponent>();
 		PausePromptTextComponent1->Create("Press WASD to move", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText1);
+		PausePromptText1->GetTransform().position = Vector2D(-100.0f, -100.0f);
 
 		Entity* PausePrompt2 = GetScene()->AddEntity<Entity>("PausePrompt2");
 		SpriteComponent* PausePromptSprite2 = PausePrompt2->AddComponent<SpriteComponent>();
 		PausePromptSprite2->Create("sprites\\wall_side_top_left.png", Vector2D(0.5f, 0.5f));
 		m_pausePrompts.push_back(PausePrompt2);
 
-		Entity* PausePromptTExt2 = GetScene()->AddEntity<Entity>("PausePromptText2");
-		TextComponent* PausePromptTExtComponent2 = PausePromptTExt2->AddComponent<TextComponent>();
+		Entity* PausePromptText2 = GetScene()->AddEntity<Entity>("PausePromptText2");
+		TextComponent* PausePromptTExtComponent2 = PausePromptText2->AddComponent<TextComponent>();
 		PausePromptTExtComponent2->Create("Press Q to View Achievements", "Textures\\emulogic.ttf", 8, Color::white);
-		m_pausePrompts.push_back(PausePromptTExt2);
+		m_pausePrompts.push_back(PausePromptText2);
+		PausePromptText2->GetTransform().position = Vector2D(-100.0f, -100.0f);
 
 		Entity* PausePrompt3 = GetScene()->AddEntity<Entity>("PausePrompt3");
 		SpriteComponent* PausePromptSprite3 = PausePrompt3->AddComponent<SpriteComponent>();
@@ -68,6 +70,7 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent3 = PausePromptText3->AddComponent<TextComponent>();
 		PausePromptTextComponent3->Create("Press E to use item", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText3);
+		PausePromptText3->GetTransform().position = Vector2D(-100.0f, -100.0f);
 
 		Entity* PausePrompt4 = GetScene()->AddEntity<Entity>("PausePrompt4");
 		SpriteComponent* PausePromptsprite4 = PausePrompt4->AddComponent<SpriteComponent>();
@@ -78,6 +81,7 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent4 = PausePromptText4->AddComponent<TextComponent>();
 		PausePromptTextComponent4->Create("Press Space to pick up or drop items", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText4);
+		PausePromptText4->GetTransform().position = Vector2D(-100.0f, -100.0f);
 
 		Entity* PausePrompt5 = GetScene()->AddEntity<Entity>("PausePrompt5");
 		SpriteComponent* PausePromptSprite5 = PausePrompt5->AddComponent<SpriteComponent>();
@@ -88,6 +92,7 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent5 = PausePromptText5->AddComponent<TextComponent>();
 		PausePromptTextComponent5->Create("Press ESC to leave game", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText5);
+		PausePromptText5->GetTransform().position = Vector2D(-100.0f, -100.0f);
 
 		Entity* PausePrompt6 = GetScene()->AddEntity<Entity>("PausePrompt6");
 		SpriteComponent* PausePrompt6sprite = PausePrompt6->AddComponent<SpriteComponent>();
@@ -98,6 +103,7 @@ void PauseScreen::CreatePrompts()
 		TextComponent* PausePromptTextComponent6 = PausePromptText6->AddComponent<TextComponent>();
 		PausePromptTextComponent6->Create("Find ALL the achievements to win", "Textures\\emulogic.ttf", 8, Color::white);
 		m_pausePrompts.push_back(PausePromptText6);
+		PausePromptText6->GetTransform().position = Vector2D(-100.0f, -100.0f);
 }
 
 void PauseScreen::setVisibility(bool isVisible)
